@@ -5,9 +5,10 @@ import {ingredientPropTypes} from "../../types";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor = ({ingredientsData}) => {
-    const orderItems = ingredientsData.map(item => {
+    const order = ingredientsData.filter(ingredient => ingredient.type !== "bun")
+    const orderItems = order.map(item => {
         return (
-            <li className={constructorStyle.order_item + " pr-2"}>
+            <li key={item._id} className={constructorStyle.order_item + " pr-2"}>
                 <DragIcon type="primary"/>
                 <ConstructorElement
                     text={item.name}
@@ -24,7 +25,7 @@ const BurgerConstructor = ({ingredientsData}) => {
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={ingredientsData[0].name}
+                        text={ingredientsData[0].name +" (верх)"}
                         price={ingredientsData[0].price}
                         thumbnail={ingredientsData[0].image_mobile}
                     />
@@ -36,7 +37,7 @@ const BurgerConstructor = ({ingredientsData}) => {
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={ingredientsData[0].name}
+                        text={ingredientsData[0].name+" (низ)"}
                         price={ingredientsData[0].price}
                         thumbnail={ingredientsData[0].image_mobile}
                     />

@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.module.css';
+import './app.module.css';
 import AppHeader from "../app-header/app-header";
-import appStyles from "./App.module.css"
+import appStyles from "./app.module.css"
 import Main from "../main/main";
 import {data} from "../../utils/data";
 
