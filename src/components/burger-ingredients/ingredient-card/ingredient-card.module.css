@@ -1,0 +1,28 @@
+.wrapper {
+    height: 208px;
+    max-width: 272px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.image_section {
+    width: 240px;
+    height: 120px;
+}
+
+.price_section {
+    height: 40px;
+    display: flex;
+}
+
+p {
+    text-align: center;
+}
+
+.count_section {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

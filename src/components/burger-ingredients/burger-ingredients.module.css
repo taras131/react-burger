@@ -1,0 +1,30 @@
+.wrapper{
+    max-width: 600px;
+    height: 100%;
+}
+.menu{
+    width: 100%;
+}
+.ingredients_wrapper{
+    height: 686px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+@media (max-height: 670px) {
+    .ingredients_wrapper {
+        max-height: 460px;
+    }
+}
+.ingredients_wrapper::-webkit-scrollbar {
+    width: 8px;
+    background: #2F2F37;
+}
+
+.ingredients_wrapper::-webkit-scrollbar-thumb{
+    height: 492px;
+    background: #8585AD;
+    border: 3px solid #8585AD;
+}
