@@ -5,7 +5,7 @@ import IngredientsList from "./ingredients-list/ingredients-list";
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../types";
 
-const BurgerIngredients = ({ingredientsData}) => {
+const BurgerIngredients = ({ingredientsData, openIngredientDetailsModal}) => {
     const categories = ["Булки", "Соусы", "Начинки"]
     const [activeCategory, setActiveCategory] = React.useState(categories[0])
     const filterIngredientsByType = (type) => ingredientsData.filter(item => item.type === type)
@@ -36,16 +36,23 @@ const BurgerIngredients = ({ingredientsData}) => {
                 {selectBlock}
             </nav>
             <div id="scrolledBlock" className={burgerIngredientsStyle.ingredients_wrapper + " mt-10 mb-10"}>
-                <IngredientsList title={categories[0]} ingredients={filterIngredientsByType('bun')}/>
-                <IngredientsList title={categories[1]} ingredients={filterIngredientsByType('sauce')}/>
-                <IngredientsList title={categories[2]} ingredients={filterIngredientsByType('main')}/>
+                <IngredientsList title={categories[0]}
+                                 ingredients={filterIngredientsByType('bun')}
+                                 openIngredientDetailsModal={openIngredientDetailsModal}/>
+                <IngredientsList title={categories[1]}
+                                 ingredients={filterIngredientsByType('sauce')}
+                                 openIngredientDetailsModal={openIngredientDetailsModal}/>
+                <IngredientsList title={categories[2]}
+                                 ingredients={filterIngredientsByType('main')}
+                                 openIngredientDetailsModal={openIngredientDetailsModal}/>
             </div>
         </div>
     );
 };
 
 BurgerIngredients.PropsType = {
-    ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired
+    ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    openIngredientDetailsModal: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients;

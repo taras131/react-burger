@@ -1,0 +1,22 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 720px;
+    border-radius: 40px;
+    background: #1C1C21;
+    z-index: 9999;
+    position: relative;
+}
+.title{
+    position: absolute;
+    left: 40px;
+    top: 50px;
+}
+
+.close_section{
+    position: absolute;
+    right: 40px;
+    top: 60px;
+    cursor: pointer;
+}

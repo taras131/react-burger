@@ -1,0 +1,19 @@
+.container{
+    width: 520px;
+}
+.img_section{
+
+}
+.img_section img {
+    height: 240px;
+    width: 480px;
+}
+.details_section{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px;
+    color: #8585AD;
+}
+.details_item{
+
+}
