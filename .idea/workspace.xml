@@ -2,34 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="455dcf5d-fdad-4dfa-ba3d-50f2f45d658b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/error-message/error-message.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/error-message/error-message.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ingredient-details/ingredient-details.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ingredient-details/ingredient-details.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/modals/modal-overlay/modal-overlay.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/modals/modal-overlay/modal-overlay.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/modals/modal/modal.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/modals/modal/modal.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/order-details/order-details.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/order-details/order-details.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/preloader/preloader.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/preloader/preloader.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/http/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/app/app.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app/app.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/burger-constructor/burger-constructor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/burger-constructor/burger-constructor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/burger-ingredients/burger-ingredients.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/burger-ingredients/burger-ingredients.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/burger-ingredients/ingredient-card/ingredient-card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/burger-ingredients/ingredient-card/ingredient-card.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/burger-ingredients/ingredient-card/ingredient-card.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/burger-ingredients/ingredient-card/ingredient-card.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/burger-ingredients/ingredients-list/ingredients-list.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/burger-ingredients/ingredients-list/ingredients-list.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/main/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/main/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/data.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/modals/modal/modal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modals/modal/modal.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +55,7 @@
       <workItem from="1636096171087" duration="19729000" />
       <workItem from="1636274556922" duration="16998000" />
       <workItem from="1636359870476" duration="6844000" />
-      <workItem from="1636381243563" duration="3663000" />
+      <workItem from="1636381243563" duration="6265000" />
     </task>
     <servers />
   </component>

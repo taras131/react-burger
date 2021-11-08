@@ -8,16 +8,16 @@ import {ingredientPropTypes} from "../../types";
 const Main = ({ingredientsData, openOrderDetailsModal, openIngredientDetailsModal}) => {
     return (
         <main className={mainStyle.wrapper}>
-            <BurgerIngredients ingredientsData = {ingredientsData}
-                               openIngredientDetailsModal = {openIngredientDetailsModal}/>
-            <BurgerConstructor ingredientsData = {ingredientsData}
-                               openOrderDetailsModal = {openOrderDetailsModal}
-                               openIngredientDetailsModal ={openIngredientDetailsModal}/>
+            <BurgerIngredients ingredientsData={ingredientsData}
+                               openIngredientDetailsModal={openIngredientDetailsModal}/>
+            <BurgerConstructor ingredientsData={ingredientsData}
+                               openOrderDetailsModal={openOrderDetailsModal}
+                               openIngredientDetailsModal={openIngredientDetailsModal}/>
         </main>
     );
 };
 
-Main.PropsType={
+Main.PropsType = {
     ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
     openOrderDetailsModal: PropTypes.func.isRequired,
     openIngredientDetailsModal: PropTypes.func.isRequired
