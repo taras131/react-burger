@@ -1,6 +1,6 @@
 import React from 'react';
 import detailsStyles from './order-details.module.css'
-import Modal from "../modals/modal/modal";
+import Modal from "../modal/modal";
 import done from "../../images/done.gif";
 import PropTypes from "prop-types";
 import {orderPropTypes} from "../../types";
@@ -8,13 +8,13 @@ import {orderPropTypes} from "../../types";
 const OrderDetails = ({closeModal, order}) => {
     return (
         <Modal closeModal={closeModal}>
-            <>
+            <div className={detailsStyles.wrapper}>
                 <section className={detailsStyles.order_number}>
                     <p className="text text_type_digits-large">{order.number}</p>
                 </section>
-                <p className="text text_type_main-medium mt-8">
+                <h3 className="text text_type_main-medium mt-8">
                     Индетификатор заказа
-                </p>
+                </h3>
                 <div className={detailsStyles.done_section + " mt-15"}>
                     <img src={done} alt="done"/>
                 </div>
@@ -24,7 +24,7 @@ const OrderDetails = ({closeModal, order}) => {
                 <p className="text text_type_main-default mt-2 mb-30" style={{color: '#8585AD'}}>
                     Дождитесь готовности на орбитальной станции
                 </p>
-            </>
+            </div>
         </Modal>
     );
 };

@@ -57,7 +57,7 @@ const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
     );
 };
 
-BurgerConstructor.PropsType = {
+BurgerConstructor.propTypes = {
     ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
     openOrderDetailsModal: PropTypes.func.isRequired
 }

@@ -8,12 +8,13 @@ import OrderDetails from "../order-details/order-details";
 import Preloader from "../preloader/preloader";
 import ErrorMessage from "../error-message/error-message";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import {CONNECT_ERROR_MESSAGE, SERVER_ERROR_MESSAGE} from "../../utils/const";
 
 const App = () => {
     const [data, setData] = useState({
         ingredients: [],
         isLoading: true,
-        isError: false,
+        errorMessage: '',
         isShowOrderDetails: false,
         isShowIngredientDetails: false,
         currentIngredient: null,
@@ -31,25 +32,29 @@ const App = () => {
         setData({...data, isShowIngredientDetails: false, currentIngredient: null})
     }
     useEffect(() => {
-        setData({...data, isError: false, isLoading: true})
+        setData({...data, errorMessage: '', isLoading: true})
         getAllIngredients()
-            .then(response => setData({...data, ingredients: response, isLoading: false}))
-            .catch(error => setData({...data, isError: true, isLoading: false}))
+            .then(response => {
+                if (response === 'error') {
+                    setData({...data, errorMessage: SERVER_ERROR_MESSAGE, isLoading: false})
+                } else {
+                    setData({...data, ingredients: response, isLoading: false})
+                }
+            })
+            .catch(error => setData({...data, errorMessage: CONNECT_ERROR_MESSAGE, isLoading: false}))
     }, [])
     if (data.isLoading) return <Preloader/>
-    if (data.isError) return <ErrorMessage/>
+    if (data.errorMessage) return <ErrorMessage errorMessage={data.errorMessage}/>
     return (
         <div className={appStyles.wrapper}>
             <AppHeader/>
             <Main ingredientsData={data.ingredients}
                   openOrderDetailsModal={toggleIsShowOrderDetails}
                   openIngredientDetailsModal={openIngredientDetailsModal}/>
-            <div style={{overflow: 'hidden'}}>
-                {data.isShowOrderDetails && <OrderDetails closeModal={toggleIsShowOrderDetails}
-                                                          order = {data.order}/>}
-                {data.isShowIngredientDetails && <IngredientDetails closeModal={closeIngredientDetailsModal}
-                                                                    ingredient={data.currentIngredient}/>}
-            </div>
+            {data.isShowOrderDetails && (<OrderDetails closeModal={toggleIsShowOrderDetails}
+                                                       order={data.order}/>)}
+            {data.isShowIngredientDetails && (<IngredientDetails closeModal={closeIngredientDetailsModal}
+                                                                 ingredient={data.currentIngredient}/>)}
         </div>
     );
 }

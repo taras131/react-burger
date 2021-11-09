@@ -2,7 +2,7 @@ import React from 'react';
 import IngredientCard from "../ingredient-card/ingredient-card";
 import listStyle from './ingredients-list.module.css'
 import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../../types";
+import {ingredientPropTypes} from "../../types";
 
 const IngredientsList = ({title, ingredients, openIngredientDetailsModal}) => {
     const ingredientCardList = ingredients.map(item => <IngredientCard key={item._id}
@@ -16,10 +16,10 @@ const IngredientsList = ({title, ingredients, openIngredientDetailsModal}) => {
             </ul>
         </section>
     );
-};
+}
 
-IngredientsList.PropsType = {
-    title: PropTypes.string,
+IngredientsList.propTypes = {
+    title: PropTypes.string.isRequired,
     ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
     openIngredientDetailsModal: PropTypes.func.isRequired
 }

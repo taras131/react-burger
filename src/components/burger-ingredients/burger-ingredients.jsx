@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import burgerIngredientsStyle from './burger-ingredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientsList from "./ingredients-list/ingredients-list";
+import IngredientsList from "../ingredients-list/ingredients-list";
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../types";
 
+const categories = ["Булки", "Соусы", "Начинки"]
+
 const BurgerIngredients = ({ingredientsData, openIngredientDetailsModal}) => {
-    const categories = ["Булки", "Соусы", "Начинки"]
     const [activeCategory, setActiveCategory] = React.useState(categories[0])
     const filterIngredientsByType = (type) => ingredientsData.filter(item => item.type === type)
     const selectBlock = categories.map(item => {
@@ -50,7 +51,7 @@ const BurgerIngredients = ({ingredientsData, openIngredientDetailsModal}) => {
     );
 };
 
-BurgerIngredients.PropsType = {
+BurgerIngredients.propTypes = {
     ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
     openIngredientDetailsModal: PropTypes.func.isRequired
 }

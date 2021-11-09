@@ -17,7 +17,7 @@ const Main = ({ingredientsData, openOrderDetailsModal, openIngredientDetailsModa
     );
 };
 
-Main.PropsType = {
+Main.propTypes = {
     ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
     openOrderDetailsModal: PropTypes.func.isRequired,
     openIngredientDetailsModal: PropTypes.func.isRequired

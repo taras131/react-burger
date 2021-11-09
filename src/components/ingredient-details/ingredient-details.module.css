@@ -1,19 +1,23 @@
-.container{
+.container {
     width: 520px;
 }
-.img_section{
 
+.container h2 {
+    text-align: center;
 }
+
 .img_section img {
     height: 240px;
     width: 480px;
 }
-.details_section{
+
+.details_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 20px;
     color: #8585AD;
 }
-.details_item{
 
+.details_item {
+    list-style-type: none;
 }

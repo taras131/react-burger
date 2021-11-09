@@ -1,14 +1,18 @@
-.order_number{
+.wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order_number {
     height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
 }
-.done_section{
 
-}
-.done_section img{
+.done_section img {
     height: 120px;
     width: 120px;
 }

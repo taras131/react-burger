@@ -9,13 +9,13 @@ const AppHeader = () => {
                 <nav>
                     <ul className={appHeaderStyle.menu}>
                         <li className={appHeaderStyle.button}>
-                            <BurgerIcon type="primary" />
+                            <BurgerIcon type="primary"/>
                             <p className="text text_type_main-default ml-2">Конструктор</p>
                         </li>
                         <li className={appHeaderStyle.button}>
-                            <ListIcon type="secondary" />
+                            <ListIcon type="secondary"/>
                             <p className="text text_type_main-default ml-2"
-                            style = {{color: '#8585AD'}}>
+                               style={{color: '#8585AD'}}>
                                 Лента заказов
                             </p>
                         </li>
@@ -26,7 +26,7 @@ const AppHeader = () => {
                 </section>
                 <section className={appHeaderStyle.auth_section}>
                     <div className={appHeaderStyle.button}>
-                        <ProfileIcon type="primary" />
+                        <ProfileIcon type="primary"/>
                         <p className="text text_type_main-default ml-2">Личный кабинет</p>
                     </div>
                 </section>
