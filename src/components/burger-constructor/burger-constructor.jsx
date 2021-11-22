@@ -1,10 +1,10 @@
 import React from 'react';
-import constructorStyle from './burger-constructor.module.css'
+import constructorStyle from'./burger-constructor.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../types";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-const BurgerConstructor = ({ingredientsData}) => {
+const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
     const order = ingredientsData.filter(ingredient => ingredient.type !== "bun")
     const orderItems = order.map(item => {
         return (
@@ -25,7 +25,7 @@ const BurgerConstructor = ({ingredientsData}) => {
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={ingredientsData[0].name +" (верх)"}
+                        text={ingredientsData[0].name + " (верх)"}
                         price={ingredientsData[0].price}
                         thumbnail={ingredientsData[0].image_mobile}
                     />
@@ -37,7 +37,7 @@ const BurgerConstructor = ({ingredientsData}) => {
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={ingredientsData[0].name+" (низ)"}
+                        text={ingredientsData[0].name + " (низ)"}
                         price={ingredientsData[0].price}
                         thumbnail={ingredientsData[0].image_mobile}
                     />
@@ -47,7 +47,8 @@ const BurgerConstructor = ({ingredientsData}) => {
                     <div className={constructorStyle.icon_section + " mr-4"}>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button type="primary" size="medium">
+                    <Button type="primary" size="medium"
+                            onClick={() => openOrderDetailsModal()}>
                         Оформить заказ
                     </Button>
                 </div>
@@ -56,8 +57,9 @@ const BurgerConstructor = ({ingredientsData}) => {
     );
 };
 
-BurgerConstructor.PropsType = {
-    ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired
+BurgerConstructor.propTypes = {
+    ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    openOrderDetailsModal: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;
