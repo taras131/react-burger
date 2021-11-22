@@ -35,11 +35,7 @@ const App = () => {
         setData({...data, errorMessage: '', isLoading: true})
         getAllIngredients()
             .then(response => {
-                if (response === 'error') {
-                    setData({...data, errorMessage: SERVER_ERROR_MESSAGE, isLoading: false})
-                } else {
-                    setData({...data, ingredients: response, isLoading: false})
-                }
+                setData({...data, errorMessage: SERVER_ERROR_MESSAGE, isLoading: false})
             })
             .catch(error => setData({...data, errorMessage: CONNECT_ERROR_MESSAGE, isLoading: false}))
     }, [])

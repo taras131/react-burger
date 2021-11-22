@@ -1,5 +1,5 @@
 import React from 'react';
-import overlayStyles from './modal-overlay.module.css'
+import overlayStyles from './modal-overlay.module.css';
 import PropTypes from "prop-types";
 
 const ModalOverlay = ({closeModal}) => {
