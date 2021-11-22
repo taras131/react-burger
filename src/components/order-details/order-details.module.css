@@ -1,0 +1,18 @@
+.wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order_number {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.done_section img {
+    height: 120px;
+    width: 120px;
+}
