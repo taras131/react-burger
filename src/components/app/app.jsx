@@ -24,7 +24,6 @@ const App = () => {
             ingredients: []
         },
         order: {
-            name: "",
             number: ""
         }
     })
@@ -42,7 +41,7 @@ const App = () => {
         const bunId = data.cart.bun._id
         const ingredientsId = data.cart.ingredients.map(item => item._id)
         createNewOrder([...ingredientsId, bunId]).then(response => {
-            setData(prev => ({...prev, order: {name: response.name, number: response.order.number}, isLoading: false}))
+            setData(prev => ({...prev, order: {number: response.order.number}, isLoading: false}))
             setData(prev => ({...prev, isShowOrderDetails: true}))
         }).catch(e => setData(prev => ({...prev, errorMessage: CONNECT_ERROR_MESSAGE, isLoading: false})))
     }
@@ -81,7 +80,7 @@ const App = () => {
                 createOrder: createOrder,
                 removeItemFromCart: removeItemFromCart
             }}>
-                <OrderContext.Provider value={{name: data.order.name, number: data.order.number}}>
+                <OrderContext.Provider value={{number: data.order.number}}>
                     <IngredientsContext.Provider value={{
                         ingredientsData: data.ingredients,
                         getCountInCartById: getCountInCartById,
