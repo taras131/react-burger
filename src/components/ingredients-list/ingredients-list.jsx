@@ -4,18 +4,18 @@ import listStyle from './ingredients-list.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../types";
 
-const IngredientsList = ({title, ingredients}) => {
-    const ingredientCardList = ingredients.map(item => <IngredientCard key={item._id}
-                                                                       ingredient={item}/>)
+const IngredientsList = React.forwardRef(({title, ingredients}, ref) => {
+    const ingredientCardList = ingredients.map(item => (<IngredientCard key={item._id}
+                                                                        ingredient={item}/>))
     return (
-        <section className="pb-10">
+        <section className="pb-10" ref={ref}>
             <h3 className="text text_type_main-medium">{title}</h3>
             <ul className={listStyle.wrapper}>
                 {ingredientCardList}
             </ul>
         </section>
     );
-}
+})
 
 IngredientsList.propTypes = {
     title: PropTypes.string.isRequired,

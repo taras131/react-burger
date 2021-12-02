@@ -1,76 +1,79 @@
-import React, {useContext, useEffect, useReducer} from 'react';
+import React, {useEffect} from 'react';
 import constructorStyle from './burger-constructor.module.css'
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {CartContext} from "../../services/contexts";
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useAppDispatch} from "../../hooks/redux";
+import {fetchCreateOrder} from "../../services/actions/cart-action-creators";
+import {useSelector} from "react-redux";
+import {getBunInCart, getCart, getFillingsInCart, getTotalSum} from "../../services/selectors/cart-selector";
+import {getIngredientsByType} from "../../services/selectors/ingredients-selectors";
+import {addToCart} from '../../services/reducers/cart-slice'
+import {useDrop} from "react-dnd";
+import ConstructorFillingItem from "../constructor-filling-item/constructor-filling-item";
+import classNames from "classnames";
 
-const CALCULATE_SUM = "CALCULATE_SUM"
-const initialState = {totalSum: 0}
-const reducer = (state, action) => {
-    switch (action.type) {
-        case CALCULATE_SUM:
-            return ({
-                ...state, totalSum: action.payload.ingredients.reduce((sum, current) => {
-                    return sum + current.price
-                }, 0) + 2 * action.payload.bun.price
-            })
-        default:
-            return state
-    }
-}
 const BurgerConstructor = () => {
-    const {cart, createOrder, removeItemFromCart} = useContext(CartContext)
-    const [state, dispatch] = useReducer(reducer, initialState, undefined)
+    const dispatch = useAppDispatch()
+    const cart = useSelector(state => getCart(state))
+    const bunInCart = useSelector(state => getBunInCart(state))
+    const fillingsInCart = useSelector(state => getFillingsInCart(state))
+    const buns = useSelector(state => getIngredientsByType(state, 'bun'))
+    const totalSum = useSelector(state => getTotalSum(state))
     useEffect(() => {
-        dispatch({type: CALCULATE_SUM, payload: cart})
-    }, [cart])
-    const order = cart.ingredients.filter(ingredient => ingredient.type !== "bun")
-    const orderItems = order.map(item => {
-        return (
-            <li key={item._id} className={constructorStyle.order_item + " pr-2"}>
-                <DragIcon type="primary"/>
-                <ConstructorElement
-                    text={item.name}
-                    price={item.price}
-                    thumbnail={item.image_mobile}
-                    handleClose={() => removeItemFromCart(item._id)}
-                />
-            </li>
-        )
-    })
+        if (cart.length === 0 && buns.length > 0) {
+            dispatch(addToCart(buns[0]))
+        }
+    }, [buns])
+    const onCreateOrderClick = () => {
+        dispatch(fetchCreateOrder(cart))
+    }
+    const [{canDrop}, drop] = useDrop(() => ({
+        accept: 'ingredient',
+        drop: () => ({name: 'Dustbin'}),
+        collect: (monitor) => ({
+            canDrop: monitor.canDrop(),
+        }),
+    }));
+    const constructorItems = fillingsInCart.map((item, index) => (<ConstructorFillingItem
+        key={item.key} item={item} index={index}/>))
     return (
-        <section className={constructorStyle.wrapper}>
-            <div className={constructorStyle.order_wrapper + " mt-25"}>
-                <div className={constructorStyle.order_item + " pr-4"}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={cart.bun.name + " (верх)"}
-                        price={cart.bun.price}
-                        thumbnail={cart.bun.image_mobile}
-                    />
-                </div>
-                <ul className={constructorStyle.order_items}>
-                    {orderItems}
-                </ul>
-                <div className={constructorStyle.order_item + " pr-4"}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text={cart.bun.name + " (низ)"}
-                        price={cart.bun.price}
-                        thumbnail={cart.bun.image_mobile}
-                    />
-                </div>
-                <div className={constructorStyle.create_order_section + " pr-4 mt-10"}>
-                    <p className="text text_type_digits-default mr-2">{state.totalSum}</p>
-                    <div className={constructorStyle.icon_section + " mr-4"}>
-                        <CurrencyIcon type="primary"/>
+        <section className={constructorStyle.wrapper} ref={drop} role={'Dustbin'}>
+            <div className={classNames(constructorStyle.order_wrapper, 'mt-25', {
+                [constructorStyle.canDrop]: canDrop
+            })}>
+                {bunInCart && (<>
+                    <div className={constructorStyle.order_item}>
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={bunInCart.name + " (верх)"}
+                            price={bunInCart.price}
+                            thumbnail={bunInCart.image_mobile}
+                        />
                     </div>
-                    <Button type="primary" size="medium"
-                            onClick={() => createOrder()}>
-                        Оформить заказ
-                    </Button>
-                </div>
+                    <ul className={constructorStyle.order_items}>
+                        {constructorItems}
+                    </ul>
+                    <div className={constructorStyle.order_item}>
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={bunInCart.name + " (низ)"}
+                            price={bunInCart.price}
+                            thumbnail={bunInCart.image_mobile}
+                        />
+                    </div>
+                    <div className={constructorStyle.create_order_section + " pr-4 mt-10"}>
+                        <p className="text text_type_digits-default mr-2">{totalSum}</p>
+                        <div className={constructorStyle.icon_section + " mr-4"}>
+                            <CurrencyIcon type="primary"/>
+                        </div>
+                        <Button type="primary" size="medium"
+                                onClick={() => onCreateOrderClick()}>
+                            Оформить заказ
+                        </Button>
+                    </div>
+                </>)
+                }
             </div>
         </section>
     );

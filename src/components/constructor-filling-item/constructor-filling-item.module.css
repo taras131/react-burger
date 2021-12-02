@@ -1,0 +1,12 @@
+.filling_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px
+}
+.filling_item div {
+    width: 100px;
+}
+.can_drop{
+    border: 1px solid blue;
+}

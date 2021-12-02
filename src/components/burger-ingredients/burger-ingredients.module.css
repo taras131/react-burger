@@ -6,7 +6,9 @@
 .menu {
     width: 100%;
 }
-
+nav div{
+    width: 100%;
+}
 .ingredients_wrapper {
     height: 686px;
     overflow-y: auto;
