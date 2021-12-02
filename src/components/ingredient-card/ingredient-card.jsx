@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import cardStyle from './ingredient-card.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropTypes} from "../../types";
-import PropTypes from "prop-types";
+import {IngredientsContext} from "../../services/contexts";
 
-const IngredientCard = ({ingredient, openIngredientDetailsModal}) => {
-    const count = 2
+const IngredientCard = ({ingredient}) => {
+    const {openIngredientDetailsModal, getCountInCartById} = useContext(IngredientsContext)
+
+    const count = getCountInCartById(ingredient._id, ingredient.type)
     return (
         <li className={cardStyle.wrapper + " mt-6"}
             onClick={() => openIngredientDetailsModal(ingredient)}>
@@ -27,7 +29,6 @@ const IngredientCard = ({ingredient, openIngredientDetailsModal}) => {
 
 IngredientCard.propTypes = {
     ingredient: ingredientPropTypes.isRequired,
-    openIngredientDetailsModal: PropTypes.func.isRequired
 }
 
 export default IngredientCard;

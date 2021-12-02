@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import detailsStyles from './order-details.module.css'
 import Modal from "../modal/modal";
 import done from "../../images/done.gif";
 import PropTypes from "prop-types";
-import {orderPropTypes} from "../../types";
+import {OrderContext} from "../../services/contexts";
 
-const OrderDetails = ({closeModal, order}) => {
+const OrderDetails = ({closeModal}) => {
+    const {number} = useContext(OrderContext)
     return (
         <Modal closeModal={closeModal}>
             <div className={detailsStyles.wrapper}>
                 <section className={detailsStyles.order_number}>
-                    <p className="text text_type_digits-large">{order.number}</p>
+                    <p className="text text_type_digits-large">{number}</p>
                 </section>
                 <h3 className="text text_type_main-medium mt-8">
                     Индетификатор заказа
@@ -31,7 +32,6 @@ const OrderDetails = ({closeModal, order}) => {
 
 OrderDetails.propTypes = {
     closeModal: PropTypes.func.isRequired,
-    order: orderPropTypes.isRequired
 }
 
 export default OrderDetails;

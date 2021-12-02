@@ -1,11 +1,29 @@
-import React from 'react';
-import constructorStyle from'./burger-constructor.module.css'
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../types";
+import React, {useContext, useEffect, useReducer} from 'react';
+import constructorStyle from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {CartContext} from "../../services/contexts";
 
-const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
-    const order = ingredientsData.filter(ingredient => ingredient.type !== "bun")
+const CALCULATE_SUM = "CALCULATE_SUM"
+const initialState = {totalSum: 0}
+const reducer = (state, action) => {
+    switch (action.type) {
+        case CALCULATE_SUM:
+            return ({
+                ...state, totalSum: action.payload.ingredients.reduce((sum, current) => {
+                    return sum + current.price
+                }, 0) + 2 * action.payload.bun.price
+            })
+        default:
+            return state
+    }
+}
+const BurgerConstructor = () => {
+    const {cart, createOrder, removeItemFromCart} = useContext(CartContext)
+    const [state, dispatch] = useReducer(reducer, initialState, undefined)
+    useEffect(() => {
+        dispatch({type: CALCULATE_SUM, payload: cart})
+    }, [cart])
+    const order = cart.ingredients.filter(ingredient => ingredient.type !== "bun")
     const orderItems = order.map(item => {
         return (
             <li key={item._id} className={constructorStyle.order_item + " pr-2"}>
@@ -14,6 +32,7 @@ const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
                     text={item.name}
                     price={item.price}
                     thumbnail={item.image_mobile}
+                    handleClose={() => removeItemFromCart(item._id)}
                 />
             </li>
         )
@@ -25,9 +44,9 @@ const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={ingredientsData[0].name + " (верх)"}
-                        price={ingredientsData[0].price}
-                        thumbnail={ingredientsData[0].image_mobile}
+                        text={cart.bun.name + " (верх)"}
+                        price={cart.bun.price}
+                        thumbnail={cart.bun.image_mobile}
                     />
                 </div>
                 <ul className={constructorStyle.order_items}>
@@ -37,18 +56,18 @@ const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={ingredientsData[0].name + " (низ)"}
-                        price={ingredientsData[0].price}
-                        thumbnail={ingredientsData[0].image_mobile}
+                        text={cart.bun.name + " (низ)"}
+                        price={cart.bun.price}
+                        thumbnail={cart.bun.image_mobile}
                     />
                 </div>
                 <div className={constructorStyle.create_order_section + " pr-4 mt-10"}>
-                    <p className="text text_type_digits-default mr-2">91234</p>
+                    <p className="text text_type_digits-default mr-2">{state.totalSum}</p>
                     <div className={constructorStyle.icon_section + " mr-4"}>
                         <CurrencyIcon type="primary"/>
                     </div>
                     <Button type="primary" size="medium"
-                            onClick={() => openOrderDetailsModal()}>
+                            onClick={() => createOrder()}>
                         Оформить заказ
                     </Button>
                 </div>
@@ -56,10 +75,5 @@ const BurgerConstructor = ({ingredientsData, openOrderDetailsModal}) => {
         </section>
     );
 };
-
-BurgerConstructor.propTypes = {
-    ingredientsData: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-    openOrderDetailsModal: PropTypes.func.isRequired
-}
 
 export default BurgerConstructor;
