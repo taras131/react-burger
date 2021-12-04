@@ -6,6 +6,7 @@ import {getCountInCartById} from "../../services/selectors/cart-selector";
 import {useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 
 const IngredientCard = ({ingredient, openIngredientDetails}) => {
     const count = useSelector(state => getCountInCartById(state, ingredient._id))
@@ -43,6 +44,7 @@ const IngredientCard = ({ingredient, openIngredientDetails}) => {
 
 IngredientCard.propTypes = {
     ingredient: ingredientPropTypes.isRequired,
+    openIngredientDetails: PropTypes.func.isRequired
 }
 
 export default IngredientCard;
