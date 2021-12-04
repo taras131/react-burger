@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import burgerIngredientsStyle from './burger-ingredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from "../ingredients-list/ingredients-list";
@@ -16,23 +16,25 @@ const BurgerIngredients = () => {
     const buns = useSelector(state => getIngredientsByType(state, categories[0].type))
     const sauces = useSelector(state => getIngredientsByType(state, categories[1].type))
     const mains = useSelector(state => getIngredientsByType(state, categories[2].type))
+    // весь интерес был обойтись без библиотеки, думаю, если заняться, у меня получиться усовершенствовать этот метод
+    // и улучшить масштабируемость
     const onScroll = (e) => {
-        const bunTop = refBun.current.getBoundingClientRect().top - 323
-        const sauceTop = refSauce.current.getBoundingClientRect().top - 323
-        const mainTop = refMain.current.getBoundingClientRect().top - 323
-        let currentPosition
-        if (Math.abs(bunTop) < Math.abs(sauceTop) && Math.abs(bunTop) < Math.abs(mainTop)) {
-            currentPosition = categories[0].type
+        const bunBorderTopY = Math.abs(refBun.current.getBoundingClientRect().top - 323)
+        const sauceBorderTopY = Math.abs(refSauce.current.getBoundingClientRect().top - 323)
+        const mainBorderTopY = Math.abs(refMain.current.getBoundingClientRect().top - 323)
+        let currentCategory
+        if (bunBorderTopY < sauceBorderTopY && bunBorderTopY < mainBorderTopY) {
+            currentCategory = categories[0].type
         }
-        if (Math.abs(sauceTop) < Math.abs(bunTop) && Math.abs(sauceTop) < Math.abs(mainTop)) {
-            currentPosition = categories[1].type
+        if (sauceBorderTopY < bunBorderTopY && sauceBorderTopY < mainBorderTopY) {
+            currentCategory = categories[1].type
         }
-        if (Math.abs(mainTop) < Math.abs(sauceTop) && Math.abs(mainTop) < Math.abs(bunTop)) {
-            currentPosition = categories[2].type
+        if (mainBorderTopY < sauceBorderTopY && mainBorderTopY < bunBorderTopY) {
+            currentCategory = categories[2].type
         }
-        setActiveCategory(currentPosition)
+        setActiveCategory(currentCategory)
     }
-    const onTabClick = (value) => {
+    const onTabClick = useCallback((value) => {
         setActiveCategory(value)
         switch (value) {
             case categories[0].type: {
@@ -50,7 +52,8 @@ const BurgerIngredients = () => {
             default:
                 if (refBun.current) refBun.current.scrollIntoView({behavior: "smooth"});
         }
-    }
+
+    }, [refBun, refSauce, refMain])
     const selectBlock = categories.map(item => {
         return (
             <Tab key={item.id} value={item.type} active={activeCategory === item.type} onClick={onTabClick}>

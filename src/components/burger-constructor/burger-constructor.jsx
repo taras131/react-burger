@@ -1,46 +1,45 @@
-import React, {useEffect} from 'react';
+import React, {useCallback} from 'react';
 import constructorStyle from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useAppDispatch} from "../../hooks/redux";
 import {fetchCreateOrder} from "../../services/actions/cart-action-creators";
-import {useSelector} from "react-redux";
-import {getBunInCart, getCart, getFillingsInCart, getTotalSum} from "../../services/selectors/cart-selector";
-import {getIngredientsByType} from "../../services/selectors/ingredients-selectors";
-import {addToCart} from '../../services/reducers/cart-slice'
+import {useDispatch, useSelector} from "react-redux";
+import {getBunInCart, getCart, getNotBunIngredients, getTotalSum} from "../../services/selectors/cart-selector";
 import {useDrop} from "react-dnd";
-import ConstructorFillingItem from "../constructor-filling-item/constructor-filling-item";
 import classNames from "classnames";
+import ConstructorEmpty from "../constructor-empty/constructor-empty";
+import {addToCart} from "../../services/reducers/cart-slice";
+import {getUniqueKey} from "../../utils/service";
+import ConstructorNotBunIngredient from "../constructor-not-bun-ingredient/constructor-not-bun-ingredient";
 
 const BurgerConstructor = () => {
-    const dispatch = useAppDispatch()
+    const dispatch = useDispatch()
     const cart = useSelector(state => getCart(state))
     const bunInCart = useSelector(state => getBunInCart(state))
-    const fillingsInCart = useSelector(state => getFillingsInCart(state))
-    const buns = useSelector(state => getIngredientsByType(state, 'bun'))
+    const notBunIngredients = useSelector(state => getNotBunIngredients(state))
     const totalSum = useSelector(state => getTotalSum(state))
-    useEffect(() => {
-        if (cart.length === 0 && buns.length > 0) {
-            dispatch(addToCart(buns[0]))
-        }
-    }, [buns])
-    const onCreateOrderClick = () => {
+    const onCreateOrderClick = useCallback(() => {
         dispatch(fetchCreateOrder(cart))
-    }
+    }, [dispatch, cart])
     const [{canDrop}, drop] = useDrop(() => ({
         accept: 'ingredient',
-        drop: () => ({name: 'Dustbin'}),
+        drop: (item) => {
+            dispatch(addToCart({...item, key: getUniqueKey()}))
+        },
         collect: (monitor) => ({
             canDrop: monitor.canDrop(),
         }),
     }));
-    const constructorItems = fillingsInCart.map((item, index) => (<ConstructorFillingItem
-        key={item.key} item={item} index={index}/>))
+    let constructorItems = null
+    if (notBunIngredients) {
+        constructorItems = notBunIngredients.map((ingredient, index) => (<ConstructorNotBunIngredient
+            key={ingredient.key} ingredient={ingredient} index={index}/>))
+    }
     return (
-        <section className={constructorStyle.wrapper} ref={drop} role={'Dustbin'}>
+        <section className={constructorStyle.wrapper} ref={drop}>
             <div className={classNames(constructorStyle.order_wrapper, 'mt-25', {
                 [constructorStyle.canDrop]: canDrop
             })}>
-                {bunInCart && (<>
+                {bunInCart && (
                     <div className={constructorStyle.order_item}>
                         <ConstructorElement
                             type="top"
@@ -49,10 +48,11 @@ const BurgerConstructor = () => {
                             price={bunInCart.price}
                             thumbnail={bunInCart.image_mobile}
                         />
-                    </div>
-                    <ul className={constructorStyle.order_items}>
-                        {constructorItems}
-                    </ul>
+                    </div>)}
+                <ul className={constructorStyle.order_items}>
+                    {constructorItems}
+                </ul>
+                {bunInCart && (
                     <div className={constructorStyle.order_item}>
                         <ConstructorElement
                             type="bottom"
@@ -61,8 +61,10 @@ const BurgerConstructor = () => {
                             price={bunInCart.price}
                             thumbnail={bunInCart.image_mobile}
                         />
-                    </div>
-                    <div className={constructorStyle.create_order_section + " pr-4 mt-10"}>
+                    </div>)}
+                {cart.length === 0
+                    ? (<ConstructorEmpty/>)
+                    : (<div className={constructorStyle.create_order_section + " pr-4 mt-10"}>
                         <p className="text text_type_digits-default mr-2">{totalSum}</p>
                         <div className={constructorStyle.icon_section + " mr-4"}>
                             <CurrencyIcon type="primary"/>
@@ -71,9 +73,7 @@ const BurgerConstructor = () => {
                                 onClick={() => onCreateOrderClick()}>
                             Оформить заказ
                         </Button>
-                    </div>
-                </>)
-                }
+                    </div>)}
             </div>
         </section>
     );

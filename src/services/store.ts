@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
 });
 export const setupStore = () => {
   return configureStore({
-    reducer: rootReducer,
+    reducer: rootReducer
   });
 };
 export type RootState = ReturnType<typeof rootReducer>;

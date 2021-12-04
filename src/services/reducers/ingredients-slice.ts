@@ -6,33 +6,17 @@ interface IngredientsState {
   ingredients: IIngredient[];
   isLoading: boolean;
   errorMessage: string;
-  isShowIngredientDetails: boolean;
-  currentIngredient: IIngredient | null;
 }
 
 const initialState: IngredientsState = {
   ingredients: [],
   isLoading: true,
   errorMessage: '',
-  isShowIngredientDetails: false,
-  currentIngredient: null,
 };
 const IngredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {
-    openIngredientDetailsModal: (state) => {
-      state.isShowIngredientDetails = true;
-    },
-    closeIngredientDetailsModal: (state) => {
-      state.isShowIngredientDetails = false;
-      state.currentIngredient = null;
-    },
-    setCurrentIngredient: (state, action: PayloadAction<IIngredient>) => {
-      state.currentIngredient = action.payload;
-      state.isShowIngredientDetails = true;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [fetchIngredients.fulfilled.type]: (state, action: PayloadAction<IIngredient[]>) => {
       state.ingredients = action.payload;
@@ -49,5 +33,5 @@ const IngredientsSlice = createSlice({
     },
   },
 });
-export const {closeIngredientDetailsModal, setCurrentIngredient} = IngredientsSlice.actions;
+
 export default IngredientsSlice.reducer;

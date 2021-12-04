@@ -1,17 +1,8 @@
 import React from 'react';
 import Modal from "../modal/modal";
 import detailsStyles from './ingredient-details.module.css'
-import {useSelector} from "react-redux";
-import {getCurrentIngredient} from "../../services/selectors/ingredients-selectors";
-import {useAppDispatch} from "../../hooks/redux";
-import {closeIngredientDetailsModal} from "../../services/reducers/ingredients-slice"
 
-const IngredientDetails = () => {
-    const dispatch = useAppDispatch()
-    const currentIngredient = useSelector(state => getCurrentIngredient(state))
-    const closeModal = () => {
-        dispatch(closeIngredientDetailsModal())
-    }
+const IngredientDetails = ({closeModal, currentIngredient}) => {
     return (
         <Modal title="Детали ингредиента" closeModal={closeModal}>
             <div className={detailsStyles.container + " mb-15"}>

@@ -1,19 +1,19 @@
-import React, {useRef} from 'react';
-import fillingStyle from "./constructor-filling-item.module.css";
+import React, {useCallback, useRef} from 'react';
+import fillingStyle from "./constructor-not-bun-ingredient.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag, useDrop} from "react-dnd";
 import {removeFromCart, moveConstructorItem} from "../../services/reducers/cart-slice";
-import {useAppDispatch} from "../../hooks/redux";
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import {ingredientInCartPropTypes} from "../../types";
+import {useDispatch} from "react-redux";
 
-const ConstructorFillingItem = ({item, index}) => {
+const ConstructorNotBunIngredient = ({ingredient, index}) => {
     const ref = useRef(null)
-    const dispatch = useAppDispatch()
-    const onRemoveItemClick = (key) => {
-        dispatch(removeFromCart(key))
-    }
+    const dispatch = useDispatch()
+    const onRemoveItemClick = useCallback((key) => {
+        return () => dispatch(removeFromCart(key));
+    }, [dispatch]);
     const [{isDragging}, drag] = useDrag({
         type: "filling",
         item: () => {
@@ -44,7 +44,7 @@ const ConstructorFillingItem = ({item, index}) => {
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                 return;
             }
-            dispatch(moveConstructorItem({drag: dragIndex + 1, hover: hoverIndex + 1}))
+            dispatch(moveConstructorItem({drag: dragIndex, hover: hoverIndex}))
             item.index = hoverIndex;
         }
     })
@@ -54,10 +54,10 @@ const ConstructorFillingItem = ({item, index}) => {
         <li className={fillingStyle.filling_item + " pr-2"} ref={ref} style={{opacity}}>
             <DragIcon type="primary"/>
             <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image_mobile}
-                handleClose={() => onRemoveItemClick(item.key)}
+                text={ingredient.name}
+                price={ingredient.price}
+                thumbnail={ingredient.image_mobile}
+                handleClose={onRemoveItemClick(ingredient.key)}
             />
         </li>
     );
@@ -68,4 +68,4 @@ Modal.ConstructorFillingItem = {
     index: PropTypes.number.isRequired,
 }
 
-export default ConstructorFillingItem;
+export default ConstructorNotBunIngredient;

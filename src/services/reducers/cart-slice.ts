@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IOrder} from '../../models/i-order';
-import {IIngredient} from '../../models/i-ingredient';
 import {fetchCreateOrder} from '../actions/cart-action-creators';
 import {IIngredientInCart} from '../../models/i-ingredient-in-cart';
 
@@ -31,18 +30,12 @@ export const CartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<IIngredient>) => {
-      const isThereBuninCart = state.ingredients.filter((item) => item.type === 'bun').length;
-      if (action.payload.type !== 'bun' || !isThereBuninCart) {
-        state.ingredients = [
-          ...state.ingredients,
-          {...action.payload, key: new Date().valueOf()},
-        ];
+    addToCart: (state, action: PayloadAction<IIngredientInCart>) => {
+      if (action.payload.type === 'bun') {
+          state.ingredients = [...state.ingredients.filter(item => item.type !== 'bun'), action.payload];
       } else {
-        state.ingredients = [
-          ...state.ingredients.filter((item) => item.type !== 'bun'),
-          {...action.payload, key: new Date().valueOf()},
-        ];
+          const arr: IIngredientInCart[] = [action.payload]
+          state.ingredients = arr.concat(state.ingredients);
       }
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
@@ -62,6 +55,7 @@ export const CartSlice = createSlice({
     [fetchCreateOrder.fulfilled.type]: (state, action: PayloadAction<string>) => {
       state.order.number = action.payload;
       state.isShowOrderDetails = true;
+      state.ingredients = [];
       state.isLoading = false;
     },
     [fetchCreateOrder.pending.type]: (state) => {
