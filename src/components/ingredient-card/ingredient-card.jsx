@@ -1,16 +1,31 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import cardStyle from './ingredient-card.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropTypes} from "../../types";
-import {IngredientsContext} from "../../services/contexts";
+import {getCountInCartById} from "../../services/selectors/cart-selector";
+import {useSelector} from "react-redux";
+import {useDrag} from "react-dnd";
+import classNames from "classnames";
+import PropTypes from "prop-types";
 
-const IngredientCard = ({ingredient}) => {
-    const {openIngredientDetailsModal, getCountInCartById} = useContext(IngredientsContext)
-
-    const count = getCountInCartById(ingredient._id, ingredient.type)
+const IngredientCard = ({ingredient, openIngredientDetails}) => {
+    const count = useSelector(state => getCountInCartById(state, ingredient._id))
+    const openDetail = () => {
+        openIngredientDetails(ingredient)
+    }
+    const [{isDragging}, drag] = useDrag(() => ({
+        type: 'ingredient',
+        item: {...ingredient},
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    }));
     return (
-        <li className={cardStyle.wrapper + " mt-6"}
-            onClick={() => openIngredientDetailsModal(ingredient)}>
+        <li className={classNames(cardStyle.wrapper, {
+            [cardStyle.dragging]: isDragging
+        })}
+            onClick={openDetail}
+            ref={drag}>
             <div className={cardStyle.image_section}>
                 <img src={ingredient.image} alt={ingredient.name}/>
             </div>
@@ -29,6 +44,7 @@ const IngredientCard = ({ingredient}) => {
 
 IngredientCard.propTypes = {
     ingredient: ingredientPropTypes.isRequired,
+    openIngredientDetails: PropTypes.func.isRequired
 }
 
 export default IngredientCard;

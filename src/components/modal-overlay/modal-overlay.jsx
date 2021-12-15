@@ -3,10 +3,13 @@ import overlayStyles from './modal-overlay.module.css';
 import PropTypes from "prop-types";
 
 const ModalOverlay = ({closeModal}) => {
+    const closeClick = (e) => {
+        e.stopPropagation()
+        closeModal()
+    }
     return (
         <div className={overlayStyles.wrapper}
-             onClick={() => closeModal()}>
-
+             onClick={closeClick}>
         </div>
     );
 };

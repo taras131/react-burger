@@ -6,6 +6,10 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    background: #131316;
+    border-radius: 10px;
+    margin-top: 24px;
+    padding: 5px;
 }
 
 .image_section {
@@ -26,4 +30,11 @@ p {
     position: absolute;
     top: 0;
     right: 0;
+}
+.dragging {
+    background-color: #2F2F37;
+}
+
+.wrapper h4 {
+    text-align: center;
 }

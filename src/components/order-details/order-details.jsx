@@ -1,17 +1,22 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import detailsStyles from './order-details.module.css'
 import Modal from "../modal/modal";
 import done from "../../images/done.gif";
-import PropTypes from "prop-types";
-import {OrderContext} from "../../services/contexts";
+import {useDispatch, useSelector} from "react-redux";
+import {getOrderNumber} from "../../services/selectors/cart-selector";
+import {closeOrderDetailModal} from '../../services/reducers/cart-slice'
 
-const OrderDetails = ({closeModal}) => {
-    const {number} = useContext(OrderContext)
+const OrderDetails = () => {
+    const dispatch = useDispatch()
+    const closeModal = () => {
+        dispatch(closeOrderDetailModal())
+    }
+    const orderNumber = useSelector(state => getOrderNumber(state))
     return (
         <Modal closeModal={closeModal}>
             <div className={detailsStyles.wrapper}>
                 <section className={detailsStyles.order_number}>
-                    <p className="text text_type_digits-large">{number}</p>
+                    <p className="text text_type_digits-large">{orderNumber}</p>
                 </section>
                 <h3 className="text text_type_main-medium mt-8">
                     Индетификатор заказа
@@ -30,8 +35,5 @@ const OrderDetails = ({closeModal}) => {
     );
 };
 
-OrderDetails.propTypes = {
-    closeModal: PropTypes.func.isRequired,
-}
 
 export default OrderDetails;
