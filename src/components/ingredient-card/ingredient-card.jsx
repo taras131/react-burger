@@ -2,7 +2,7 @@ import React from 'react';
 import cardStyle from './ingredient-card.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropTypes} from "../../types";
-import {getCountInCartById} from "../../services/selectors/cart-selector";
+import {getCountInCartById} from "../../services/selectors/cart-selectors";
 import {useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
 import classNames from "classnames";

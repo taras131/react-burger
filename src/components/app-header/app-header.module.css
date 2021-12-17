@@ -33,6 +33,17 @@
     justify-content: flex-end;
 }
 
+.link {
+    display: flex;
+    justify-content: flex-end;
+    text-decoration: none;
+    color: white;
+}
+
+.active {
+    color: #8585AD
+}
+
 .button {
     display: flex;
     align-items: center;

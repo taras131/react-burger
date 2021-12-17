@@ -3,7 +3,7 @@ import constructorStyle from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {fetchCreateOrder} from "../../services/actions/cart-action-creators";
 import {useDispatch, useSelector} from "react-redux";
-import {getBunInCart, getCart, getNotBunIngredients, getTotalSum} from "../../services/selectors/cart-selector";
+import {getBunInCart, getCart, getNotBunIngredients, getTotalSum} from "../../services/selectors/cart-selectors";
 import {useDrop} from "react-dnd";
 import classNames from "classnames";
 import ConstructorEmpty from "../constructor-empty/constructor-empty";

@@ -3,7 +3,7 @@ import detailsStyles from './order-details.module.css'
 import Modal from "../modal/modal";
 import done from "../../images/done.gif";
 import {useDispatch, useSelector} from "react-redux";
-import {getOrderNumber} from "../../services/selectors/cart-selector";
+import {getOrderNumber} from "../../services/selectors/cart-selectors";
 import {closeOrderDetailModal} from '../../services/reducers/cart-slice'
 
 const OrderDetails = () => {
