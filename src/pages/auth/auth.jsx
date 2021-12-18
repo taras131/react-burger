@@ -7,12 +7,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchLogin, fetchRegister} from "../../services/actions/auth-action-creators";
 import {getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
+import {validateEmail, validationName, validationPassword} from "../../utils/service";
 
 const Auth = () => {
     const dispatch = useDispatch()
     let navigate = useNavigate();
+    const location = useLocation()
+    let prevPath = null
+    if (location.state && location.state.from) prevPath = location.state.from.pathname
     const isAuth = useSelector(state => getIsAuth(state))
     const [data, setData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    })
+    const [errors, setErrors] = useState({
         name: '',
         email: '',
         password: ''
@@ -21,23 +30,50 @@ const Auth = () => {
     const isRegister = pathname === ROUTE_REGISTER
     useEffect(()=>{
         if(isAuth) {
-            console.log("navigation")
-            navigate(ROUTE_MAIN)
+            navigate(prevPath || ROUTE_MAIN)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isAuth])
+    useEffect(()=>{
+        setErrors({
+            name: '',
+            email: '',
+            password: ''
+        })
+        setData({
+            name: '',
+            email: '',
+            password: ''
+        })
+    },[isRegister])
     const onDataChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
     }
-    const onButtonClick = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault()
+        const emailError = validateEmail(data.email)
+        const passwordError = validationPassword(data.password)
+        let nameError = ''
         if(isRegister){
-            dispatch(fetchRegister(data))
+            nameError = validationName(data.name)
+        }
+        setErrors({
+            name: nameError,
+            email: emailError,
+            password: passwordError
+        })
+        if(isRegister){
+            if(!nameError && !emailError && !passwordError){
+                dispatch(fetchRegister(data))
+            }
         } else {
-            dispatch(fetchLogin({email: data.email, password: data.password}))
+            if(!emailError && !passwordError){
+                dispatch(fetchLogin({email: data.email, password: data.password}))
+            }
         }
     }
     return (
-        <div className={loginStyles.wrapper}>
+        <form onSubmit={onSubmit} className={loginStyles.wrapper}>
             <h1 className="text text_type_main-medium">{isRegister ? 'Регистрация' : 'Вход'}</h1>
             {isRegister && (
                 <Input
@@ -46,8 +82,8 @@ const Auth = () => {
                     onChange={onDataChange}
                     value={data.name}
                     name={'name'}
-                    error={false}
-                    errorText={'Ошибка'}
+                    error={!!errors.name}
+                    errorText={errors.name}
                     size={'default'}
                 />
             )}
@@ -57,8 +93,8 @@ const Auth = () => {
                 onChange={onDataChange}
                 value={data.email}
                 name={'email'}
-                error={false}
-                errorText={'Ошибка'}
+                error={!!errors.email}
+                errorText={errors.email}
                 size={'default'}
             />
             <Input
@@ -68,11 +104,11 @@ const Auth = () => {
                 icon={'ShowIcon'}
                 value={data.password}
                 name={'password'}
-                error={false}
-                errorText={'Ошибка'}
+                error={!!errors.password}
+                errorText={errors.password}
                 size={'default'}
             />
-            <Button type="primary" size="medium" onClick={onButtonClick}>
+            <Button type="primary" size="medium">
                 {isRegister ? "Зарегистрироваться" : "Войти"}
             </Button>
             <div className={'mt-10'}>
@@ -98,7 +134,7 @@ const Auth = () => {
                         </div>
                     </>)}
             </div>
-        </div>
+        </form>
     );
 };
 

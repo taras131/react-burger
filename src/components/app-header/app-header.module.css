@@ -37,14 +37,14 @@
     display: flex;
     justify-content: flex-end;
     text-decoration: none;
-    color: white;
+    color: #8585AD;
 }
 
 .active {
-    color: #8585AD
+    color: white;
 }
 
-.button {
+.menu_item {
     display: flex;
     align-items: center;
     justify-content: center;

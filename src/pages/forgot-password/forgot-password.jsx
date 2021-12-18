@@ -14,7 +14,8 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState('')
     const canResetPassword = useSelector(state =>getCanResetPassword(state))
     useEffect(()=>{
-        if(canResetPassword) navigate(ROUTE_RESET_PASSWORD,{state: {from: location.pathname}} )
+        if(canResetPassword) navigate(ROUTE_RESET_PASSWORD,{state: {from: location.pathname}})
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[canResetPassword])
     const onEmailChange = (e) => {
         setEmail(e.target.value)

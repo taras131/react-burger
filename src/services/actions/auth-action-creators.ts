@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {checkAuth, forgotPassword, login, LogOut, register, resetPassword} from "../../http";
+import {checkAuth, forgotPassword, login, LogOut, register, resetPassword, updateUser} from "../../http";
 
 export const fetchRegister = createAsyncThunk(
     'register',
@@ -19,7 +19,7 @@ export const fetchLogin = createAsyncThunk(
             const res = await login(user)
             return res
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Не удалось зарегистрироваться');
+            return ThunkAPI.rejectWithValue('Не удалось войти');
         }
     }
 )
@@ -47,12 +47,12 @@ export const fetchResetPassword = createAsyncThunk(
 )
 export const fetchCheckAuth = createAsyncThunk(
     'check auth',
-    async(token, ThunkAPI) => {
+    async(_, ThunkAPI) => {
         try{
-            const res = await checkAuth(token)
+            const res = await checkAuth()
             if(res.success) return res.user
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Неверный код');
+            return ThunkAPI.rejectWithValue('');
         }
     }
 )
@@ -64,6 +64,17 @@ export const fetchLogOut = createAsyncThunk(
             return res
         } catch (e) {
             return ThunkAPI.rejectWithValue('Не получилось выйти');
+        }
+    }
+)
+export const fetchUpdateUser = createAsyncThunk(
+    'update user',
+    async(user ,ThunkAPI ) => {
+        try{
+            const res = await updateUser(user)
+            return res.user
+        } catch (e) {
+            return ThunkAPI.rejectWithValue('Не удалось обновить данные');
         }
     }
 )

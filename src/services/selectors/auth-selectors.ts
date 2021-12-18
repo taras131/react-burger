@@ -12,3 +12,6 @@ export const getCanResetPassword = (state: RootState) => {
 export const getUser = (state: RootState) => {
     return state.auth.user
 }
+export const getAuthErrorMessage = (state: RootState) => {
+    return state.auth.errorMessage
+}

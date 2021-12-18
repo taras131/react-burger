@@ -6,12 +6,15 @@ import {getCountInCartById} from "../../services/selectors/cart-selectors";
 import {useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
 import classNames from "classnames";
-import PropTypes from "prop-types";
+import {useLocation, useNavigate} from "react-router-dom";
+import {ROUTE_INGREDIENTS} from "../../utils/const";
 
-const IngredientCard = ({ingredient, openIngredientDetails}) => {
+const IngredientCard = ({ingredient}) => {
+    const location = useLocation()
+    const navigate = useNavigate()
     const count = useSelector(state => getCountInCartById(state, ingredient._id))
     const openDetail = () => {
-        openIngredientDetails(ingredient)
+        navigate(ROUTE_INGREDIENTS+'/'+ingredient._id,{state: {from: location.pathname}})
     }
     const [{isDragging}, drag] = useDrag(() => ({
         type: 'ingredient',
@@ -44,7 +47,6 @@ const IngredientCard = ({ingredient, openIngredientDetails}) => {
 
 IngredientCard.propTypes = {
     ingredient: ingredientPropTypes.isRequired,
-    openIngredientDetails: PropTypes.func.isRequired
 }
 
 export default IngredientCard;

@@ -10,19 +10,30 @@ export const getAllIngredients = async () => {
     }
 }
 export const createNewOrder = async (cart) => {
+    const token = localStorage.getItem('accessToken')
     const response = await fetch(process.env.REACT_APP_API_URL + '/orders', {
         method: 'post',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + token
         },
         body: JSON.stringify({ingredients: cart})
     })
     if (response.ok) {
         const data = await response.json()
         return data
+    }
+    if (response.status === 403) {
+        const isUpdatedToken = await updateToken()
+        if (isUpdatedToken) {
+            await createNewOrder(cart)
+        } else {
+            throw new Error(SERVER_ERROR_MESSAGE)
+        }
     } else {
         throw new Error(SERVER_ERROR_MESSAGE)
     }
+
 }
 export const register = async (user) => {
     const response = await fetch(process.env.REACT_APP_API_URL + '/auth/register', {
@@ -51,7 +62,6 @@ export const login = async (user) => {
     })
     if (response.ok) {
         const data = await response.json()
-        console.log(data)
         localStorage.setItem('accessToken', data.accessToken.split(' ')[1])
         localStorage.setItem('refreshToken', data.refreshToken)
         return data.user
@@ -67,10 +77,8 @@ export const forgotPassword = async (email) => {
         },
         body: JSON.stringify({email: email})
     })
-    console.log(response)
     if (response.ok) {
         const data = await response.json()
-        console.log(data)
         if (data.success) {
             return data
         } else {
@@ -88,7 +96,6 @@ export const resetPassword = async (data) => {
         },
         body: JSON.stringify({password: data.password, token: data.key})
     })
-    console.log(response)
     if (response.ok) {
         const res = await response.json()
         return res
@@ -96,24 +103,35 @@ export const resetPassword = async (data) => {
         throw new Error(SERVER_ERROR_MESSAGE)
     }
 }
-export const checkAuth = async (token) => {
-    const response = await fetch(process.env.REACT_APP_API_URL + '/auth/user', {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer'
-    })
-    if (response.ok) {
-        const res = await response.json()
-        return res
-    } else {
-        throw new Error(SERVER_ERROR_MESSAGE)
+export const checkAuth = async () => {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+        const response = await fetch(process.env.REACT_APP_API_URL + '/auth/user', {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer'
+        })
+        if (response.ok) {
+            const res = await response.json()
+            return res
+        }
+        if (response.status === 403) {
+            const isUpdatedToken = await updateToken()
+            if (isUpdatedToken) {
+                await checkAuth()
+            } else {
+                throw new Error(SERVER_ERROR_MESSAGE)
+            }
+        } else {
+            throw new Error(SERVER_ERROR_MESSAGE)
+        }
     }
 }
 export const LogOut = async () => {
@@ -125,15 +143,60 @@ export const LogOut = async () => {
         },
         body: JSON.stringify({token: refreshToken})
     })
-    console.log(response)
     if (response.ok) {
         localStorage.removeItem('refreshToken')
         localStorage.removeItem('accessToken')
         const res = await response.json()
-        console.log(res)
         return res
     } else {
         throw new Error(SERVER_ERROR_MESSAGE)
+    }
+}
+export const updateUser = async (user) => {
+    const token = localStorage.getItem('accessToken')
+    const response = await fetch(process.env.REACT_APP_API_URL + '/auth/user', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify(user)
+    })
+    if (response.ok) {
+        const res = await response.json()
+        return res
+    }
+    if (response.status === 403) {
+        const isUpdatedToken = await updateToken()
+        if (isUpdatedToken) {
+            await updateUser(user)
+        } else {
+            throw new Error(SERVER_ERROR_MESSAGE)
+        }
+    } else {
+        throw new Error(SERVER_ERROR_MESSAGE)
+    }
+
+}
+export const updateToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken')
+    const response = await fetch(process.env.REACT_APP_API_URL + '/auth/token', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({token: refreshToken})
+        }
+    )
+    if (response.ok) {
+        const res = await response.json()
+        if (res.success) {
+            localStorage.setItem('accessToken', res.accessToken.split(' ')[1])
+            localStorage.setItem('refreshToken', res.refreshToken)
+            return true
+        } else {
+            return false
+        }
     }
 }
 

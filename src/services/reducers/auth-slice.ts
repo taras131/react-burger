@@ -5,7 +5,7 @@ import {
     fetchForgotPassword,
     fetchLogin, fetchLogOut,
     fetchRegister,
-    fetchResetPassword
+    fetchResetPassword, fetchUpdateUser
 } from "../actions/auth-action-creators";
 
 interface AuthState {
@@ -82,7 +82,6 @@ export const AuthSlice = createSlice({
             state.errorMessage = action.payload;
         },
         [fetchCheckAuth.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
-            console.log(action.payload)
             state.user = action.payload
             state.isAuth = true
             state.isLoading = false;
@@ -96,7 +95,6 @@ export const AuthSlice = createSlice({
             state.errorMessage = action.payload;
         },
         [fetchLogOut.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
-            console.log(action.payload)
             state.user = {
                 name: '',
                 email: ''
@@ -109,6 +107,18 @@ export const AuthSlice = createSlice({
             state.errorMessage = '';
         },
         [fetchLogOut.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false;
+            state.errorMessage = action.payload;
+        },
+        [fetchUpdateUser.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+            state.user = action.payload
+            state.isLoading = false;
+        },
+        [fetchUpdateUser.pending.type]: (state) => {
+            state.isLoading = true
+            state.errorMessage = '';
+        },
+        [fetchUpdateUser.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false;
             state.errorMessage = action.payload;
         },

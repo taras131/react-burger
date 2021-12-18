@@ -14,12 +14,12 @@ import {
 } from "../../services/selectors/ingredients-selectors";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NotFoundPage from "../../pages/not-found-page/not-found-page";
-import {getAuthIsLoading, getIsAuth} from "../../services/selectors/auth-selectors";
+import {getAuthErrorMessage, getAuthIsLoading} from "../../services/selectors/auth-selectors";
 import {
     ROUTE_FORGOT_PASSWORD,
     ROUTE_INGREDIENTS,
     ROUTE_LOGIN,
-    ROUTE_MAIN,
+    ROUTE_MAIN, ROUTE_ORDERS,
     ROUTE_PROFILE,
     ROUTE_REGISTER,
     ROUTE_RESET_PASSWORD
@@ -33,6 +33,8 @@ import Auth from "../../pages/auth/auth";
 import ProtectedRoute from "../hoc/protected-route";
 import RequireNotAuth from "../hoc/require-not-auth";
 import {fetchCheckAuth} from "../../services/actions/auth-action-creators";
+import ProfileInfo from "../../pages/profile-info/profile-info";
+import Orders from "../../pages/orders/orders";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -40,48 +42,43 @@ const App = () => {
     const isIngredientsLoading = useSelector(state => getIsIngredientsLoading(state))
     const isCartLoading = useSelector(state => getIsCartLoading(state))
     const isAuthLoading = useSelector(state => getAuthIsLoading(state))
-    const isAuth = useSelector(state => getIsAuth(state))
     const ingredientsErrorMessage = useSelector(state => getIngredientsErrorMessage(state))
     const cartErrorMessage = useSelector(state => getCartErrorMessage(state))
-    const token = localStorage.getItem('accessToken')
+    const authErrorMessage = useSelector(state => getAuthErrorMessage(state))
     useEffect(() => {
         dispatch(fetchIngredients())
-        if(token) dispatch(fetchCheckAuth(token))
+        dispatch(fetchCheckAuth())
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     if (isIngredientsLoading || isCartLoading || isAuthLoading) return (<Preloader/>)
     if (ingredientsErrorMessage) return (<ErrorMessage errorMessage={ingredientsErrorMessage}/>)
     if (cartErrorMessage) return (<ErrorMessage errorMessage={cartErrorMessage}/>)
+    if (authErrorMessage) return (<ErrorMessage errorMessage={authErrorMessage}/>)
     return (
         <div className={appStyles.wrapper}>
             <BrowserRouter>
                 <AppHeader/>
                 <Routes>
                     <Route path={ROUTE_MAIN} element={<Main/>}/>
-                    <Route path={ROUTE_INGREDIENTS} element={<Ingredients/>}/>
-                    <Route path={ROUTE_PROFILE} element={
+                    <Route path={ROUTE_LOGIN} element={<Auth/>}/>
+                    <Route path={ROUTE_REGISTER} element={<Auth/>}/>
+                    <Route path={ROUTE_INGREDIENTS+'/:id'} element={<Ingredients/>}/>
+                    <Route path={ROUTE_PROFILE + '/*'} element={
                         <ProtectedRoute>
                             <Profile/>
                         </ProtectedRoute>
-                    }/>
+                    }>
+                        <Route path="" element={<ProfileInfo/>}/>
+                        <Route path={ROUTE_ORDERS} element={<Orders/>}/>
+                    </Route>
                     <Route path={ROUTE_RESET_PASSWORD} element={
                         <RequireNotAuth>
                             <ResetPassword/>
                         </RequireNotAuth>
                     }/>
-
                     <Route path={ROUTE_FORGOT_PASSWORD} element={
                         <RequireNotAuth>
                             <ForgotPassword/>
-                        </RequireNotAuth>
-                    }/>
-                    <Route path={ROUTE_LOGIN} element={
-                        <RequireNotAuth>
-                            <Auth/>
-                        </RequireNotAuth>
-                    }/>
-                    <Route path={ROUTE_REGISTER} element={
-                        <RequireNotAuth>
-                            <Auth/>
                         </RequireNotAuth>
                     }/>
                     <Route path="*" element={<NotFoundPage/>}/>

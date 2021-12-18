@@ -1,38 +1,19 @@
 import React from 'react';
 import Modal from "../modal/modal";
-import detailsStyles from './ingredient-details.module.css'
+import IngredientInfo from "../ingredient-info/ingredient-info";
+import PropTypes from "prop-types";
+import {ingredientPropTypes} from "../../types";
 
 const IngredientDetails = ({closeModal, currentIngredient}) => {
     return (
         <Modal title="Детали ингредиента" closeModal={closeModal}>
-            <div className={detailsStyles.container + " mb-15"}>
-                <section className={detailsStyles.img_section + " pl-5 pr-5"}>
-                    <img src={currentIngredient.image_large} alt={currentIngredient.name}/>
-                </section>
-                <h2 className="text text_type_main-medium mt-4">
-                    {currentIngredient.name}
-                </h2>
-                <ul className={detailsStyles.details_section + " mt-8"}>
-                    <li className={detailsStyles.details_item}>
-                        <p className="text text_type_main-default">Калории,ккал</p>
-                        <p className="text text_type_digits-default mt-2">{currentIngredient.calories}</p>
-                    </li>
-                    <li className={detailsStyles.details_item}>
-                        <p className="text text_type_main-default">Белки, г</p>
-                        <p className="text text_type_digits-default mt-2">{currentIngredient.proteins}</p>
-                    </li>
-                    <li className={detailsStyles.details_item}>
-                        <p className="text text_type_main-default">Жиры, г</p>
-                        <p className="text text_type_digits-default mt-2">{currentIngredient.fat}</p>
-                    </li>
-                    <li className={detailsStyles.details_item}>
-                        <p className="text text_type_main-default">Углеводы, г</p>
-                        <p className="text text_type_digits-default mt-2">{currentIngredient.carbohydrates}</p>
-                    </li>
-                </ul>
-            </div>
+            <IngredientInfo currentIngredient = {currentIngredient}/>
         </Modal>
     );
 };
+IngredientDetails.propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    currentIngredient: ingredientPropTypes.isRequired
+}
 
 export default IngredientDetails;

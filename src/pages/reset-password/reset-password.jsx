@@ -2,32 +2,37 @@ import React, {useEffect, useState} from 'react';
 import forgotStyles from "../forgot-password/forgot-password.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN, ROUTE_MAIN} from "../../utils/const";
-import {useDispatch} from "react-redux";
+import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN} from "../../utils/const";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchResetPassword} from "../../services/actions/auth-action-creators";
+import {getCanResetPassword} from "../../services/selectors/auth-selectors";
 
 const ResetPassword = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    console.log(location)
+    const canResetPassword = useSelector(state =>getCanResetPassword(state))
     const [data, setData] = useState({
         password: '',
         key: ''
     })
     useEffect(()=> {
         if(!location.state || location.state.from !== ROUTE_FORGOT_PASSWORD) {
-            console.log("navigate")
-            navigate(ROUTE_MAIN)
+            navigate(ROUTE_FORGOT_PASSWORD)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+    useEffect(()=>{
+        if(!canResetPassword) navigate(ROUTE_LOGIN)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[canResetPassword])
     const onDataChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
     }
-    const onButtonClick = () => {
+    const onButtonClick = (e) => {
+        e.preventDefault()
         dispatch(fetchResetPassword(data))
     }
-
     return (
         <div className={forgotStyles.wrapper}>
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
@@ -61,7 +66,6 @@ const ResetPassword = () => {
                     <p className="text text_type_main-default">Войти </p>
                 </Link>
             </div>
-
         </div>
     );
 };
