@@ -12,22 +12,23 @@ const Ingredients = () => {
     const navigate = useNavigate()
     const id = useParams().id
     const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(true)
-    const currentIngredient = useSelector(state =>getIngredientById(state, id))
+    const currentIngredient = useSelector(state => getIngredientById(state, id))
     const closeIngredientDetails = () => {
         setIsShowIngredientDetails(false)
         navigate(ROUTE_MAIN)
     }
-   if(location.state && location.state.from === ROUTE_MAIN){
-       return (
-           <>
-               {isShowIngredientDetails && (<IngredientDetails closeModal={closeIngredientDetails}
-                                                               currentIngredient={currentIngredient}/>)}
-           </>
-       )
-   }
+    if (location.state && location.state.from === ROUTE_MAIN) {
+        return (
+            <>
+                {isShowIngredientDetails && (<IngredientDetails closeModal={closeIngredientDetails}
+                                                                currentIngredient={currentIngredient}/>)}
+            </>
+        )
+    }
     return (
         <div className={ingredientsStyles.wrapper}>
-        <IngredientInfo currentIngredient={currentIngredient}/>
+            <h1 className="text text_type_main-medium">Детали ингредиента</h1>
+            <IngredientInfo currentIngredient={currentIngredient}/>
         </div>
     );
 };
