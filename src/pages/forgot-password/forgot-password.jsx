@@ -6,12 +6,14 @@ import {ROUTE_LOGIN, ROUTE_RESET_PASSWORD} from "../../utils/const";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchForgotPassword} from "../../services/actions/auth-action-creators";
 import {getCanResetPassword} from "../../services/selectors/auth-selectors";
+import {validateEmail} from "../../utils/service";
 
 const ForgotPassword = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
     const [email, setEmail] = useState('')
+    const [error, setError] = useState('')
     const canResetPassword = useSelector(state =>getCanResetPassword(state))
     useEffect(()=>{
         if(canResetPassword) navigate(ROUTE_RESET_PASSWORD,{state: {from: location.pathname}})
@@ -21,7 +23,11 @@ const ForgotPassword = () => {
         setEmail(e.target.value)
     }
     const onButtonClick = () => {
-        dispatch(fetchForgotPassword(email))
+        const emailError = validateEmail(email)
+        setError(emailError)
+        if(!emailError){
+            dispatch(fetchForgotPassword(email))
+        }
     }
     return (
         <div className={forgotStyles.wrapper}>
@@ -32,8 +38,8 @@ const ForgotPassword = () => {
                 onChange={onEmailChange}
                 value={email}
                 name={'email'}
-                error={false}
-                errorText={'Ошибка'}
+                error={!!error}
+                errorText={error}
                 size={'default'}
             />
             <Button type="primary" size="medium" onClick={onButtonClick}>

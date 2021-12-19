@@ -6,32 +6,38 @@ import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN} from "../../utils/const";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchResetPassword} from "../../services/actions/auth-action-creators";
 import {getCanResetPassword} from "../../services/selectors/auth-selectors";
+import {validationPassword} from "../../utils/service";
 
 const ResetPassword = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const canResetPassword = useSelector(state =>getCanResetPassword(state))
+    const canResetPassword = useSelector(state => getCanResetPassword(state))
     const [data, setData] = useState({
         password: '',
         key: ''
     })
-    useEffect(()=> {
-        if(!location.state || location.state.from !== ROUTE_FORGOT_PASSWORD) {
+    const [passwordError, setPasswordError] = useState('')
+    useEffect(() => {
+        if (!location.state || location.state.from !== ROUTE_FORGOT_PASSWORD) {
             navigate(ROUTE_FORGOT_PASSWORD)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-    useEffect(()=>{
-        if(!canResetPassword) navigate(ROUTE_LOGIN)
+    }, [])
+    useEffect(() => {
+        if (!canResetPassword) navigate(ROUTE_LOGIN)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[canResetPassword])
+    }, [canResetPassword])
     const onDataChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
     }
     const onButtonClick = (e) => {
         e.preventDefault()
-        dispatch(fetchResetPassword(data))
+        const passwordError = validationPassword(data.password)
+        setPasswordError(passwordError)
+        if (!passwordError) {
+            dispatch(fetchResetPassword(data))
+        }
     }
     return (
         <div className={forgotStyles.wrapper}>
@@ -42,8 +48,8 @@ const ResetPassword = () => {
                 onChange={onDataChange}
                 value={data.password}
                 name={'password'}
-                error={false}
-                errorText={'Ошибка'}
+                error={!!passwordError}
+                errorText={passwordError}
                 size={'default'}
                 icon={'ShowIcon'}
             />
