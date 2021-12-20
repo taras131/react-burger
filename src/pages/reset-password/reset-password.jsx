@@ -5,15 +5,17 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN} from "../../utils/const";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchResetPassword} from "../../services/actions/auth-action-creators";
-import {getCanResetPassword} from "../../services/selectors/auth-selectors";
 import {validationPassword} from "../../utils/service";
+import AuthError from "../../components/auth-error/auth-error";
+import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/auth-selectors";
 
 const ResetPassword = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const canResetPassword = useSelector(state => getCanResetPassword(state))
-    const [data, setData] = useState({
+    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    const [inputsValues, setInputsValues] = useState({
         password: '',
         key: ''
     })
@@ -26,17 +28,16 @@ const ResetPassword = () => {
     }, [])
     useEffect(() => {
         if (!canResetPassword) navigate(ROUTE_LOGIN)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [canResetPassword])
+    }, [canResetPassword, navigate])
     const onDataChange = (e) => {
-        setData({...data, [e.target.name]: e.target.value})
+        setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
     const onButtonClick = (e) => {
         e.preventDefault()
-        const passwordError = validationPassword(data.password)
+        const passwordError = validationPassword(inputsValues.password)
         setPasswordError(passwordError)
         if (!passwordError) {
-            dispatch(fetchResetPassword(data))
+            dispatch(fetchResetPassword(inputsValues))
         }
     }
     return (
@@ -46,7 +47,7 @@ const ResetPassword = () => {
                 type={'text'}
                 placeholder={'Введите новый пароль'}
                 onChange={onDataChange}
-                value={data.password}
+                value={inputsValues.password}
                 name={'password'}
                 error={!!passwordError}
                 errorText={passwordError}
@@ -57,13 +58,13 @@ const ResetPassword = () => {
                 type={'text'}
                 placeholder={'Введите код из письма'}
                 onChange={onDataChange}
-                value={data.key}
+                value={inputsValues.key}
                 name={'key'}
                 error={false}
                 errorText={'Ошибка'}
                 size={'default'}
             />
-            <Button type="primary" size="medium" onClick={onButtonClick}>
+            <Button type="primary" size="medium" onClick={onButtonClick} disabled={isAuthLoading}>
                 Сохранить
             </Button>
             <div className={forgotStyles.hint + ' mt-15'}>
@@ -72,6 +73,7 @@ const ResetPassword = () => {
                     <p className="text text_type_main-default">Войти </p>
                 </Link>
             </div>
+            <AuthError/>
         </div>
     );
 };

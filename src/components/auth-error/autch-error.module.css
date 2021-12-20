@@ -1,0 +1,18 @@
+.wrapper{
+    position: fixed;
+    top: 150px;
+    left: -350px;
+    height: 70px;
+    width: 350px;
+    background: #2F2F37;
+    color: white;
+    z-index: 99999;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .5s;
+}
+.show{
+    transform: translateX(110%);
+}

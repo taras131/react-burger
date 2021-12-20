@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IUser} from "../../models/i-user";
+import {IUserTypes} from "../../models/i-user.types";
 import {
     fetchCheckAuth,
     fetchForgotPassword,
@@ -11,7 +11,7 @@ import {
 interface AuthState {
     isLoading: boolean,
     isAuth: boolean,
-    user: IUser,
+    user: IUserTypes,
     errorMessage: string,
     canResetPassword: boolean
 }
@@ -29,9 +29,13 @@ const initialState: AuthState = {
 export const AuthSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        removeError: (state) => {
+            state.errorMessage = ''
+        }
+    },
     extraReducers: {
-        [fetchRegister.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+        [fetchRegister.fulfilled.type]: (state, action: PayloadAction<IUserTypes>) => {
             state.user = action.payload
             state.isAuth = true
             state.isLoading = false;
@@ -44,7 +48,7 @@ export const AuthSlice = createSlice({
             state.isLoading = false;
             state.errorMessage = action.payload;
         },
-        [fetchLogin.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+        [fetchLogin.fulfilled.type]: (state, action: PayloadAction<IUserTypes>) => {
             state.user = action.payload
             state.isAuth = true
             state.isLoading = false;
@@ -81,7 +85,7 @@ export const AuthSlice = createSlice({
             state.isLoading = false;
             state.errorMessage = action.payload;
         },
-        [fetchCheckAuth.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+        [fetchCheckAuth.fulfilled.type]: (state, action: PayloadAction<IUserTypes>) => {
             state.user = action.payload
             state.isAuth = true
             state.isLoading = false;
@@ -94,7 +98,7 @@ export const AuthSlice = createSlice({
             state.isLoading = false;
             state.errorMessage = action.payload;
         },
-        [fetchLogOut.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+        [fetchLogOut.fulfilled.type]: (state, action: PayloadAction<IUserTypes>) => {
             state.user = {
                 name: '',
                 email: ''
@@ -110,7 +114,7 @@ export const AuthSlice = createSlice({
             state.isLoading = false;
             state.errorMessage = action.payload;
         },
-        [fetchUpdateUser.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+        [fetchUpdateUser.fulfilled.type]: (state, action: PayloadAction<IUserTypes>) => {
             state.user = action.payload
             state.isLoading = false;
         },
@@ -125,4 +129,5 @@ export const AuthSlice = createSlice({
     }
 })
 
+export const {removeError} = AuthSlice.actions
 export default AuthSlice.reducer;

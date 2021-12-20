@@ -1,5 +1,5 @@
 import {RootState} from '../store';
-import {IIngredientInCart} from '../../models/i-ingredient-in-cart';
+import {IIngredientInCartTypes} from '../../models/i-ingredient-in-cart.types';
 
 export const getCart = (state: RootState) => {
     return state.cart.ingredients;
@@ -29,8 +29,8 @@ export const getNotBunIngredients = (state: RootState) => {
 };
 export const getTotalSum = (state: RootState) => {
     try {
-        const cart: IIngredientInCart[] = state.cart.ingredients;
-        return cart.reduce((sum: number, cur: IIngredientInCart) => {
+        const cart: IIngredientInCartTypes[] = state.cart.ingredients;
+        return cart.reduce((sum: number, cur: IIngredientInCartTypes) => {
             return sum + cur.price;
         }, 0)
     } catch (e) {
@@ -39,7 +39,7 @@ export const getTotalSum = (state: RootState) => {
 };
 export const getCountInCartById = (state: RootState, id: string) => {
     try {
-        const ingredients: IIngredientInCart[] = state.cart.ingredients;
+        const ingredients: IIngredientInCartTypes[] = state.cart.ingredients;
         return ingredients.filter((item) => item._id === id).length;
     } catch (e) {
         return 0

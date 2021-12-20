@@ -5,9 +5,10 @@ import {Link, useLocation} from 'react-router-dom'
 import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN, ROUTE_MAIN, ROUTE_REGISTER} from "../../utils/const";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchLogin, fetchRegister} from "../../services/actions/auth-action-creators";
-import {getIsAuth} from "../../services/selectors/auth-selectors";
+import {getAuthIsLoading, getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
+import AuthError from "../../components/auth-error/auth-error";
 
 const Auth = () => {
     const dispatch = useDispatch()
@@ -16,7 +17,8 @@ const Auth = () => {
     let prevPath = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
     const isAuth = useSelector(state => getIsAuth(state))
-    const [data, setData] = useState({
+    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    const [inputsValues, setInputsValues] = useState({
         name: '',
         email: '',
         password: ''
@@ -40,22 +42,22 @@ const Auth = () => {
             email: '',
             password: ''
         })
-        setData({
+        setInputsValues({
             name: '',
             email: '',
             password: ''
         })
     },[isRegister])
     const onDataChange = (e) => {
-        setData({...data, [e.target.name]: e.target.value})
+        setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
     const onSubmit = (e) => {
         e.preventDefault()
-        const emailError = validateEmail(data.email)
-        const passwordError = validationPassword(data.password)
+        const emailError = validateEmail(inputsValues.email)
+        const passwordError = validationPassword(inputsValues.password)
         let nameError = ''
         if(isRegister){
-            nameError = validationName(data.name)
+            nameError = validationName(inputsValues.name)
         }
         setErrors({
             name: nameError,
@@ -64,11 +66,11 @@ const Auth = () => {
         })
         if(isRegister){
             if(!nameError && !emailError && !passwordError){
-                dispatch(fetchRegister(data))
+                dispatch(fetchRegister(inputsValues))
             }
         } else {
             if(!emailError && !passwordError){
-                dispatch(fetchLogin({email: data.email, password: data.password}))
+                dispatch(fetchLogin({email: inputsValues.email, password: inputsValues.password}))
             }
         }
     }
@@ -80,7 +82,7 @@ const Auth = () => {
                     type={'text'}
                     placeholder={'Имя'}
                     onChange={onDataChange}
-                    value={data.name}
+                    value={inputsValues.name}
                     name={'name'}
                     error={!!errors.name}
                     errorText={errors.name}
@@ -91,7 +93,7 @@ const Auth = () => {
                 type={'text'}
                 placeholder={'E-mail'}
                 onChange={onDataChange}
-                value={data.email}
+                value={inputsValues.email}
                 name={'email'}
                 error={!!errors.email}
                 errorText={errors.email}
@@ -102,13 +104,13 @@ const Auth = () => {
                 placeholder={'Пароль'}
                 onChange={onDataChange}
                 icon={'ShowIcon'}
-                value={data.password}
+                value={inputsValues.password}
                 name={'password'}
                 error={!!errors.password}
                 errorText={errors.password}
                 size={'default'}
             />
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" disabled={isAuthLoading}>
                 {isRegister ? "Зарегистрироваться" : "Войти"}
             </Button>
             <div className={'mt-10'}>
@@ -134,6 +136,7 @@ const Auth = () => {
                         </div>
                     </>)}
             </div>
+            <AuthError/>
         </form>
     );
 };

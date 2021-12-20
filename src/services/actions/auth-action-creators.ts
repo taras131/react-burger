@@ -8,7 +8,10 @@ export const fetchRegister = createAsyncThunk(
             const res = await register(data)
             return res
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Не удалось зарегистрироваться');
+            if (e instanceof Error && e.message) {
+                return ThunkAPI.rejectWithValue(e.message);
+            }
+            return ThunkAPI.rejectWithValue('неизвестная ошибка');
         }
     }
 )
@@ -19,7 +22,10 @@ export const fetchLogin = createAsyncThunk(
             const res = await login(user)
             return res
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Не удалось войти');
+            if (e instanceof Error && e.message) {
+                return ThunkAPI.rejectWithValue(e.message);
+            }
+            return ThunkAPI.rejectWithValue('неизвестная ошибка');
         }
     }
 )
@@ -30,7 +36,10 @@ export const fetchForgotPassword = createAsyncThunk(
             const res = await forgotPassword(email)
             return res
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Пользователя с таким email не существует');
+            if (e instanceof Error && e.message) {
+                return ThunkAPI.rejectWithValue(e.message);
+            }
+            return ThunkAPI.rejectWithValue('неизвестная ошибка');
         }
     }
 )
@@ -41,7 +50,10 @@ export const fetchResetPassword = createAsyncThunk(
             const res = await resetPassword(data)
             return res
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Неверный код');
+            if (e instanceof Error && e.message) {
+                return ThunkAPI.rejectWithValue(e.message);
+            }
+            return ThunkAPI.rejectWithValue('неизвестная ошибка');
         }
     }
 )
@@ -49,8 +61,7 @@ export const fetchCheckAuth = createAsyncThunk(
     'check auth',
     async(_, ThunkAPI) => {
         try{
-            const res = await checkAuth()
-            if(res.success) return res.user
+            return  await checkAuth()
         } catch (e) {
             return ThunkAPI.rejectWithValue('');
         }
@@ -74,7 +85,10 @@ export const fetchUpdateUser = createAsyncThunk(
             const res = await updateUser(user)
             return res.user
         } catch (e) {
-            return ThunkAPI.rejectWithValue('Не удалось обновить данные');
+            if (e instanceof Error && e.message) {
+                return ThunkAPI.rejectWithValue(e.message);
+            }
+            return ThunkAPI.rejectWithValue('неизвестная ошибка');
         }
     }
 )

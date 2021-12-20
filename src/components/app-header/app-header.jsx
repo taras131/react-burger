@@ -2,7 +2,7 @@ import React from 'react';
 import appHeaderStyles from './app-header.module.css'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from 'react-router-dom'
-import {ROUTE_MAIN, ROUTE_PROFILE} from "../../utils/const";
+import {ROUTE_INGREDIENTS, ROUTE_MAIN, ROUTE_PROFILE} from "../../utils/const";
 import classNames from "classnames";
 
 const AppHeader = () => {
@@ -14,9 +14,10 @@ const AppHeader = () => {
                     <ul className={appHeaderStyles.menu}>
                         <li className={appHeaderStyles.menu_item}>
                             <Link className={classNames(appHeaderStyles.link, {
-                                [appHeaderStyles.active]: pathname === ROUTE_MAIN
+                                [appHeaderStyles.active]: pathname === ROUTE_MAIN || pathname.includes(ROUTE_INGREDIENTS)
                             })} to={ROUTE_MAIN}>
-                                <BurgerIcon type={pathname === ROUTE_MAIN ? "primary" : "secondary"}/>
+                                <BurgerIcon type={pathname === ROUTE_MAIN || pathname.includes(ROUTE_INGREDIENTS)
+                                    ? "primary" : "secondary"}/>
                                 <p className="text text_type_main-default ml-2">Конструктор</p>
                             </Link>
                         </li>

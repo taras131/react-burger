@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {IIngredient} from '../../models/i-ingredient';
+import {IIngredient} from '../../models/i-ingredient.types';
 import {createNewOrder} from '../../http';
 
 export const fetchCreateOrder = createAsyncThunk(

@@ -5,8 +5,9 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ROUTE_LOGIN, ROUTE_RESET_PASSWORD} from "../../utils/const";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchForgotPassword} from "../../services/actions/auth-action-creators";
-import {getCanResetPassword} from "../../services/selectors/auth-selectors";
+import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/auth-selectors";
 import {validateEmail} from "../../utils/service";
+import AuthError from "../../components/auth-error/auth-error";
 
 const ForgotPassword = () => {
     const dispatch = useDispatch()
@@ -14,18 +15,19 @@ const ForgotPassword = () => {
     const location = useLocation()
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
-    const canResetPassword = useSelector(state =>getCanResetPassword(state))
-    useEffect(()=>{
-        if(canResetPassword) navigate(ROUTE_RESET_PASSWORD,{state: {from: location.pathname}})
+    const canResetPassword = useSelector(state => getCanResetPassword(state))
+    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    useEffect(() => {
+        if (canResetPassword) navigate(ROUTE_RESET_PASSWORD, {state: {from: location.pathname}})
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[canResetPassword])
+    }, [canResetPassword])
     const onEmailChange = (e) => {
         setEmail(e.target.value)
     }
     const onButtonClick = () => {
         const emailError = validateEmail(email)
         setError(emailError)
-        if(!emailError){
+        if (!emailError) {
             dispatch(fetchForgotPassword(email))
         }
     }
@@ -42,7 +44,7 @@ const ForgotPassword = () => {
                 errorText={error}
                 size={'default'}
             />
-            <Button type="primary" size="medium" onClick={onButtonClick}>
+            <Button type="primary" size="medium" onClick={onButtonClick} disabled={isAuthLoading}>
                 Восстановить
             </Button>
             <div className={forgotStyles.hint + ' mt-15'}>
@@ -51,7 +53,7 @@ const ForgotPassword = () => {
                     <p className="text text_type_main-default">Войти </p>
                 </Link>
             </div>
-
+            <AuthError/>
         </div>
     );
 };
