@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IIngredient} from '../../models/i-ingredient';
+import {IIngredient} from '../../models/i-ingredient.types';
 import {fetchIngredients} from '../actions/ingredients-action-creators';
 
 interface IngredientsState {

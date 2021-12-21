@@ -16,8 +16,6 @@ const BurgerIngredients = () => {
     const buns = useSelector(state => getIngredientsByType(state, categories[0].type))
     const sauces = useSelector(state => getIngredientsByType(state, categories[1].type))
     const mains = useSelector(state => getIngredientsByType(state, categories[2].type))
-    // весь интерес был обойтись без библиотеки, думаю, если заняться, у меня получиться усовершенствовать этот метод
-    // и улучшить масштабируемость
     const onScroll = (e) => {
         const bunBorderTopY = Math.abs(refBun.current.getBoundingClientRect().top - 323)
         const sauceBorderTopY = Math.abs(refSauce.current.getBoundingClientRect().top - 323)

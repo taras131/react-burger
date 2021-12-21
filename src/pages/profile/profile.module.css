@@ -1,0 +1,47 @@
+.wrapper {
+    color: white;
+    height: 400px;
+    margin-top: 130px;
+    padding-top: 120px;
+}
+
+.content {
+    margin: 0 auto;
+    max-width: 1280px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 60px
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-star;
+}
+
+.link {
+    text-decoration: none;
+    color: #8585AD;
+    width: 320px;
+    height: 64px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #131316;
+    border: none;
+}
+
+.active {
+    color: white;
+}
+
+.hint {
+    color: #8585AD;
+}
+
+p {
+    text-align: start;
+}
+
+
+

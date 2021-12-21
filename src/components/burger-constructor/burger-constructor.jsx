@@ -1,15 +1,18 @@
 import React, {useCallback} from 'react';
-import constructorStyle from './burger-constructor.module.css'
+import constructorStyles from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {fetchCreateOrder} from "../../services/actions/cart-action-creators";
 import {useDispatch, useSelector} from "react-redux";
-import {getBunInCart, getCart, getNotBunIngredients, getTotalSum} from "../../services/selectors/cart-selector";
+import {getBunInCart, getCart, getNotBunIngredients, getTotalSum} from "../../services/selectors/cart-selectors";
 import {useDrop} from "react-dnd";
 import classNames from "classnames";
 import ConstructorEmpty from "../constructor-empty/constructor-empty";
 import {addToCart} from "../../services/reducers/cart-slice";
 import {getUniqueKey} from "../../utils/service";
 import ConstructorNotBunIngredient from "../constructor-not-bun-ingredient/constructor-not-bun-ingredient";
+import {getIsAuth} from "../../services/selectors/auth-selectors";
+import {useNavigate} from "react-router-dom";
+import {ROUTE_LOGIN} from "../../utils/const";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch()
@@ -17,9 +20,15 @@ const BurgerConstructor = () => {
     const bunInCart = useSelector(state => getBunInCart(state))
     const notBunIngredients = useSelector(state => getNotBunIngredients(state))
     const totalSum = useSelector(state => getTotalSum(state))
+    const isAuth = useSelector(state => getIsAuth(state))
+    const navigate = useNavigate()
     const onCreateOrderClick = useCallback(() => {
+        if(!isAuth) {
+            navigate(ROUTE_LOGIN)
+            return
+        }
         dispatch(fetchCreateOrder(cart))
-    }, [dispatch, cart])
+    }, [dispatch, cart, isAuth, navigate])
     const [{canDrop}, drop] = useDrop(() => ({
         accept: 'ingredient',
         drop: (item) => {
@@ -35,12 +44,12 @@ const BurgerConstructor = () => {
             key={ingredient.key} ingredient={ingredient} index={index}/>))
     }
     return (
-        <section className={constructorStyle.wrapper} ref={drop}>
-            <div className={classNames(constructorStyle.order_wrapper, 'mt-25', {
-                [constructorStyle.canDrop]: canDrop
+        <section className={constructorStyles.wrapper} ref={drop}>
+            <div className={classNames(constructorStyles.order_wrapper, 'mt-25', {
+                [constructorStyles.canDrop]: canDrop
             })}>
                 {bunInCart && (
-                    <div className={constructorStyle.order_item}>
+                    <div className={constructorStyles.order_item}>
                         <ConstructorElement
                             type="top"
                             isLocked={true}
@@ -49,11 +58,11 @@ const BurgerConstructor = () => {
                             thumbnail={bunInCart.image_mobile}
                         />
                     </div>)}
-                <ul className={constructorStyle.order_items}>
+                <ul className={constructorStyles.order_items}>
                     {constructorItems}
                 </ul>
                 {bunInCart && (
-                    <div className={constructorStyle.order_item}>
+                    <div className={constructorStyles.order_item}>
                         <ConstructorElement
                             type="bottom"
                             isLocked={true}
@@ -64,9 +73,9 @@ const BurgerConstructor = () => {
                     </div>)}
                 {cart.length === 0
                     ? (<ConstructorEmpty/>)
-                    : (<div className={constructorStyle.create_order_section + " pr-4 mt-10"}>
+                    : (<div className={constructorStyles.create_order_section + " pr-4 mt-10"}>
                         <p className="text text_type_digits-default mr-2">{totalSum}</p>
-                        <div className={constructorStyle.icon_section + " mr-4"}>
+                        <div className={constructorStyles.icon_section + " mr-4"}>
                             <CurrencyIcon type="primary"/>
                         </div>
                         <Button type="primary" size="medium"

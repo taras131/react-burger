@@ -12,3 +12,7 @@ export const getIsIngredientsLoading = (state: RootState) => {
 export const getIngredientsErrorMessage = (state: RootState) => {
   return state.ingredients.errorMessage;
 };
+export const getIngredientById =(state: RootState, id: string) => {
+  return state.ingredients.ingredients.filter(item => item._id === id)[0]
+}
+

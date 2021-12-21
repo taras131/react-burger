@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react';
-import fillingStyle from "./constructor-not-bun-ingredient.module.css";
+import fillingStyles from "./constructor-not-bun-ingredient.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag, useDrop} from "react-dnd";
 import {removeFromCart, moveConstructorItem} from "../../services/reducers/cart-slice";
@@ -51,7 +51,7 @@ const ConstructorNotBunIngredient = ({ingredient, index}) => {
     drag(drop(ref))
     const opacity = isDragging ? 0.01 : 1
     return (
-        <li className={fillingStyle.filling_item + " pr-2"} ref={ref} style={{opacity}}>
+        <li className={fillingStyles.filling_item + " pr-2"} ref={ref} style={{opacity}}>
             <DragIcon type="primary"/>
             <ConstructorElement
                 text={ingredient.name}

@@ -1,0 +1,21 @@
+.wrapper{
+
+}
+.input_section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+.button_section{
+    margin-top: 24px;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+    margin-right: 70px;
+    display: none;
+}
+.show{
+    display: flex;
+}
