@@ -30,13 +30,12 @@ const Auth = () => {
     })
     const {pathname} = useLocation()
     const isRegister = pathname === ROUTE_REGISTER
-    useEffect(()=>{
-        if(isAuth) {
+    useEffect(() => {
+        if (isAuth) {
             navigate(prevPath || ROUTE_MAIN)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[isAuth])
-    useEffect(()=>{
+    }, [isAuth, navigate, prevPath])
+    useEffect(() => {
         setErrors({
             name: '',
             email: '',
@@ -47,7 +46,7 @@ const Auth = () => {
             email: '',
             password: ''
         })
-    },[isRegister])
+    }, [isRegister])
     const onDataChange = (e) => {
         setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
@@ -55,21 +54,18 @@ const Auth = () => {
         e.preventDefault()
         const emailError = validateEmail(inputsValues.email)
         const passwordError = validationPassword(inputsValues.password)
-        let nameError = ''
-        if(isRegister){
-            nameError = validationName(inputsValues.name)
-        }
+        const nameError = isRegister ? validationName(inputsValues.name) : '';
         setErrors({
             name: nameError,
             email: emailError,
             password: passwordError
         })
-        if(isRegister){
-            if(!nameError && !emailError && !passwordError){
+        if (isRegister) {
+            if (!nameError && !emailError && !passwordError) {
                 dispatch(fetchRegister(inputsValues))
             }
         } else {
-            if(!emailError && !passwordError){
+            if (!emailError && !passwordError) {
                 dispatch(fetchLogin({email: inputsValues.email, password: inputsValues.password}))
             }
         }
@@ -111,30 +107,30 @@ const Auth = () => {
                 size={'default'}
             />
             <Button type="primary" size="medium" disabled={isAuthLoading}>
-                {isRegister ? "Зарегистрироваться" : "Войти"}
+                {isRegister && "Зарегистрироваться"}
+                {!isRegister && "Войти"}
             </Button>
             <div className={'mt-10'}>
-                {isRegister
-                    ? (<div className={loginStyles.hint}>
-                        <p className="text text_type_main-default"> Уже зарегистрированы ? </p>
-                        <Link to={ROUTE_LOGIN} className={loginStyles.link}>
-                            <p className="text text_type_main-default">Войти </p>
+                <div className={loginStyles.hint}>
+                    <p className="text text_type_main-default">
+                        {isRegister && 'Уже зарегистрированы ?'}
+                        {!isRegister && 'Вы новый пользователь ?'}
+                    </p>
+                    <Link to={isRegister ? ROUTE_LOGIN : ROUTE_REGISTER } className={loginStyles.link}>
+                        <p className="text text_type_main-default">
+                            {isRegister && 'Войти'}
+                            {!isRegister && 'Зарегистрироваться'}
+                        </p>
+                    </Link>
+                </div>
+                {!isRegister && (
+                    <div className={loginStyles.hint + ' mt-4'}>
+                        <p className="text text_type_main-default"> Забыли пароль ? </p>
+                        <Link to={ROUTE_FORGOT_PASSWORD} className={loginStyles.link}>
+                            <p className="text text_type_main-default">Востановить пароль </p>
                         </Link>
-                    </div>)
-                    : (<>
-                        <div className={loginStyles.hint}>
-                            <p className="text text_type_main-default"> Вы новый пользователь ? </p>
-                            <Link to={ROUTE_REGISTER} className={loginStyles.link}>
-                                <p className="text text_type_main-default">Зарегистрироваться </p>
-                            </Link>
-                        </div>
-                        <div className={loginStyles.hint + ' mt-4'}>
-                            <p className="text text_type_main-default"> Забыли пароль ? </p>
-                            <Link to={ROUTE_FORGOT_PASSWORD} className={loginStyles.link}>
-                                <p className="text text_type_main-default">Востановить пароль </p>
-                            </Link>
-                        </div>
-                    </>)}
+                    </div>
+                )}
             </div>
             <AuthError/>
         </form>

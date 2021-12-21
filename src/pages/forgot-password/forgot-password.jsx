@@ -19,17 +19,13 @@ const ForgotPassword = () => {
     const isAuthLoading = useSelector(state => getAuthIsLoading(state))
     useEffect(() => {
         if (canResetPassword) navigate(ROUTE_RESET_PASSWORD, {state: {from: location.pathname}})
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [canResetPassword])
+    }, [canResetPassword, navigate, location])
     const onEmailChange = (e) => {
         setEmail(e.target.value)
     }
     const onButtonClick = () => {
         const emailError = validateEmail(email)
-        setError(emailError)
-        if (!emailError) {
-            dispatch(fetchForgotPassword(email))
-        }
+        emailError ? setError(emailError) : dispatch(fetchForgotPassword(email))
     }
     return (
         <div className={forgotStyles.wrapper}>

@@ -1,4 +1,4 @@
-import {SERVER_ERROR_MESSAGE} from "../utils/const";
+import {BEARER_TOKEN_HEADER, SERVER_ERROR_MESSAGE} from "../utils/const";
 
 export const getAllIngredients = async () => {
     const res = await fetch(process.env.REACT_APP_API_URL + '/ingredients')
@@ -14,7 +14,7 @@ export const createNewOrder = async (cart) => {
         method: 'post',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            Authorization: 'Bearer ' + token
+            Authorization: BEARER_TOKEN_HEADER + token
         },
         body: JSON.stringify({ingredients: cart})
     })
@@ -100,7 +100,7 @@ export const checkAuth = async () => {
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
+                Authorization: BEARER_TOKEN_HEADER + token
             },
             redirect: 'follow',
             referrerPolicy: 'no-referrer'
@@ -140,7 +140,7 @@ export const updateUser = async (user) => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token
+            Authorization: BEARER_TOKEN_HEADER + token
         },
         body: JSON.stringify(user)
     })
