@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
-import './app.module.css';
 import AppHeader from "../app-header/app-header";
-import appStyles from "./app.module.css"
 import OrderDetails from "../order-details/order-details";
 import Preloader from "../preloader/preloader";
 import ErrorMessage from "../error-message/error-message";
@@ -23,6 +21,7 @@ import {
     ROUTE_REGISTER,
     ROUTE_RESET_PASSWORD
 } from "../../utils/const";
+import appStyles from './app.module.css'
 import Main from "../../pages/main/main";
 import Ingredients from "../../pages/ingredients/ingredients";
 import ResetPassword from "../../pages/reset-password/reset-password";
@@ -34,14 +33,15 @@ import ProfileInfo from "../../pages/profile-info/profile-info";
 import Orders from "../../pages/orders/orders";
 import ProtectedUnauthorizedRoute from "../hoc/protected-unauthorized-route";
 import ProtectedAuthorizedRoute from "../hoc/protected-authorized-route";
+import {RootState} from "../../services/store";
 
 const App = () => {
     const dispatch = useDispatch()
-    const isShowOrderDetails = useSelector(state => getIsShowOrderDetails(state))
-    const isIngredientsLoading = useSelector(state => getIsIngredientsLoading(state))
-    const isCartLoading = useSelector(state => getIsCartLoading(state))
-    const ingredientsErrorMessage = useSelector(state => getIngredientsErrorMessage(state))
-    const cartErrorMessage = useSelector(state => getCartErrorMessage(state))
+    const isShowOrderDetails: boolean = useSelector((state: RootState) => getIsShowOrderDetails(state))
+    const isIngredientsLoading: boolean = useSelector((state: RootState) => getIsIngredientsLoading(state))
+    const isCartLoading: boolean = useSelector((state: RootState) => getIsCartLoading(state))
+    const ingredientsErrorMessage: string = useSelector((state: RootState) => getIngredientsErrorMessage(state))
+    const cartErrorMessage: string = useSelector((state: RootState) => getCartErrorMessage(state))
     useEffect(() => {
         dispatch(fetchIngredients())
         dispatch(fetchCheckAuth())

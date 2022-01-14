@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import appHeaderStyles from './app-header.module.css'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from 'react-router-dom'
 import {ROUTE_INGREDIENTS, ROUTE_MAIN, ROUTE_PROFILE} from "../../utils/const";
 import classNames from "classnames";
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
     const {pathname} = useLocation()
     return (
         <header className={appHeaderStyles.wrapper}>

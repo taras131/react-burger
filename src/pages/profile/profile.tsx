@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import profileStyles from './profile.module.css'
 import {Link, Outlet, useLocation} from 'react-router-dom'
 import {ROUTE_ORDERS} from "../../utils/const";
@@ -6,11 +6,11 @@ import {useDispatch} from "react-redux";
 import {fetchLogOut} from "../../services/actions/auth-action-creators";
 import classNames from "classnames";
 
-const Profile = () => {
+const Profile: FC = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const pathname = location.pathname.split('/')[2]
-    const onOutClick = (e) => {
+    const onOutClick = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
         dispatch(fetchLogOut())
     }

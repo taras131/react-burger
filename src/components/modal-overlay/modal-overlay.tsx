@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import overlayStyles from './modal-overlay.module.css';
-import PropTypes from "prop-types";
 
-const ModalOverlay = ({closeModal}) => {
-    const closeClick = (e) => {
+type TModalOverlay = {
+    closeModal: () => void
+}
+const ModalOverlay: FC<TModalOverlay> = ({closeModal}) => {
+    const closeClick = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation()
         closeModal()
     }
@@ -13,9 +15,5 @@ const ModalOverlay = ({closeModal}) => {
         </div>
     );
 };
-
-ModalOverlay.propTypes = {
-    closeModal: PropTypes.func.isRequired,
-}
 
 export default ModalOverlay;

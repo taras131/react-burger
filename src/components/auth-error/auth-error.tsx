@@ -1,15 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import authErrorStyles from './autch-error.module.css'
 import classNames from "classnames";
 import {useDispatch, useSelector} from "react-redux";
 import {removeError} from '../../services/reducers/auth-slice'
 import {getAuthErrorMessage} from "../../services/selectors/auth-selectors";
+import {RootState} from "../../services/store";
 
-const AuthError = () => {
+const AuthError: FC = () => {
     const dispatch = useDispatch()
-    const authErrorMessage = useSelector(state => getAuthErrorMessage(state))
+    const authErrorMessage = useSelector((state: RootState): string => getAuthErrorMessage(state))
     useEffect(() => {
-        let timeOut
+        let timeOut: ReturnType<typeof setTimeout>
         if (authErrorMessage) {
             timeOut = setTimeout(() => {
                 dispatch(removeError())

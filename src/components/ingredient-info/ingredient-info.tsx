@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ingredientInfoStyles from "./ingredient-info.module.css";
-import {ingredientPropTypes} from "../../types";
+import {IIngredient} from "../../models/i-ingredient.types";
 
-const IngredientInfo = ({currentIngredient}) => {
+type TIngredientInfo = {
+    currentIngredient: IIngredient
+}
+const IngredientInfo: FC<TIngredientInfo> = ({currentIngredient}) => {
     return (
         <div className={ingredientInfoStyles.container + " mb-15"}>
             <section className={ingredientInfoStyles.img_section + " pl-5 pr-5"}>
@@ -32,8 +35,5 @@ const IngredientInfo = ({currentIngredient}) => {
         </div>
     );
 };
-IngredientInfo.propTypes = {
-    currentIngredient: ingredientPropTypes.isRequired
-}
 
 export default IngredientInfo;

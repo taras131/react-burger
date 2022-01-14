@@ -1,20 +1,23 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import modalStyles from "./modal.module.css"
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from 'react-dom'
-import PropTypes from "prop-types";
 
-const modalRoot = document.getElementById("react-modals");
-
-const Modal = ({title = '', closeModal, children}) => {
+type TModal = {
+    title?: string,
+    closeModal: () => void
+}
+const modalRoot: HTMLElement | null = document.getElementById("react-modals");
+const Modal: FC<TModal> = ({title = '', closeModal, children}) => {
     const onKeyDown = useCallback(({key}) => {
         if (key === 'Escape') closeModal()
-    },[closeModal])
+    }, [closeModal])
     useEffect(() => {
         document.addEventListener('keydown', onKeyDown)
         return () => document.removeEventListener('keydown', onKeyDown)
     }, [onKeyDown])
+    if (!modalRoot) return (<div></div>)
     return ReactDOM.createPortal(
         <>
             <div className={modalStyles.content + " pt-30"}
@@ -29,11 +32,6 @@ const Modal = ({title = '', closeModal, children}) => {
             <ModalOverlay closeModal={closeModal}/>
         </>, modalRoot)
 };
-Modal.propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired,
-    title: PropTypes.string
-}
 
 export default Modal;
 

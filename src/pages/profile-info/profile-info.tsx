@@ -6,10 +6,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAuthIsLoading, getUser} from "../../services/selectors/auth-selectors";
 import classNames from "classnames";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
+import {RootState} from "../../services/store";
 
 const ProfileInfo = () => {
-    const user = useSelector(state => getUser(state))
-    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    const user = useSelector((state: RootState) => getUser(state))
+    const isAuthLoading = useSelector((state: RootState)  => getAuthIsLoading(state))
     const dispatch = useDispatch()
     const [inputsValues, setInputsValues] = useState({
         name: user.name,
@@ -22,11 +23,11 @@ const ProfileInfo = () => {
         password: ''
     })
     const [isDataChange, setIsDataChange] = useState(false)
-    const onDataChange = (e) => {
+    const onDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if(!isDataChange) setIsDataChange(true)
         setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
-    const onSaveClick = (e) => {
+    const onSaveClick = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const emailError = validateEmail(inputsValues.email)
         const nameError = validationName(inputsValues.name)
@@ -44,7 +45,7 @@ const ProfileInfo = () => {
             setIsDataChange(false)
         }
     }
-    const onCancelClick = (e) => {
+    const onCancelClick = (e: React.SyntheticEvent) => {
         e.preventDefault()
         setInputsValues({
             name: user.name,

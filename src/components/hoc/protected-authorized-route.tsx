@@ -1,18 +1,18 @@
-import React from 'react';
+import React, {FC, ReactElement} from 'react';
 import {useLocation, Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getIsAuth} from "../../services/selectors/auth-selectors";
 import {ROUTE_LOGIN} from "../../utils/const";
-import PropTypes from "prop-types";
+import {RootState} from "../../services/store";
 
-const ProtectedAuthorizedRoute = ({children}) => {
+type TProtectedAuthorizedRoute ={
+    children: ReactElement
+}
+const ProtectedAuthorizedRoute: FC<TProtectedAuthorizedRoute> = ({children}) => {
     const location = useLocation()
-    const isAuth = useSelector(state => getIsAuth(state))
+    const isAuth: boolean = useSelector((state: RootState) => getIsAuth(state))
     if (!isAuth) return (<Navigate to={ROUTE_LOGIN} state={{from: location}}/>)
     return children;
 };
-ProtectedAuthorizedRoute.propTypes ={
-    children: PropTypes.element.isRequired,
-}
 
 export default ProtectedAuthorizedRoute;

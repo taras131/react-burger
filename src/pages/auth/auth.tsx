@@ -9,15 +9,16 @@ import {getAuthIsLoading, getIsAuth} from "../../services/selectors/auth-selecto
 import {useNavigate} from "react-router-dom";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
+import {RootState} from "../../services/store";
 
 const Auth = () => {
     const dispatch = useDispatch()
     let navigate = useNavigate();
     const location = useLocation()
-    let prevPath = null
+    let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
-    const isAuth = useSelector(state => getIsAuth(state))
-    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    const isAuth: boolean = useSelector((state: RootState) => getIsAuth(state))
+    const isAuthLoading: boolean = useSelector((state: RootState) => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
         name: '',
         email: '',
@@ -47,10 +48,10 @@ const Auth = () => {
             password: ''
         })
     }, [isRegister])
-    const onDataChange = (e) => {
+    const onDataChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.SyntheticEvent): void => {
         e.preventDefault()
         const emailError = validateEmail(inputsValues.email)
         const passwordError = validationPassword(inputsValues.password)
@@ -116,7 +117,7 @@ const Auth = () => {
                         {isRegister && 'Уже зарегистрированы ?'}
                         {!isRegister && 'Вы новый пользователь ?'}
                     </p>
-                    <Link to={isRegister ? ROUTE_LOGIN : ROUTE_REGISTER } className={loginStyles.link}>
+                    <Link to={isRegister ? ROUTE_LOGIN : ROUTE_REGISTER} className={loginStyles.link}>
                         <p className="text text_type_main-default">
                             {isRegister && 'Войти'}
                             {!isRegister && 'Зарегистрироваться'}
