@@ -37,11 +37,11 @@ import {RootState} from "../../services/store";
 
 const App = () => {
     const dispatch = useDispatch()
-    const isShowOrderDetails: boolean = useSelector((state: RootState) => getIsShowOrderDetails(state))
-    const isIngredientsLoading: boolean = useSelector((state: RootState) => getIsIngredientsLoading(state))
-    const isCartLoading: boolean = useSelector((state: RootState) => getIsCartLoading(state))
-    const ingredientsErrorMessage: string = useSelector((state: RootState) => getIngredientsErrorMessage(state))
-    const cartErrorMessage: string = useSelector((state: RootState) => getCartErrorMessage(state))
+    const isShowOrderDetails = useSelector((state: RootState) => getIsShowOrderDetails(state))
+    const isIngredientsLoading = useSelector((state: RootState) => getIsIngredientsLoading(state))
+    const isCartLoading = useSelector((state: RootState) => getIsCartLoading(state))
+    const ingredientsErrorMessage = useSelector((state: RootState) => getIngredientsErrorMessage(state))
+    const cartErrorMessage = useSelector((state: RootState) => getCartErrorMessage(state))
     useEffect(() => {
         dispatch(fetchIngredients())
         dispatch(fetchCheckAuth())
@@ -67,12 +67,12 @@ const App = () => {
                         <Route path={ROUTE_ORDERS} element={<Orders/>}/>
                     </Route>
                     <Route path={ROUTE_RESET_PASSWORD} element={
-                        < ProtectedUnauthorizedRoute>
+                        <ProtectedUnauthorizedRoute>
                             <ResetPassword/>
                         </ ProtectedUnauthorizedRoute>
                     }/>
                     <Route path={ROUTE_FORGOT_PASSWORD} element={
-                        < ProtectedUnauthorizedRoute>
+                        <ProtectedUnauthorizedRoute>
                             <ForgotPassword/>
                         </ ProtectedUnauthorizedRoute>
                     }/>

@@ -18,11 +18,11 @@ import {IIngredientInCartTypes} from "../../models/i-ingredient-in-cart.types";
 
 const BurgerConstructor: FC = () => {
     const dispatch = useDispatch()
-    const cart: Array<IIngredientInCartTypes> = useSelector((state: RootState) => getCart(state))
-    const bunInCart: IIngredientInCartTypes | null = useSelector((state: RootState) => getBunInCart(state))
-    const notBunIngredients: Array<IIngredientInCartTypes> | null = useSelector((state: RootState) => getNotBunIngredients(state))
-    const totalSum: number = useSelector((state: RootState) => getTotalSum(state))
-    const isAuth: boolean = useSelector((state: RootState) => getIsAuth(state))
+    const cart= useSelector((state: RootState) => getCart(state))
+    const bunInCart = useSelector((state: RootState) => getBunInCart(state))
+    const notBunIngredients = useSelector((state: RootState) => getNotBunIngredients(state))
+    const totalSum = useSelector((state: RootState) => getTotalSum(state))
+    const isAuth = useSelector((state: RootState) => getIsAuth(state))
     const navigate = useNavigate()
     const onCreateOrderClick = useCallback(() => {
         if(!isAuth) {

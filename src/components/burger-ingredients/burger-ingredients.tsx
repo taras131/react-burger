@@ -5,18 +5,29 @@ import IngredientsList from "../ingredients-list/ingredients-list";
 import {useSelector} from "react-redux";
 import {getIngredientsByType} from "../../services/selectors/ingredients-selectors";
 import {RootState} from "../../services/store";
-import {IIngredient} from "../../models/i-ingredient.types";
 
-enum nameIngredient {
-    bun = 'Булки',
-    sauce = 'Соусы',
-    main = 'Начинки'
+interface INameIngredient {
+    bun: 'Булки',
+    sauce: 'Соусы',
+    main: 'Начинки'
 }
 
-enum typeIngredient {
-    bun = 'bun',
-    sauce = 'sauce',
-    main = 'main'
+const nameIngredient: INameIngredient = {
+    bun: 'Булки',
+    sauce: 'Соусы',
+    main: 'Начинки'
+}
+
+interface ITypeIngredient {
+    bun: 'bun',
+    sauce: 'sauce',
+    main: 'main'
+}
+
+const typeIngredient: ITypeIngredient = {
+    bun: 'bun',
+    sauce: 'sauce',
+    main: 'main'
 }
 
 type TCategories = {
@@ -33,14 +44,14 @@ const BurgerIngredients: FC = () => {
     const refBun = useRef<HTMLHeadingElement>(null)
     const refSauce = useRef<HTMLHeadingElement>(null)
     const refMain = useRef<HTMLHeadingElement>(null)
-    const buns: Array<IIngredient> | null = useSelector((state: RootState) => getIngredientsByType(state, categories[0].type))
-    const sauces: Array<IIngredient> | null = useSelector((state: RootState) => getIngredientsByType(state, categories[1].type))
-    const mains: Array<IIngredient> | null = useSelector((state: RootState) => getIngredientsByType(state, categories[2].type))
+    const buns = useSelector((state: RootState) => getIngredientsByType(state, categories[0].type))
+    const sauces = useSelector((state: RootState) => getIngredientsByType(state, categories[1].type))
+    const mains = useSelector((state: RootState) => getIngredientsByType(state, categories[2].type))
     const onScroll = (e: React.UIEvent<HTMLElement>): void => {
         if (refBun.current && refSauce.current && refMain.current) {
-            const bunBorderTopY: number | null = Math.abs(refBun.current.getBoundingClientRect().top - 323)
-            const sauceBorderTopY: number | null = Math.abs(refSauce.current.getBoundingClientRect().top - 323)
-            const mainBorderTopY: number | null = Math.abs(refMain.current.getBoundingClientRect().top - 323)
+            const bunBorderTopY: number = Math.abs(refBun.current.getBoundingClientRect().top - 323)
+            const sauceBorderTopY: number = Math.abs(refSauce.current.getBoundingClientRect().top - 323)
+            const mainBorderTopY: number = Math.abs(refMain.current.getBoundingClientRect().top - 323)
             let currentCategory: string = ''
             if (bunBorderTopY < sauceBorderTopY && bunBorderTopY < mainBorderTopY) {
                 currentCategory = categories[0].type
@@ -89,7 +100,7 @@ const BurgerIngredients: FC = () => {
                 {selectBlock}
             </nav>
             <div id="scrolledBlock" className={burgerIngredientsStyle.ingredients_wrapper + " mt-10 mb-10"}
-                 onScroll={(e) => onScroll(e)}>
+                 onScroll={onScroll}>
                 <IngredientsList ref={refBun} title={categories[0].name} ingredients={buns}/>
                 <IngredientsList ref={refSauce} title={categories[1].name} ingredients={sauces}/>
                 <IngredientsList ref={refMain} title={categories[2].name} ingredients={mains}/>

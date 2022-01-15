@@ -10,7 +10,7 @@ type TProtectedAuthorizedRoute ={
 }
 const ProtectedAuthorizedRoute: FC<TProtectedAuthorizedRoute> = ({children}) => {
     const location = useLocation()
-    const isAuth: boolean = useSelector((state: RootState) => getIsAuth(state))
+    const isAuth = useSelector((state: RootState) => getIsAuth(state))
     if (!isAuth) return (<Navigate to={ROUTE_LOGIN} state={{from: location}}/>)
     return children;
 };

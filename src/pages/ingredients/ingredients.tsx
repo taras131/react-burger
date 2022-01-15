@@ -7,14 +7,13 @@ import {getIngredientById} from "../../services/selectors/ingredients-selectors"
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import {ROUTE_MAIN} from "../../utils/const";
 import {RootState} from "../../services/store";
-import {IIngredient} from "../../models/i-ingredient.types";
 
 const Ingredients = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const id = useParams().id
     const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(true)
-    const currentIngredient: IIngredient = useSelector((state: RootState) => getIngredientById(state, id))
+    const currentIngredient = useSelector((state: RootState) => getIngredientById(state, id))
     const closeIngredientDetails = () => {
         setIsShowIngredientDetails(false)
         navigate(ROUTE_MAIN)

@@ -5,6 +5,7 @@ import {DropTargetMonitor, useDrag, useDrop, XYCoord} from "react-dnd";
 import {removeFromCart, moveConstructorItem} from "../../services/reducers/cart-slice";
 import {useDispatch} from "react-redux";
 import {IIngredientInCartTypes} from "../../models/i-ingredient-in-cart.types";
+import classNames from "classnames";
 
 type TConstructorNotBunIngredient = {
     ingredient: IIngredientInCartTypes,
@@ -62,9 +63,10 @@ const ConstructorNotBunIngredient: FC<TConstructorNotBunIngredient> =
             }
         })
         drag(drop(ref))
-        const opacity = isDragging ? 0.01 : 1
         return (
-            <li className={fillingStyles.filling_item + " pr-2"} ref={ref} style={{opacity}}>
+            <li className={classNames(fillingStyles.filling_item, {
+                [fillingStyles.drag]: isDragging
+            })} ref={ref}>
                 <DragIcon type="primary"/>
                 <ConstructorElement
                     text={ingredient.name}

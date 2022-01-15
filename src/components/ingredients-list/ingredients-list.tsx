@@ -5,7 +5,7 @@ import {IIngredient} from "../../models/i-ingredient.types";
 
 type TIngredientsList = {
     title: string
-    ingredients: Array<IIngredient>
+    ingredients: IIngredient[]
 }
 const IngredientsList = React.forwardRef<HTMLHeadingElement, TIngredientsList>(
     ({title, ingredients}, ref) => {

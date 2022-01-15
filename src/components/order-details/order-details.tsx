@@ -12,7 +12,7 @@ const OrderDetails: FC = () => {
     const closeModal = () => {
         dispatch(closeOrderDetailModal())
     }
-    const orderNumber: string = useSelector((state: RootState) => getOrderNumber(state))
+    const orderNumber = useSelector((state: RootState) => getOrderNumber(state))
     return (
         <Modal closeModal={closeModal}>
             <div className={detailsStyles.wrapper}>

@@ -17,8 +17,8 @@ const Auth = () => {
     const location = useLocation()
     let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
-    const isAuth: boolean = useSelector((state: RootState) => getIsAuth(state))
-    const isAuthLoading: boolean = useSelector((state: RootState) => getAuthIsLoading(state))
+    const isAuth = useSelector((state: RootState) => getIsAuth(state))
+    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
         name: '',
         email: '',

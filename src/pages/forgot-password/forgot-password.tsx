@@ -16,8 +16,8 @@ const ForgotPassword = () => {
     const location = useLocation()
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
-    const canResetPassword: boolean = useSelector((state: RootState) => getCanResetPassword(state))
-    const isAuthLoading: boolean = useSelector((state: RootState) => getAuthIsLoading(state))
+    const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))
+    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     useEffect(() => {
         if (canResetPassword) navigate(ROUTE_RESET_PASSWORD, {state: {from: location.pathname}})
     }, [canResetPassword, navigate, location])

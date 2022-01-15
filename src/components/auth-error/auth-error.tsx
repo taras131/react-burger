@@ -8,7 +8,7 @@ import {RootState} from "../../services/store";
 
 const AuthError: FC = () => {
     const dispatch = useDispatch()
-    const authErrorMessage = useSelector((state: RootState): string => getAuthErrorMessage(state))
+    const authErrorMessage = useSelector((state: RootState) => getAuthErrorMessage(state))
     useEffect(() => {
         let timeOut: ReturnType<typeof setTimeout>
         if (authErrorMessage) {

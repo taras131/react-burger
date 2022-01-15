@@ -14,8 +14,8 @@ const ResetPassword = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const canResetPassword: boolean = useSelector((state: RootState) => getCanResetPassword(state))
-    const isAuthLoading: boolean = useSelector((state: RootState) => getAuthIsLoading(state))
+    const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))
+    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
         password: '',
         key: ''

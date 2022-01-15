@@ -8,7 +8,7 @@ type TModal = {
     title?: string,
     closeModal: () => void
 }
-const modalRoot: HTMLElement | null = document.getElementById("react-modals");
+const modalRoot = document.getElementById("react-modals");
 const Modal: FC<TModal> = ({title = '', closeModal, children}) => {
     const onKeyDown = useCallback(({key}) => {
         if (key === 'Escape') closeModal()
@@ -27,7 +27,6 @@ const Modal: FC<TModal> = ({title = '', closeModal, children}) => {
                     <CloseIcon type="primary"/>
                 </div>
                 {children}
-
             </div>
             <ModalOverlay closeModal={closeModal}/>
         </>, modalRoot)
