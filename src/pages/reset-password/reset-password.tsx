@@ -8,13 +8,14 @@ import {fetchResetPassword} from "../../services/actions/auth-action-creators";
 import {validationPassword} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
 import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/auth-selectors";
+import {RootState} from "../../services/store";
 
 const ResetPassword = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const canResetPassword = useSelector(state => getCanResetPassword(state))
-    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))
+    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
         password: '',
         key: ''
@@ -29,10 +30,10 @@ const ResetPassword = () => {
     useEffect(() => {
         if (!canResetPassword) navigate(ROUTE_LOGIN)
     }, [canResetPassword, navigate])
-    const onDataChange = (e) => {
+    const onDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
-    const onButtonClick = (e) => {
+    const onButtonClick = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const passwordError = validationPassword(inputsValues.password)
         setPasswordError(passwordError)

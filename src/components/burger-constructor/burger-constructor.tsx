@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {FC, useCallback} from 'react';
 import constructorStyles from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {fetchCreateOrder} from "../../services/actions/cart-action-creators";
@@ -13,14 +13,16 @@ import ConstructorNotBunIngredient from "../constructor-not-bun-ingredient/const
 import {getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {ROUTE_LOGIN} from "../../utils/const";
+import {RootState} from "../../services/store";
+import {IIngredientInCartTypes} from "../../models/i-ingredient-in-cart.types";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
     const dispatch = useDispatch()
-    const cart = useSelector(state => getCart(state))
-    const bunInCart = useSelector(state => getBunInCart(state))
-    const notBunIngredients = useSelector(state => getNotBunIngredients(state))
-    const totalSum = useSelector(state => getTotalSum(state))
-    const isAuth = useSelector(state => getIsAuth(state))
+    const cart= useSelector((state: RootState) => getCart(state))
+    const bunInCart = useSelector((state: RootState) => getBunInCart(state))
+    const notBunIngredients = useSelector((state: RootState) => getNotBunIngredients(state))
+    const totalSum = useSelector((state: RootState) => getTotalSum(state))
+    const isAuth = useSelector((state: RootState) => getIsAuth(state))
     const navigate = useNavigate()
     const onCreateOrderClick = useCallback(() => {
         if(!isAuth) {
@@ -31,7 +33,7 @@ const BurgerConstructor = () => {
     }, [dispatch, cart, isAuth, navigate])
     const [{canDrop}, drop] = useDrop(() => ({
         accept: 'ingredient',
-        drop: (item) => {
+        drop: (item: IIngredientInCartTypes) => {
             dispatch(addToCart({...item, key: getUniqueKey()}))
         },
         collect: (monitor) => ({

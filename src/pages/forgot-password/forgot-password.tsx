@@ -8,6 +8,7 @@ import {fetchForgotPassword} from "../../services/actions/auth-action-creators";
 import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/auth-selectors";
 import {validateEmail} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
+import {RootState} from "../../services/store";
 
 const ForgotPassword = () => {
     const dispatch = useDispatch()
@@ -15,15 +16,15 @@ const ForgotPassword = () => {
     const location = useLocation()
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
-    const canResetPassword = useSelector(state => getCanResetPassword(state))
-    const isAuthLoading = useSelector(state => getAuthIsLoading(state))
+    const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))
+    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     useEffect(() => {
         if (canResetPassword) navigate(ROUTE_RESET_PASSWORD, {state: {from: location.pathname}})
     }, [canResetPassword, navigate, location])
-    const onEmailChange = (e) => {
+    const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.target.value)
     }
-    const onButtonClick = () => {
+    const onButtonClick = (): void => {
         const emailError = validateEmail(email)
         emailError ? setError(emailError) : dispatch(fetchForgotPassword(email))
     }

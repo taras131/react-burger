@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 import emptyStyles from './constructor-empty.module.css'
 import emptyCart from '../../images/empty-cart.png'
 
-const ConstructorEmpty = () => {
+const ConstructorEmpty: FC = () => {
     return (
         <div className={emptyStyles.wrapper}>
             <img src={emptyCart} alt="empty-cart"/>

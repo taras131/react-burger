@@ -1,19 +1,23 @@
-import React from 'react';
+import React, {FC} from 'react';
 import cardStyle from './ingredient-card.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientPropTypes} from "../../types";
 import {getCountInCartById} from "../../services/selectors/cart-selectors";
 import {useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
 import classNames from "classnames";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ROUTE_INGREDIENTS} from "../../utils/const";
+import {RootState} from "../../services/store";
+import {IIngredient} from "../../models/i-ingredient.types";
 
-const IngredientCard = ({ingredient}) => {
+type TIngredientCard = {
+    ingredient: IIngredient
+}
+const IngredientCard: FC<TIngredientCard> = ({ingredient}) => {
     const location = useLocation()
     const navigate = useNavigate()
-    const count = useSelector(state => getCountInCartById(state, ingredient._id))
-    const openDetail = () => {
+    const count = useSelector((state: RootState )=> getCountInCartById(state, ingredient._id))
+    const openDetail = (): void => {
         navigate(ROUTE_INGREDIENTS+'/'+ingredient._id,{state: {from: location.pathname}})
     }
     const [{isDragging}, drag] = useDrag(() => ({
@@ -44,9 +48,5 @@ const IngredientCard = ({ingredient}) => {
         </li>
     );
 };
-
-IngredientCard.propTypes = {
-    ingredient: ingredientPropTypes.isRequired,
-}
 
 export default IngredientCard;

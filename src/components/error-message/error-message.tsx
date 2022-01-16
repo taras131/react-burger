@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import errorStyles from './error-message.module.css'
 import antenna from '../../images/antenna.png'
-import PropTypes from "prop-types";
 
-const ErrorMessage = ({errorMessage}) => {
+type TErrorMessage = {
+    errorMessage: string
+}
+const ErrorMessage: FC<TErrorMessage> = ({errorMessage}) => {
     return (
         <div className={errorStyles.wrapper}>
             <img src={antenna} alt="antenna"/>
@@ -16,9 +18,5 @@ const ErrorMessage = ({errorMessage}) => {
         </div>
     );
 };
-
-ErrorMessage.propTypes={
-    errorMessage: PropTypes.string.isRequired,
-}
 
 export default ErrorMessage;
