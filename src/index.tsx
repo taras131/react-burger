@@ -10,9 +10,9 @@ require('dotenv').config();
 
 ReactDOM.render(
     <React.StrictMode>
-      <Provider store={setupStore()}>
-        <App />
-      </Provider>
+        <Provider store={setupStore()}>
+            <App/>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root'),
 );

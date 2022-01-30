@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AppHeader from "../app-header/app-header";
 import OrderDetails from "../order-details/order-details";
 import Preloader from "../preloader/preloader";
@@ -13,6 +13,7 @@ import {
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NotFoundPage from "../../pages/not-found-page/not-found-page";
 import {
+    ROUTE_FEED,
     ROUTE_FORGOT_PASSWORD,
     ROUTE_INGREDIENTS,
     ROUTE_LOGIN,
@@ -34,6 +35,7 @@ import Orders from "../../pages/orders/orders";
 import ProtectedUnauthorizedRoute from "../hoc/protected-unauthorized-route";
 import ProtectedAuthorizedRoute from "../hoc/protected-authorized-route";
 import {RootState} from "../../services/store";
+import Feed from "../../pages/feed/feed";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -49,6 +51,7 @@ const App = () => {
     if (isIngredientsLoading || isCartLoading) return (<Preloader/>)
     if (ingredientsErrorMessage) return (<ErrorMessage errorMessage={ingredientsErrorMessage}/>)
     if (cartErrorMessage) return (<ErrorMessage errorMessage={cartErrorMessage}/>)
+
     return (
         <div className={appStyles.wrapper}>
             <BrowserRouter>
@@ -76,6 +79,7 @@ const App = () => {
                             <ForgotPassword/>
                         </ ProtectedUnauthorizedRoute>
                     }/>
+                    <Route path={ROUTE_FEED} element={<Feed/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </BrowserRouter>
