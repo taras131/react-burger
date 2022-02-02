@@ -13,7 +13,7 @@ import {RootState} from "../../services/store";
 const ForgotPassword = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const location = useLocation()
+    const location: any = useLocation()
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
     const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))

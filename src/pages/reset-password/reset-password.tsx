@@ -11,7 +11,7 @@ import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/au
 import {RootState} from "../../services/store";
 
 const ResetPassword = () => {
-    const location = useLocation()
+    const location: any = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))

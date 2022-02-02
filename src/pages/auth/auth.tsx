@@ -12,11 +12,16 @@ import AuthError from "../../components/auth-error/auth-error";
 import {RootState} from "../../services/store";
 
 const Auth = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     let navigate = useNavigate();
-    const location = useLocation()
+    // на предыдущей итерациии такой проблемы с этим не было, у меня собирается без ошибок
+    // способ типизации useLocation , что показывали на вебинаре и те что есть в интернете,
+    // - не работают, скорее всего потому, что они для react-router-dom v 4-5 ? тут же
+    // используется 6 версии. поэтому поставил any до нахождения решения
+    const location: any = useLocation();
     let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
+    console.log(location)
     const isAuth = useSelector((state: RootState) => getIsAuth(state))
     const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
@@ -32,8 +37,10 @@ const Auth = () => {
     const {pathname} = useLocation()
     const isRegister = pathname === ROUTE_REGISTER
     useEffect(() => {
-        if (isAuth) {
-            navigate(prevPath || ROUTE_MAIN)
+        if (isAuth && prevPath) {
+            navigate(prevPath)
+        } else {
+            if (isAuth) navigate(ROUTE_MAIN)
         }
     }, [isAuth, navigate, prevPath])
     useEffect(() => {

@@ -18,14 +18,14 @@ import {ICartTypes} from "../../models/i-cart.types";
 
 const BurgerConstructor: FC = () => {
     const dispatch = useDispatch()
-    const cart= useSelector((state: RootState) => getCart(state))
+    const cart = useSelector((state: RootState) => getCart(state))
     const bunInCart = useSelector((state: RootState) => getBunInCart(state))
     const notBunIngredients = useSelector((state: RootState) => getNotBunIngredients(state))
     const totalSum = useSelector((state: RootState) => getTotalSum(state))
     const isAuth = useSelector((state: RootState) => getIsAuth(state))
     const navigate = useNavigate()
     const onCreateOrderClick = useCallback(() => {
-        if(!isAuth) {
+        if (!isAuth) {
             navigate(ROUTE_LOGIN)
             return
         }
@@ -81,7 +81,9 @@ const BurgerConstructor: FC = () => {
                             <CurrencyIcon type="primary"/>
                         </div>
                         <Button type="primary" size="medium"
-                                onClick={() => onCreateOrderClick()}>
+                                onClick={() => onCreateOrderClick()}
+                                disabled={!bunInCart}
+                        >
                             Оформить заказ
                         </Button>
                     </div>)}

@@ -4,8 +4,8 @@ import {useSelector} from "react-redux";
 import {getIngredientById} from "../../services/selectors/ingredients-selectors";
 import {RootState} from "../../services/store";
 import {getCountIngredientsInOrder} from "../../services/selectors/order-selector";
-import ImageCircleIngredient from "../common/image-circle-ingredient/image-circle-ingredient";
-import PriceWithIcon from "../common/price-with-icon/price-with-icon";
+import ImageCircleIngredient from "../image-circle-ingredient/image-circle-ingredient";
+import PriceWithIcon from "../price-with-icon/price-with-icon";
 
 interface IIngredientItemInOrderInfo {
     ingredientId: string | undefined,

@@ -12,7 +12,6 @@ interface IOrderState {
     totalToday: number,
     orders: IOrder[],
     isWsConnecting: boolean,
-    orderIfo: any,
     error: string,
     isLoading: boolean
 }
@@ -22,7 +21,6 @@ const initialState: IOrderState = {
     totalToday: 0,
     orders: [],
     isWsConnecting: false,
-    orderIfo: {},
     error: '',
     isLoading: false
 };

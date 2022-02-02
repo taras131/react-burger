@@ -11,7 +11,7 @@ import {orderActions} from "../../services/reducers/order-slice";
 
 const FeedOrderDetails: FC = () => {
     const dispatch = useDispatch()
-    const location = useLocation()
+    const location: any = useLocation()
     const navigate = useNavigate()
     const params = useParams()
     let orderNumber: number

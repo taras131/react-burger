@@ -8,7 +8,7 @@ import classNames from "classnames";
 
 const Profile: FC = () => {
     const dispatch = useDispatch()
-    const location = useLocation()
+    const location: any = useLocation()
     const pathname = location.pathname.split('/')[2]
     const onOutClick = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()

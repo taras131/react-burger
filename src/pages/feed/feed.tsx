@@ -27,7 +27,7 @@ const Feed: FC = () => {
     const error = useSelector((state: RootState) => getOrderError(state))
     const isLoading = useSelector((state: RootState) => getOrderIsLoading(state))
     const ordersInProcessNumbers = useSelector((state: RootState) => getNumbersOrdersInProcess(state))
-    const inProgress = ordersInProcessNumbers.slice(0, 20).map((item: number, index: number) => {
+    const inProgress = ordersInProcessNumbers.slice(0, 20).map((item: number) => {
         return (<p className="text text_type_digits-default text_color_inactive" key={item}>
             {item}
         </p>)
@@ -54,13 +54,13 @@ const Feed: FC = () => {
                     </section>
                     <section className={feedStyles.orders_info}>
                         <div className={feedStyles.orders_tab}>
-                            <div className={feedStyles.orders_tab_item}>
+                            <div>
                                 <p className="text text_type_main-medium">Готовы:</p>
                                 <div className={feedStyles.orders_number_list}>
                                     {isReady && isReady}
                                 </div>
                             </div>
-                            <div className={feedStyles.orders_tab_item}>
+                            <div>
                                 <p className="text text_type_main-medium">В работе:</p>
                                 <div className={feedStyles.orders_number_list}>
                                     {inProgress && inProgress}

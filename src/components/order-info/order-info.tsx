@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import orderInfoStyles from './order-info.module.css';
 import {RootState} from "../../services/store";
 import {useSelector} from "react-redux";
-import PriceWithIcon from "../common/price-with-icon/price-with-icon";
+import PriceWithIcon from "../price-with-icon/price-with-icon";
 import {getAmountByIngredientsId} from "../../services/selectors/ingredients-selectors";
 import IngredientItemInOrderInfo from "../ingredient-item-in-order-info/ingredient-item-in-order-info";
 import {convertStatusOrderFromRussian, getDate} from "../../utils/service";

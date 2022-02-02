@@ -14,7 +14,7 @@ type TIngredientCard = {
     ingredient: IIngredient
 }
 const IngredientCard: FC<TIngredientCard> = ({ingredient}) => {
-    const location = useLocation()
+    const location: any = useLocation()
     const navigate = useNavigate()
     const count = useSelector((state: RootState )=> getCountInCartById(state, ingredient._id))
     const openDetail = (): void => {

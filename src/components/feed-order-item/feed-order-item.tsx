@@ -4,8 +4,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../services/store";
 import {getAmountByIngredientsId, getMobileImagesById} from "../../services/selectors/ingredients-selectors";
 import {useLocation, useNavigate} from "react-router-dom";
-import PriceWithIcon from "../common/price-with-icon/price-with-icon";
-import ImageCircleIngredient from "../common/image-circle-ingredient/image-circle-ingredient";
+import PriceWithIcon from "../price-with-icon/price-with-icon";
+import ImageCircleIngredient from "../image-circle-ingredient/image-circle-ingredient";
 import {convertStatusOrderFromRussian, getDate} from "../../utils/service";
 import {ROUTE_FEED} from "../../utils/const";
 import {IOrder} from "../../models/i-order.types";
@@ -14,7 +14,7 @@ const FeedOrderItem: FC<IOrder> = ({
                                        _id, ingredients, status, number,
                                        createdAt, name
                                    }) => {
-    const location = useLocation()
+    const location: any = useLocation()
     const navigate = useNavigate()
     const amount = useSelector((state: RootState) => getAmountByIngredientsId(state, ingredients))
     const images = useSelector((state: RootState) => getMobileImagesById(state, ingredients))
