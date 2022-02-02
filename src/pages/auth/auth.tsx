@@ -21,7 +21,6 @@ const Auth = () => {
     const location: any = useLocation();
     let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
-    console.log(location)
     const isAuth = useSelector((state: RootState) => getIsAuth(state))
     const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
