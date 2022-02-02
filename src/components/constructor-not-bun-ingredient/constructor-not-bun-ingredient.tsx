@@ -4,11 +4,11 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import {DropTargetMonitor, useDrag, useDrop, XYCoord} from "react-dnd";
 import {removeFromCart, moveConstructorItem} from "../../services/reducers/cart-slice";
 import {useDispatch} from "react-redux";
-import {IIngredientInCartTypes} from "../../models/i-ingredient-in-cart.types";
 import classNames from "classnames";
+import {ICartTypes} from "../../models/i-cart.types";
 
 type TConstructorNotBunIngredient = {
-    ingredient: IIngredientInCartTypes,
+    ingredient: ICartTypes,
     index: number
 }
 

@@ -24,7 +24,6 @@
 }
 
 .orders_items {
-    border: 1px solid white;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -32,6 +31,7 @@
     height: 686px;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-right: 8px;
 }
 .orders_items::-webkit-scrollbar {
     width: 8px;
@@ -45,7 +45,6 @@
 }
 
 .orders_info {
-    border: 1px solid white;
     width: 100%;
     min-height: 200px;
 }
@@ -54,9 +53,7 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 26px;
 }
-.orders_tab_item{
 
-}
 .orders_tab_item h4{
     font-style: normal;
     font-weight: bold;
@@ -64,21 +61,13 @@
     line-height: 30px;
 }
 .orders_number_list{
+    max-height: 250px;
     margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 .completed_order{
     margin-top: 40px;
 }
-.completed_order h4{
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 30px;
-    color: #F2F2F3;
-}
-.completed_order span{
-    font-style: normal;
-    font-weight: normal;
-    font-size: 144px;
-    line-height: 120px;
-    color: #F2F2F3;
-}
+

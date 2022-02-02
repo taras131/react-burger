@@ -21,14 +21,13 @@ export const getPriceById = (state: RootState, id: string): number => {
 }
 export const getMobileImagesById = (state: RootState, ingredients: string[]): string[] => {
     let images: string[] = []
-    state.ingredients.ingredients.forEach((item: IIngredient) => {
-        if (ingredients.includes(item._id)) {
-            images.push(item.image_mobile)
-        }
+    ingredients.forEach((item: string) => {
+        const ingredientImage = getIngredientById(state, item).image_mobile
+        images.push(ingredientImage)
     })
     return images
 }
-export const getAmountByIds = (state: RootState, ingredients: string []): number => {
+export const getAmountByIngredientsId = (state: RootState, ingredients: string []): number => {
     let amount = 0
     ingredients.forEach((item) => {
         amount = amount + getPriceById(state, item)

@@ -1,0 +1,55 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 40px;
+}
+
+.content {
+    max-width: 640px;
+    width: 100%;
+    min-height: 620px;
+}
+
+.number {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.name {
+    margin-top: 40px;
+}
+
+.status {
+    margin-top: 12px;
+}
+
+.ingredients {
+    margin-top: 24px;
+    height: 312px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+    background: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    height: 292px;
+    background: #8585AD;
+    border: 3px solid #8585AD;
+}
+
+.footer {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 16px;
+}

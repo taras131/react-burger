@@ -1,14 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IOrder} from '../../models/i-order.types';
 import {fetchCreateOrder} from '../actions/cart-action-creators';
-import {IIngredientInCartTypes} from '../../models/i-ingredient-in-cart.types';
+import {ICartTypes, IOrderNumber} from "../../models/i-cart.types";
+
 
 interface CartState {
   isLoading: boolean;
   errorMessage: string;
   isShowOrderDetails: boolean;
-  ingredients: IIngredientInCartTypes[] | [];
-  order: IOrder;
+  ingredients: ICartTypes[] | [];
+  order: IOrderNumber;
 }
 
 interface IKeys {
@@ -30,11 +30,11 @@ export const CartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<IIngredientInCartTypes>) => {
+    addToCart: (state, action: PayloadAction<ICartTypes>) => {
       if (action.payload.type === 'bun') {
           state.ingredients = [...state.ingredients.filter(item => item.type !== 'bun'), action.payload];
       } else {
-          const arr: IIngredientInCartTypes[] = [action.payload]
+          const arr: ICartTypes[] = [action.payload]
           state.ingredients = arr.concat(state.ingredients);
       }
     },

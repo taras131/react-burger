@@ -9,6 +9,7 @@
     border-radius: 40px;
     background: #1C1C21;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
 }
 
 .order_header {
@@ -28,41 +29,9 @@
     justify-content: space-between;
 }
 
-.order_amount {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .ingredients_images {
-    display: flex;
-    position: relative;
-    padding-left: 20px;
+    display: grid;
+    grid-auto-flow: dense;
+    grid-template-columns: 46px 46px 46px 46px 46px 46px;
 }
 
-.image_container {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    height: 64px;
-    width: 64px;
-    background-color: black;
-    border-radius: 100%;
-    border: 2px solid #801AB3;
-    margin-left: -20px;
-}
-
-.image_container img {
-    height: 50px;
-}
-
-.last {
-    position: relative;
-
-}
-
-.last p {
-    position: absolute;
-    z-index: 20;
-}

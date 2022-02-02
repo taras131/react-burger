@@ -1,50 +1,55 @@
 import React, {FC} from 'react';
 import feedOrderItemStyles from './feed-order-item.module.css';
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {IOrder} from "../../models/i-order";
 import {useSelector} from "react-redux";
 import {RootState} from "../../services/store";
-import {getAmountByIds, getMobileImagesById, getPriceById} from "../../services/selectors/ingredients-selectors";
+import {getAmountByIngredientsId, getMobileImagesById} from "../../services/selectors/ingredients-selectors";
+import {useLocation, useNavigate} from "react-router-dom";
+import PriceWithIcon from "../common/price-with-icon/price-with-icon";
+import ImageCircleIngredient from "../common/image-circle-ingredient/image-circle-ingredient";
+import {convertStatusOrderFromRussian, getDate} from "../../utils/service";
+import {ROUTE_FEED} from "../../utils/const";
+import {IOrder} from "../../models/i-order.types";
 
-const FeedOrderItem: FC<IOrder> = ({ingredients, status, number, createdAt, name}) => {
-    const amount = useSelector((state: RootState) => getAmountByIds(state, ingredients))
+const FeedOrderItem: FC<IOrder> = ({
+                                       _id, ingredients, status, number,
+                                       createdAt, name
+                                   }) => {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const amount = useSelector((state: RootState) => getAmountByIngredientsId(state, ingredients))
     const images = useSelector((state: RootState) => getMobileImagesById(state, ingredients))
     const ingredientCount = images.length
-    const imagesList = images.map((item, index) => {
-        if (index < 5) {
-            return (
-                <div key={index} className={feedOrderItemStyles.image_container}>
-                    <img src={item} alt='ingredients image'/>
-                </div>
-            )
-        }
-        if (index === 5) {
-            return (
-                <div key={index} className={feedOrderItemStyles.image_container
-                + ' ' + feedOrderItemStyles.last}>
-                    <img src={item} alt='ingredients image'/>
-                    <p className="text text_type_digits-default">+{ingredientCount - 5}</p>
-                </div>
-            )
-        }
+    const imagesList = images.slice(0, 6).map((item, index) => {
+        if (index < 5) return (<ImageCircleIngredient key={index} image={item} index={index}/>)
+        return (<ImageCircleIngredient key={index}
+                                       image={item}
+                                       ingredientCount={ingredientCount}
+                                       index={index}/>)
     })
+    const openDetail = (): void => {
+        //  Сделал по номеру заказа , не по id потому что сейчас эндпоинт на сервере для запроса конкретного
+        // заказа корректно отдаёт только по номеру
+        navigate(location.pathname + '/' + number, {state: {from: location.pathname}})
+    }
     return (
-        <div className={feedOrderItemStyles.wrapper}>
+        <div className={feedOrderItemStyles.wrapper} onClick={openDetail}>
             <section className={feedOrderItemStyles.order_header}>
                 <p className="text text_type_digits-default">#{number}</p>
-                <p className="text text_type_main-small text_color_inactive">{createdAt}</p>
+                <p className="text text_type_main-small text_color_inactive">{getDate(createdAt)}</p>
             </section>
             <section className={feedOrderItemStyles.order_name}>
                 <p className="text text_type_main-medium">{name}</p>
+                {location.pathname !== ROUTE_FEED && (
+                    <p className="text text_type_main-small text_color_inactive">
+                        {convertStatusOrderFromRussian(status)}
+                    </p>
+                )}
             </section>
             <section className={feedOrderItemStyles.order_description}>
                 <div className={feedOrderItemStyles.ingredients_images}>
                     {imagesList}
                 </div>
-                <div className={feedOrderItemStyles.order_amount}>
-                    <p className="text text_type_digits-default">{amount}</p>
-                    <CurrencyIcon type="primary"/>
-                </div>
+                <PriceWithIcon price={amount}/>
             </section>
         </div>
     );

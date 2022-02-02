@@ -25,7 +25,7 @@ const AppHeader: FC = () => {
                             <Link className={classNames(appHeaderStyles.link, {
                                 [appHeaderStyles.active]: pathname === '/not_found'
                             })} to={ROUTE_FEED}>
-                                <ListIcon type={pathname === ROUTE_FEED ? "primary" : "secondary"}/>
+                                <ListIcon type={pathname.includes(ROUTE_FEED) ? "primary" : "secondary"}/>
                                 <p className="text text_type_main-default ml-2">
                                     Лента заказов
                                 </p>

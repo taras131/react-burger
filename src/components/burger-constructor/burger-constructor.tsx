@@ -14,7 +14,7 @@ import {getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {ROUTE_LOGIN} from "../../utils/const";
 import {RootState} from "../../services/store";
-import {IIngredientInCartTypes} from "../../models/i-ingredient-in-cart.types";
+import {ICartTypes} from "../../models/i-cart.types";
 
 const BurgerConstructor: FC = () => {
     const dispatch = useDispatch()
@@ -33,7 +33,7 @@ const BurgerConstructor: FC = () => {
     }, [dispatch, cart, isAuth, navigate])
     const [{canDrop}, drop] = useDrop(() => ({
         accept: 'ingredient',
-        drop: (item: IIngredientInCartTypes) => {
+        drop: (item: ICartTypes) => {
             dispatch(addToCart({...item, key: getUniqueKey()}))
         },
         collect: (monitor) => ({

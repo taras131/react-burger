@@ -1,5 +1,23 @@
 .wrapper{
-    margin-top: 135px;
-    margin-left: 300px;
     color: white;
+    width: 800px;
+    height: 686px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.wrapper::-webkit-scrollbar {
+    width: 8px;
+    background: #2F2F37;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+    height: 492px;
+    background: #8585AD;
+    border: 3px solid #8585AD;
 }

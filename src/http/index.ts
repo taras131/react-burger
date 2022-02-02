@@ -56,7 +56,7 @@ class Api {
                 'Content-Type': 'application/json;charset=utf-8',
                 Authorization: BEARER_TOKEN_HEADER + this._token
             },
-            body: JSON.stringify({ingredients: cart})
+            body: JSON.stringify({ingredients: cart.reverse()})
         })
         const decodedResponse = await res.json()
         if (res.ok) {
@@ -214,6 +214,13 @@ class Api {
                 }
             }
         }
+    }
+
+    getOrderInfo = async (orderNumber: number): Promise<Array<IOrder>> => {
+        const res = await fetch(process.env.REACT_APP_API_URL + ORDERS_API + "/" + orderNumber)
+        const decodedResponse = await res.json()
+        if (res.ok) return decodedResponse.orders
+        throw new Error(decodedResponse.message)
     }
 }
 

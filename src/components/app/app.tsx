@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import AppHeader from "../app-header/app-header";
 import OrderDetails from "../order-details/order-details";
 import Preloader from "../preloader/preloader";
@@ -36,6 +36,7 @@ import ProtectedUnauthorizedRoute from "../hoc/protected-unauthorized-route";
 import ProtectedAuthorizedRoute from "../hoc/protected-authorized-route";
 import {RootState} from "../../services/store";
 import Feed from "../../pages/feed/feed";
+import FeedOrderDetails from "../../pages/feed-order-details/feed-order-details";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -61,7 +62,8 @@ const App = () => {
                     <Route path={ROUTE_LOGIN} element={<Auth/>}/>
                     <Route path={ROUTE_REGISTER} element={<Auth/>}/>
                     <Route path={ROUTE_INGREDIENTS + '/:id'} element={<Ingredients/>}/>
-                    <Route path={ROUTE_PROFILE + '/*'} element={
+
+                    <Route path={ROUTE_PROFILE} element={
                         <ProtectedAuthorizedRoute>
                             <Profile/>
                         </ProtectedAuthorizedRoute>
@@ -80,6 +82,12 @@ const App = () => {
                         </ ProtectedUnauthorizedRoute>
                     }/>
                     <Route path={ROUTE_FEED} element={<Feed/>}/>
+                    <Route path={ROUTE_FEED + '/:id'} element={<FeedOrderDetails/>}/>
+                    <Route path={ROUTE_PROFILE + '/' + ROUTE_ORDERS + '/:id'} element={
+                        <ProtectedAuthorizedRoute>
+                            <FeedOrderDetails/>
+                        </ProtectedAuthorizedRoute>
+                    }/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </BrowserRouter>
