@@ -17,12 +17,6 @@
     margin-top: 20px;
 }
 
-.content h2 {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 36px;
-}
-
 .orders_items {
     display: flex;
     flex-direction: column;
@@ -54,12 +48,6 @@
     grid-gap: 26px;
 }
 
-.orders_tab_item h4{
-    font-style: normal;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 30px;
-}
 .orders_number_list{
     max-height: 250px;
     margin-top: 24px;

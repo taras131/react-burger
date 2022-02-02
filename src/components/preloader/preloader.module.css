@@ -6,9 +6,3 @@
     justify-content: center;
     background: black;
 }
-.wrapper img{
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    background-color: black;
-    color: white;
-}
