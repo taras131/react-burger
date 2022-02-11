@@ -30,14 +30,12 @@ const cleanLocalStorage = () => {
     localStorage.removeItem(REFRESH_TOKEN)
     localStorage.removeItem(ACCESS_TOKEN)
 }
-
 class Api {
-    _token: string | null;
-    _refreshToken: string | null;
-
-    constructor(token: string | null, refreshToken: string | null) {
-        this._token = token;
-        this._refreshToken = refreshToken;
+    getRefreshToken = () => {
+        return localStorage.getItem(REFRESH_TOKEN)
+    }
+    getAccessToken = () => {
+        return localStorage.getItem(ACCESS_TOKEN)
     }
 
     getAllIngredients = async (): Promise<Array<IIngredient>> => {
@@ -54,9 +52,9 @@ class Api {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
-                Authorization: BEARER_TOKEN_HEADER + this._token
+                Authorization: BEARER_TOKEN_HEADER + this.getAccessToken()
             },
-            body: JSON.stringify({ingredients: cart})
+            body: JSON.stringify({ingredients: cart.reverse()})
         })
         const decodedResponse = await res.json()
         if (res.ok) {
@@ -134,7 +132,7 @@ class Api {
     }
 
     checkAuth = async (): Promise<IUserTypes> => {
-        if (this._token) {
+        if (this.getAccessToken()) {
             const res = await fetch(process.env.REACT_APP_API_URL + AUTH_API, {
                 method: 'GET',
                 mode: 'cors',
@@ -142,7 +140,7 @@ class Api {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: BEARER_TOKEN_HEADER + this._token
+                    Authorization: BEARER_TOKEN_HEADER + this.getAccessToken()
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer'
@@ -151,7 +149,7 @@ class Api {
             if (res.ok) {
                 return decodedResponse.user
             }
-            if (decodedResponse.message === 'jwt expired') {
+            if (decodedResponse.message === 'jwt expired' && this.getRefreshToken()) {
                 await this.updateToken()
                 return await this.checkAuth()
             }
@@ -166,7 +164,7 @@ class Api {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({token: this._refreshToken})
+            body: JSON.stringify({token: this.getRefreshToken()})
         })
         const decodedResponse = await res.json()
         if (res.ok) {
@@ -181,7 +179,7 @@ class Api {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: BEARER_TOKEN_HEADER + this._token
+                Authorization: BEARER_TOKEN_HEADER + this.getAccessToken()
             },
             body: JSON.stringify(user)
         })
@@ -198,11 +196,12 @@ class Api {
     }
 
     updateToken = async () => {
-        if (this._refreshToken) {
+        console.log("updateToken")
+        if (this.getRefreshToken()) {
             const res = await fetch(process.env.REACT_APP_API_URL + UPDATE_TOKEN_API, {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({token: this._refreshToken})
+                    body: JSON.stringify({token: this.getRefreshToken()})
                 }
             )
             if (res.ok) {
@@ -215,11 +214,16 @@ class Api {
             }
         }
     }
+
+    getOrderInfo = async (orderNumber: number): Promise<IOrder> => {
+        const res = await fetch(process.env.REACT_APP_API_URL + ORDERS_API + "/" + orderNumber)
+        const decodedResponse = await res.json()
+        if (res.ok) return decodedResponse.orders[0]
+        throw new Error(decodedResponse.message)
+    }
 }
 
-const token: string | null = localStorage.getItem(ACCESS_TOKEN)
-const refreshToken: string | null = localStorage.getItem(REFRESH_TOKEN)
-const api = new Api(token, refreshToken);
+const api = new Api();
 
 export default api;
 

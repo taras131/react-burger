@@ -9,7 +9,7 @@ import {ROUTE_MAIN} from "../../utils/const";
 import {RootState} from "../../services/store";
 
 const Ingredients = () => {
-    const location = useLocation()
+    const location: any = useLocation()
     const navigate = useNavigate()
     const id = useParams().id
     const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(true)

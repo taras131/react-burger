@@ -14,18 +14,18 @@ import {getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {ROUTE_LOGIN} from "../../utils/const";
 import {RootState} from "../../services/store";
-import {IIngredientInCartTypes} from "../../models/i-ingredient-in-cart.types";
+import {ICartTypes} from "../../models/i-cart.types";
 
 const BurgerConstructor: FC = () => {
     const dispatch = useDispatch()
-    const cart= useSelector((state: RootState) => getCart(state))
+    const cart = useSelector((state: RootState) => getCart(state))
     const bunInCart = useSelector((state: RootState) => getBunInCart(state))
     const notBunIngredients = useSelector((state: RootState) => getNotBunIngredients(state))
     const totalSum = useSelector((state: RootState) => getTotalSum(state))
     const isAuth = useSelector((state: RootState) => getIsAuth(state))
     const navigate = useNavigate()
     const onCreateOrderClick = useCallback(() => {
-        if(!isAuth) {
+        if (!isAuth) {
             navigate(ROUTE_LOGIN)
             return
         }
@@ -33,7 +33,7 @@ const BurgerConstructor: FC = () => {
     }, [dispatch, cart, isAuth, navigate])
     const [{canDrop}, drop] = useDrop(() => ({
         accept: 'ingredient',
-        drop: (item: IIngredientInCartTypes) => {
+        drop: (item: ICartTypes) => {
             dispatch(addToCart({...item, key: getUniqueKey()}))
         },
         collect: (monitor) => ({
@@ -81,7 +81,9 @@ const BurgerConstructor: FC = () => {
                             <CurrencyIcon type="primary"/>
                         </div>
                         <Button type="primary" size="medium"
-                                onClick={() => onCreateOrderClick()}>
+                                onClick={() => onCreateOrderClick()}
+                                disabled={!bunInCart}
+                        >
                             Оформить заказ
                         </Button>
                     </div>)}

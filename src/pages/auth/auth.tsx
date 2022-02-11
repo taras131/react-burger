@@ -10,11 +10,12 @@ import {useNavigate} from "react-router-dom";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
 import {RootState} from "../../services/store";
+import {TLocation} from "../../models/i-location";
 
 const Auth = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     let navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation() as TLocation;
     let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
     const isAuth = useSelector((state: RootState) => getIsAuth(state))
@@ -32,8 +33,10 @@ const Auth = () => {
     const {pathname} = useLocation()
     const isRegister = pathname === ROUTE_REGISTER
     useEffect(() => {
-        if (isAuth) {
-            navigate(prevPath || ROUTE_MAIN)
+        if (isAuth && prevPath) {
+            navigate(prevPath)
+        } else {
+            if (isAuth) navigate(ROUTE_MAIN)
         }
     }, [isAuth, navigate, prevPath])
     useEffect(() => {
