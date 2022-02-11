@@ -31,8 +31,16 @@ export const getCountIngredientsInOrder = (state: RootState, ingredientId: any, 
     const order = getOrderById(state, orderId)
     return order.ingredients.filter(item => item === ingredientId).length
 }
+export const getCountIngredientsInCurrentOrder = (state: RootState, ingredientId: any): number => {
+    const order = state.order.currentOrder
+    if(!order) return 0
+    return  order.ingredients.filter(item => item === ingredientId).length
+}
 export const getOrderByNumber = (state: RootState, orderNumber: number ): IOrder => {
     return state.order.orders.filter((item: IOrder) => item.number === orderNumber)[0]
+}
+export const getCurrentNumber = (state: RootState): IOrder | null => {
+    return state.order.currentOrder
 }
 export const getOrderError = (state: RootState): string => {
     return state.order.error

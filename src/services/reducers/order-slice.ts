@@ -11,6 +11,7 @@ interface IOrderState {
     total: number,
     totalToday: number,
     orders: IOrder[],
+    currentOrder: IOrder| null,
     isWsConnecting: boolean,
     error: string,
     isLoading: boolean
@@ -20,6 +21,7 @@ const initialState: IOrderState = {
     total: 0,
     totalToday: 0,
     orders: [],
+    currentOrder: null,
     isWsConnecting: false,
     error: '',
     isLoading: false
@@ -35,9 +37,6 @@ export const OrderSlice = createSlice({
         },
         stopConnecting: (state) => {
             state.isWsConnecting = false
-            state.total = 0
-            state.totalToday = 0
-            state.orders = []
         },
         setError: (state, action: PayloadAction<string>) => {
             state.error = action.payload
@@ -53,16 +52,15 @@ export const OrderSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchOrderInfo.fulfilled.type]: (state, action: PayloadAction<IOrder[]>) => {
-            state.orders = action.payload;
+        [fetchOrderInfo.fulfilled.type]: (state, action: PayloadAction<IOrder>) => {
+            state.currentOrder = action.payload;
             state.isLoading = false
         },
         [fetchOrderInfo.pending.type]: (state) => {
             state.isLoading = true;
-            state.orders = [];
         },
         [fetchOrderInfo.rejected.type]: (state, action: PayloadAction<string>) => {
-            state.orders = [];
+            state.currentOrder = null;
             state.isLoading = false;
             state.error = action.payload;
         },

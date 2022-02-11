@@ -15,9 +15,11 @@ import {WS_ALL_ORDERS} from "../../utils/const";
 import {IOrder} from "../../models/i-order.types";
 import ErrorMessage from "../../components/error-message/error-message";
 import Preloader from "../../components/preloader/preloader";
+import {Link, useLocation} from "react-router-dom";
 
 const Feed: FC = () => {
     const dispatch = useDispatch()
+    const location: any = useLocation()
     useEffect(() => {
         dispatch(startOrdersListening(WS_ALL_ORDERS));
         return () => {
@@ -43,7 +45,18 @@ const Feed: FC = () => {
     const totalTodayOrders = useSelector((state: RootState) => getTotalToday(state))
     if (error) return (<ErrorMessage errorMessage={error}/>)
     if (isLoading) return (<Preloader/>)
-    const ordersList = orders.map((item: IOrder) => <FeedOrderItem key={item._id} {...item}/>)
+    const ordersList = orders.map((item: IOrder) => {
+        return (
+            <Link
+                className={feedStyles.link}
+                key={item._id}
+                to={`${location.pathname}/${item.number}`}
+                state={{backgroundLocation: location, from: location.pathname}}>
+                <FeedOrderItem key={item._id} {...item}/>
+            </Link>
+        )
+
+    })
     return (
         <div className={feedStyles.wrapper}>
             <div className={feedStyles.content}>

@@ -215,10 +215,10 @@ class Api {
         }
     }
 
-    getOrderInfo = async (orderNumber: number): Promise<Array<IOrder>> => {
+    getOrderInfo = async (orderNumber: number): Promise<IOrder> => {
         const res = await fetch(process.env.REACT_APP_API_URL + ORDERS_API + "/" + orderNumber)
         const decodedResponse = await res.json()
-        if (res.ok) return decodedResponse.orders
+        if (res.ok) return decodedResponse.orders[0]
         throw new Error(decodedResponse.message)
     }
 }

@@ -18,7 +18,7 @@ const IngredientCard: FC<TIngredientCard> = ({ingredient}) => {
     const navigate = useNavigate()
     const count = useSelector((state: RootState )=> getCountInCartById(state, ingredient._id))
     const openDetail = (): void => {
-        navigate(ROUTE_INGREDIENTS+'/'+ingredient._id,{state: {from: location.pathname}})
+        navigate(ROUTE_INGREDIENTS+'/'+ingredient._id,{state: {from: location.pathname, backgroundLocation: location}})
     }
     const [{isDragging}, drag] = useDrag(() => ({
         type: 'ingredient',

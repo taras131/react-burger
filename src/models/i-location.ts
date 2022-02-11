@@ -1,9 +1,10 @@
-export type TLocation =  {
-    from: {
-        hash: string
-        key: string
-        pathname: string
-        search: string
-        state: any
-    };
+import {Location} from "history";
+
+export interface TLocation  extends  Location{
+    state: {
+        from: {
+            pathname: string;
+        };
+    }
+
 }

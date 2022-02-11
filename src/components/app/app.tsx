@@ -10,7 +10,7 @@ import {
     getIngredientsErrorMessage,
     getIsIngredientsLoading,
 } from "../../services/selectors/ingredients-selectors";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {Routes, Route, useLocation} from "react-router-dom";
 import NotFoundPage from "../../pages/not-found-page/not-found-page";
 import {
     ROUTE_FEED,
@@ -40,6 +40,8 @@ import FeedOrderDetails from "../../pages/feed-order-details/feed-order-details"
 
 const App = () => {
     const dispatch = useDispatch()
+    let location = useLocation();
+    let state = location.state as { backgroundLocation?: Location };
     const isShowOrderDetails = useSelector((state: RootState) => getIsShowOrderDetails(state))
     const isIngredientsLoading = useSelector((state: RootState) => getIsIngredientsLoading(state))
     const isCartLoading = useSelector((state: RootState) => getIsCartLoading(state))
@@ -52,45 +54,52 @@ const App = () => {
     if (isIngredientsLoading || isCartLoading) return (<Preloader/>)
     if (ingredientsErrorMessage) return (<ErrorMessage errorMessage={ingredientsErrorMessage}/>)
     if (cartErrorMessage) return (<ErrorMessage errorMessage={cartErrorMessage}/>)
-
     return (
         <div className={appStyles.wrapper}>
-            <BrowserRouter>
-                <AppHeader/>
+            <AppHeader/>
+            <Routes location={state?.backgroundLocation || location}>
+                <Route path={ROUTE_MAIN} element={<Main/>}/>
+                <Route path={ROUTE_LOGIN} element={<Auth/>}/>
+                <Route path={ROUTE_REGISTER} element={<Auth/>}/>
+                <Route path={ROUTE_FEED} element={<Feed/>}/>
+                <Route path={ROUTE_FEED + '/:id'} element={<FeedOrderDetails/>}/>
+                <Route path={ROUTE_INGREDIENTS + '/:id'} element={<Ingredients/>}/>
+                <Route path={ROUTE_PROFILE} element={
+                    <ProtectedAuthorizedRoute>
+                        <Profile/>
+                    </ProtectedAuthorizedRoute>
+                }>
+                    <Route path="" element={<ProfileInfo/>}/>
+                    <Route path={ROUTE_ORDERS} element={<Orders/>}/>
+                </Route>
+                <Route path={ROUTE_RESET_PASSWORD} element={
+                    <ProtectedUnauthorizedRoute>
+                        <ResetPassword/>
+                    </ ProtectedUnauthorizedRoute>
+                }/>
+                <Route path={ROUTE_FORGOT_PASSWORD} element={
+                    <ProtectedUnauthorizedRoute>
+                        <ForgotPassword/>
+                    </ ProtectedUnauthorizedRoute>
+                }/>
+                <Route path={ROUTE_PROFILE + '/' + ROUTE_ORDERS + '/:id'} element={
+                    <ProtectedAuthorizedRoute>
+                        <FeedOrderDetails/>
+                    </ProtectedAuthorizedRoute>
+                }/>
+                <Route path="*" element={<NotFoundPage/>}/>
+            </Routes>
+            {state?.backgroundLocation && (
                 <Routes>
-                    <Route path={ROUTE_MAIN} element={<Main/>}/>
-                    <Route path={ROUTE_LOGIN} element={<Auth/>}/>
-                    <Route path={ROUTE_REGISTER} element={<Auth/>}/>
+                    <Route path={ROUTE_FEED + '/:id'} element={<FeedOrderDetails/>} />
                     <Route path={ROUTE_INGREDIENTS + '/:id'} element={<Ingredients/>}/>
-
-                    <Route path={ROUTE_PROFILE} element={
-                        <ProtectedAuthorizedRoute>
-                            <Profile/>
-                        </ProtectedAuthorizedRoute>
-                    }>
-                        <Route path="" element={<ProfileInfo/>}/>
-                        <Route path={ROUTE_ORDERS} element={<Orders/>}/>
-                    </Route>
-                    <Route path={ROUTE_RESET_PASSWORD} element={
-                        <ProtectedUnauthorizedRoute>
-                            <ResetPassword/>
-                        </ ProtectedUnauthorizedRoute>
-                    }/>
-                    <Route path={ROUTE_FORGOT_PASSWORD} element={
-                        <ProtectedUnauthorizedRoute>
-                            <ForgotPassword/>
-                        </ ProtectedUnauthorizedRoute>
-                    }/>
-                    <Route path={ROUTE_FEED} element={<Feed/>}/>
-                    <Route path={ROUTE_FEED + '/:id'} element={<FeedOrderDetails/>}/>
                     <Route path={ROUTE_PROFILE + '/' + ROUTE_ORDERS + '/:id'} element={
                         <ProtectedAuthorizedRoute>
                             <FeedOrderDetails/>
                         </ProtectedAuthorizedRoute>
                     }/>
-                    <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
-            </BrowserRouter>
+            )}
             {isShowOrderDetails && (<OrderDetails/>)}
         </div>
     );

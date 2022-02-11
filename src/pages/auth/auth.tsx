@@ -10,16 +10,12 @@ import {useNavigate} from "react-router-dom";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
 import {RootState} from "../../services/store";
+import {TLocation} from "../../models/i-location";
 
 const Auth = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
-    // Здравствуйте, на предыдущей итерациии такой проблемы с этим не было, у меня собирается без ошибок
-    // установил яндекс браузер но воспроизвести ошибку не смог
-    // способ типизации useLocation , что показывали на вебинаре и те что есть в интернете,
-    // - не работают, скорее всего потому, что они для react-router-dom v 4-5 ? в этом приложении
-    // используется 6 версии. поэтому поставил any до нахождения решения
-    const location: any = useLocation();
+    const location = useLocation() as TLocation;
     let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
     const isAuth = useSelector((state: RootState) => getIsAuth(state))

@@ -7,8 +7,10 @@ import FeedOrderItem from "../../components/feed-order-item/feed-order-item";
 import {startOrdersListening, stopOrdersListening} from "../../services/actions/order-action-creators";
 import {ACCESS_TOKEN, WS_USER_ORDERS} from "../../utils/const";
 import {IOrder} from "../../models/i-order.types";
+import {Link, useLocation} from "react-router-dom";
 
 const Orders = () => {
+    const location: any = useLocation()
     const accessToken: string | null = localStorage.getItem(ACCESS_TOKEN)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -20,7 +22,17 @@ const Orders = () => {
     const orders = useSelector((state: RootState) => getOrders(state))
     let ordersList
     if (orders) {
-        ordersList = orders.map((item: IOrder) => <FeedOrderItem key={item._id} {...item}/>)
+        ordersList = orders.map((item: IOrder) => {
+            return (
+                <Link
+                    className={ordersStyles.link}
+                    key={item._id}
+                    to={`${location.pathname}/${item.number}`}
+                    state={{backgroundLocation: location, from: location.pathname}}>
+                    <FeedOrderItem {...item}/>
+                </Link>
+            )
+        })
     }
     return (
         <div className={ordersStyles.wrapper}>

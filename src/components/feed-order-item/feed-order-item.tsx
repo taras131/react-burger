@@ -3,7 +3,7 @@ import feedOrderItemStyles from './feed-order-item.module.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../services/store";
 import {getAmountByIngredientsId, getMobileImagesById} from "../../services/selectors/ingredients-selectors";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import PriceWithIcon from "../price-with-icon/price-with-icon";
 import ImageCircleIngredient from "../image-circle-ingredient/image-circle-ingredient";
 import {convertStatusOrderFromRussian, getDate} from "../../utils/service";
@@ -15,7 +15,6 @@ const FeedOrderItem: FC<IOrder> = ({
                                        createdAt, name
                                    }) => {
     const location: any = useLocation()
-    const navigate = useNavigate()
     const amount = useSelector((state: RootState) => getAmountByIngredientsId(state, ingredients))
     const images = useSelector((state: RootState) => getMobileImagesById(state, ingredients))
     const ingredientCount = images.length
@@ -26,13 +25,8 @@ const FeedOrderItem: FC<IOrder> = ({
                                        ingredientCount={ingredientCount}
                                        index={index}/>)
     })
-    const openDetail = (): void => {
-        //  Сделал по номеру заказа , не по id потому что сейчас эндпоинт на сервере для запроса конкретного
-        // заказа корректно отдаёт только по номеру
-        navigate(location.pathname + '/' + number, {state: {from: location.pathname}})
-    }
     return (
-        <div className={feedOrderItemStyles.wrapper} onClick={openDetail}>
+        <div className={feedOrderItemStyles.wrapper}>
             <section className={feedOrderItemStyles.order_header}>
                 <p className="text text_type_digits-default">#{number}</p>
                 <p className="text text_type_main-small text_color_inactive">{getDate(createdAt)}</p>
