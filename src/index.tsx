@@ -5,17 +5,17 @@ import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import {setupStore} from './services/store';
 import {Provider} from 'react-redux';
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 
 require('dotenv').config();
 
 ReactDOM.render(
     <React.StrictMode>
-        <HashRouter basename="/react-burger">
+        <BrowserRouter basename="/react-burger/">
             <Provider store={setupStore()}>
                 <App/>
             </Provider>
-        </HashRouter>
+        </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root'),
 );
