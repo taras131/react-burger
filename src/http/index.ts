@@ -199,7 +199,6 @@ class Api {
     }
 
     updateToken = async () => {
-        console.log("updateToken")
         if (this.getRefreshToken()) {
             const res = await fetch(process.env.REACT_APP_API_URL + UPDATE_TOKEN_API, {
                     method: 'post',
