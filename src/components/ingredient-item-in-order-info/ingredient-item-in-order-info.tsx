@@ -3,7 +3,7 @@ import ingredientItemInOrderInfoStyles from './ingredient-item-in-order-info.mod
 import {useSelector} from "react-redux";
 import {getIngredientById} from "../../services/selectors/ingredients-selectors";
 import {RootState} from "../../services/store";
-import {getCountIngredientsInCurrentOrder, getCountIngredientsInOrder} from "../../services/selectors/order-selector";
+import {getCountIngredientsInCurrentOrder} from "../../services/selectors/order-selector";
 import ImageCircleIngredient from "../image-circle-ingredient/image-circle-ingredient";
 import PriceWithIcon from "../price-with-icon/price-with-icon";
 
