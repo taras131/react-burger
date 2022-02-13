@@ -2,9 +2,8 @@ import React, {FC, useCallback, useRef, useState} from 'react';
 import burgerIngredientsStyle from './burger-ingredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from "../ingredients-list/ingredients-list";
-import {useSelector} from "react-redux";
 import {getIngredientsByType} from "../../services/selectors/ingredients-selectors";
-import {RootState} from "../../services/store";
+import {useAppSelector} from "../../hooks/redux";
 
 interface INameIngredient {
     bun: 'Булки',
@@ -44,9 +43,9 @@ const BurgerIngredients: FC = () => {
     const refBun = useRef<HTMLHeadingElement>(null)
     const refSauce = useRef<HTMLHeadingElement>(null)
     const refMain = useRef<HTMLHeadingElement>(null)
-    const buns = useSelector((state: RootState) => getIngredientsByType(state, categories[0].type))
-    const sauces = useSelector((state: RootState) => getIngredientsByType(state, categories[1].type))
-    const mains = useSelector((state: RootState) => getIngredientsByType(state, categories[2].type))
+    const buns = useAppSelector(state => getIngredientsByType(state, categories[0].type))
+    const sauces = useAppSelector(state => getIngredientsByType(state, categories[1].type))
+    const mains = useAppSelector(state => getIngredientsByType(state, categories[2].type))
     const onScroll = (e: React.UIEvent<HTMLElement>): void => {
         if (refBun.current && refSauce.current && refMain.current) {
             const bunBorderTopY: number = Math.abs(refBun.current.getBoundingClientRect().top - 323)

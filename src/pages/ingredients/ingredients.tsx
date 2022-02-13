@@ -2,18 +2,17 @@ import React, {useState} from 'react';
 import ingredientsStyles from './ingredients.module.css'
 import {useLocation, useParams, useNavigate} from "react-router-dom";
 import IngredientInfo from "../../components/ingredient-info/ingredient-info";
-import {useSelector} from "react-redux";
 import {getIngredientById} from "../../services/selectors/ingredients-selectors";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import {ROUTE_MAIN} from "../../utils/const";
-import {RootState} from "../../services/store";
+import {useAppSelector} from "../../hooks/redux";
 
 const Ingredients = () => {
     const location: any = useLocation()
     const navigate = useNavigate()
     const id = useParams().id
     const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(true)
-    const currentIngredient = useSelector((state: RootState) => getIngredientById(state, id))
+    const currentIngredient = useAppSelector(state => getIngredientById(state, id))
     const closeIngredientDetails = () => {
         setIsShowIngredientDetails(false)
         navigate(ROUTE_MAIN)

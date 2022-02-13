@@ -2,13 +2,12 @@ import React, {FC} from 'react';
 import cardStyle from './ingredient-card.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {getCountInCartById} from "../../services/selectors/cart-selectors";
-import {useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
 import classNames from "classnames";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ROUTE_INGREDIENTS} from "../../utils/const";
-import {RootState} from "../../services/store";
 import {IIngredient} from "../../models/i-ingredient.types";
+import {useAppSelector} from "../../hooks/redux";
 
 type TIngredientCard = {
     ingredient: IIngredient
@@ -16,9 +15,14 @@ type TIngredientCard = {
 const IngredientCard: FC<TIngredientCard> = ({ingredient}) => {
     const location: any = useLocation()
     const navigate = useNavigate()
-    const count = useSelector((state: RootState )=> getCountInCartById(state, ingredient._id))
+    const count = useAppSelector(state => getCountInCartById(state, ingredient._id))
     const openDetail = (): void => {
-        navigate(ROUTE_INGREDIENTS+'/'+ingredient._id,{state: {from: location.pathname, backgroundLocation: location}})
+        navigate(ROUTE_INGREDIENTS + '/' + ingredient._id, {
+            state: {
+                from: location.pathname,
+                backgroundLocation: location
+            }
+        })
     }
     const [{isDragging}, drag] = useDrag(() => ({
         type: 'ingredient',

@@ -2,17 +2,16 @@ import React, {FC} from 'react';
 import detailsStyles from './order-details.module.css'
 import Modal from "../modal/modal";
 import done from "../../images/done.gif";
-import {useDispatch, useSelector} from "react-redux";
 import {getOrderNumber} from "../../services/selectors/cart-selectors";
 import {closeOrderDetailModal} from '../../services/reducers/cart-slice'
-import {RootState} from "../../services/store";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const OrderDetails: FC = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const closeModal = () => {
         dispatch(closeOrderDetailModal())
     }
-    const orderNumber = useSelector((state: RootState) => getOrderNumber(state))
+    const orderNumber = useAppSelector(state => getOrderNumber(state))
     return (
         <Modal closeModal={closeModal}>
             <div className={detailsStyles.wrapper}>

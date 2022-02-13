@@ -3,33 +3,33 @@ import forgotStyles from './forgot-password.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ROUTE_LOGIN, ROUTE_RESET_PASSWORD} from "../../utils/const";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchForgotPassword} from "../../services/actions/auth-action-creators";
 import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/auth-selectors";
 import {validateEmail} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
-import {RootState} from "../../services/store";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const ForgotPassword = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const location: any = useLocation()
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
-    const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))
-    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
+    const canResetPassword = useAppSelector(state => getCanResetPassword(state))
+    const isAuthLoading = useAppSelector(state => getAuthIsLoading(state))
     useEffect(() => {
         if (canResetPassword) navigate(ROUTE_RESET_PASSWORD, {state: {from: location.pathname}})
     }, [canResetPassword, navigate, location])
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.target.value)
     }
-    const onButtonClick = (): void => {
+    const onSubmit = (e: React.SyntheticEvent): void => {
+        e.preventDefault()
         const emailError = validateEmail(email)
         emailError ? setError(emailError) : dispatch(fetchForgotPassword(email))
     }
     return (
-        <div className={forgotStyles.wrapper}>
+        <form className={forgotStyles.wrapper} onSubmit={onSubmit} >
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
             <Input
                 type={'text'}
@@ -41,7 +41,7 @@ const ForgotPassword = () => {
                 errorText={error}
                 size={'default'}
             />
-            <Button type="primary" size="medium" onClick={onButtonClick} disabled={isAuthLoading}>
+            <Button type="primary" size="medium" disabled={isAuthLoading}>
                 Восстановить
             </Button>
             <div className={forgotStyles.hint + ' mt-15'}>
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
                 </Link>
             </div>
             <AuthError/>
-        </div>
+        </form>
     );
 };
 

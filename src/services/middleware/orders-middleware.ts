@@ -2,6 +2,8 @@ import {orderActions} from "../reducers/order-slice";
 import {CONNECT_ERROR_MESSAGE, START_ORDERS_LISTENING, STOP_ORDERS_LISTENING} from "../../utils/const";
 import {AnyAction, Dispatch, MiddlewareAPI} from "redux";
 
+//Вариант типизации MiddlewareAPI<AppDispatch, RootState> не проходит, выпадает ошибка типизации
+//Вроде бы, Middleware у меня один
 export const ordersMiddleware = (store: MiddlewareAPI) => {
     let ws: WebSocket | null = null
     const {dispatch} = store

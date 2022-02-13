@@ -2,7 +2,6 @@ import React, {FC, useCallback} from 'react';
 import constructorStyles from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {fetchCreateOrder} from "../../services/actions/cart-action-creators";
-import {useDispatch, useSelector} from "react-redux";
 import {getBunInCart, getCart, getNotBunIngredients, getTotalSum} from "../../services/selectors/cart-selectors";
 import {useDrop} from "react-dnd";
 import classNames from "classnames";
@@ -13,16 +12,16 @@ import ConstructorNotBunIngredient from "../constructor-not-bun-ingredient/const
 import {getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {ROUTE_LOGIN} from "../../utils/const";
-import {RootState} from "../../services/store";
 import {ICartTypes} from "../../models/i-cart.types";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const BurgerConstructor: FC = () => {
-    const dispatch = useDispatch()
-    const cart = useSelector((state: RootState) => getCart(state))
-    const bunInCart = useSelector((state: RootState) => getBunInCart(state))
-    const notBunIngredients = useSelector((state: RootState) => getNotBunIngredients(state))
-    const totalSum = useSelector((state: RootState) => getTotalSum(state))
-    const isAuth = useSelector((state: RootState) => getIsAuth(state))
+    const dispatch = useAppDispatch()
+    const cart = useAppSelector(state => getCart(state))
+    const bunInCart = useAppSelector(state=> getBunInCart(state))
+    const notBunIngredients = useAppSelector(state => getNotBunIngredients(state))
+    const totalSum = useAppSelector(state => getTotalSum(state))
+    const isAuth = useAppSelector(state=> getIsAuth(state))
     const navigate = useNavigate()
     const onCreateOrderClick = useCallback(() => {
         if (!isAuth) {

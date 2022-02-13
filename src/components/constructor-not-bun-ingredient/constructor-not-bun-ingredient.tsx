@@ -3,9 +3,9 @@ import fillingStyles from "./constructor-not-bun-ingredient.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {DropTargetMonitor, useDrag, useDrop, XYCoord} from "react-dnd";
 import {removeFromCart, moveConstructorItem} from "../../services/reducers/cart-slice";
-import {useDispatch} from "react-redux";
 import classNames from "classnames";
 import {ICartTypes} from "../../models/i-cart.types";
+import {useAppDispatch} from "../../hooks/redux";
 
 type TConstructorNotBunIngredient = {
     ingredient: ICartTypes,
@@ -21,7 +21,7 @@ interface DragItem {
 const ConstructorNotBunIngredient: FC<TConstructorNotBunIngredient> =
     ({ingredient, index}) => {
         const ref = useRef<HTMLLIElement>(null)
-        const dispatch = useDispatch()
+        const dispatch = useAppDispatch()
         const onRemoveItemClick = useCallback((key) => {
             return () => dispatch(removeFromCart(key));
         }, [dispatch]);

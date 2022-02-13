@@ -1,19 +1,18 @@
 import React, {FC} from 'react';
 import orderInfoStyles from './order-info.module.css';
-import {RootState} from "../../services/store";
-import {useSelector} from "react-redux";
 import PriceWithIcon from "../price-with-icon/price-with-icon";
 import {getAmountByIngredientsId} from "../../services/selectors/ingredients-selectors";
 import IngredientItemInOrderInfo from "../ingredient-item-in-order-info/ingredient-item-in-order-info";
 import {convertStatusOrderFromRussian, getDate} from "../../utils/service";
 import {IOrder} from "../../models/i-order.types";
+import {useAppSelector} from "../../hooks/redux";
 
 interface IOrderInfo {
     order: IOrder
 }
 
 const OrderInfo: FC<IOrderInfo> = ({order}) => {
-    const amount = useSelector((state: RootState) => getAmountByIngredientsId(state, order.ingredients))
+    const amount = useAppSelector(state => getAmountByIngredientsId(state, order.ingredients))
     let ingredients = new Set(order.ingredients)
     const ingredientsList = Array.from(ingredients).map(item => <IngredientItemInOrderInfo key={item}
                                                                                            ingredientId={item}

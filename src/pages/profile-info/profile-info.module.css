@@ -1,6 +1,3 @@
-.wrapper{
-
-}
 .input_section{
     display: flex;
     flex-direction: column;
@@ -18,4 +15,11 @@
 }
 .show{
     display: flex;
+}
+.cancel_button{
+    color: #4C4CFF;
+    background: #131316;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
 }
