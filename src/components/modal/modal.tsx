@@ -23,9 +23,9 @@ const Modal: FC<TModal> = ({title = '', closeModal, children}) => {
             <div className={modalStyles.content + " pt-30"}
                  onClick={(e) => e.stopPropagation()}>
                 <p className={modalStyles.title + " text text_type_main-large"}>{title}</p>
-                <div className={modalStyles.close_section} onClick={closeModal}>
+                <span className={modalStyles.close_section} onClick={closeModal}>
                     <CloseIcon type="primary"/>
-                </div>
+                </span>
                 {children}
             </div>
             <ModalOverlay closeModal={closeModal}/>

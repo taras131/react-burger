@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IOrder} from "../../models/i-order.types";
 import {fetchOrderInfo} from "../actions/order-action-creators";
 
-interface ISetOrdersPayload {
+export interface ISetOrdersPayload {
     orders: IOrder[],
     total: number,
     totalToday: number,
@@ -17,7 +17,7 @@ interface IOrderState {
     isLoading: boolean
 }
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
     total: 0,
     totalToday: 0,
     orders: [],
@@ -49,6 +49,8 @@ export const OrderSlice = createSlice({
         },
         cleanOrders: (state) => {
             state.orders = []
+            state.total = 0
+            state.totalToday = 0
         }
     },
     extraReducers: {

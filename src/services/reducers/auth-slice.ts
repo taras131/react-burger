@@ -16,7 +16,7 @@ interface AuthState {
     canResetPassword: boolean
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
     isLoading: false,
     isAuth: false,
     user: {

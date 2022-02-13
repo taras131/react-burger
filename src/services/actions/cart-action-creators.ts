@@ -3,7 +3,7 @@ import {IIngredient} from '../../models/i-ingredient.types';
 import api from "../../http";
 
 export const fetchCreateOrder = createAsyncThunk(
-    'fetch create order',
+    'fetch_create_order',
     async (cart: IIngredient[], ThunkAPI) => {
         try {
             const cartId = cart.map((item) => item._id);

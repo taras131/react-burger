@@ -47,11 +47,12 @@ const BurgerConstructor: FC = () => {
     }
     return (
         <section className={constructorStyles.wrapper} ref={drop}>
-            <div className={classNames(constructorStyles.order_wrapper, 'mt-25', {
+            <div id ='constructor'
+                className={classNames(constructorStyles.order_wrapper, 'mt-25', {
                 [constructorStyles.canDrop]: canDrop
             })}>
                 {bunInCart && (
-                    <div className={constructorStyles.order_item}>
+                    <div className={constructorStyles.order_item} id ='bun'>
                         <ConstructorElement
                             type="top"
                             isLocked={true}
