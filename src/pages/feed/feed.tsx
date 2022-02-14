@@ -2,8 +2,6 @@ import React, {FC, useEffect} from 'react';
 import feedStyles from './feed.module.css';
 import FeedOrderItem from "../../components/feed-order-item/feed-order-item";
 import {startOrdersListening, stopOrdersListening} from "../../services/actions/order-action-creators";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../services/store";
 import {
     getNumbersOrdersInProcess,
     getNumbersReadyOrders, getOrderError, getOrderIsLoading,
@@ -16,9 +14,10 @@ import {IOrder} from "../../models/i-order.types";
 import ErrorMessage from "../../components/error-message/error-message";
 import Preloader from "../../components/preloader/preloader";
 import {Link, useLocation} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const Feed: FC = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const location: any = useLocation()
     useEffect(() => {
         dispatch(startOrdersListening(WS_ALL_ORDERS));
@@ -26,23 +25,23 @@ const Feed: FC = () => {
             dispatch(stopOrdersListening())
         }
     }, [dispatch])
-    const error = useSelector((state: RootState) => getOrderError(state))
-    const isLoading = useSelector((state: RootState) => getOrderIsLoading(state))
-    const ordersInProcessNumbers = useSelector((state: RootState) => getNumbersOrdersInProcess(state))
+    const error = useAppSelector(state => getOrderError(state))
+    const isLoading = useAppSelector(state => getOrderIsLoading(state))
+    const ordersInProcessNumbers = useAppSelector(state => getNumbersOrdersInProcess(state))
     const inProgress = ordersInProcessNumbers.slice(0, 20).map((item: number) => {
         return (<p className="text text_type_digits-default text_color_inactive" key={item}>
             {item}
         </p>)
     })
-    const ordersReadyNumbers = useSelector((state: RootState) => getNumbersReadyOrders(state))
+    const ordersReadyNumbers = useAppSelector(state => getNumbersReadyOrders(state))
     const isReady = ordersReadyNumbers.slice(0, 20).map((item: number, index: number) => {
         return (<p className="text text_type_digits-default" key={item}>
             {item}
         </p>)
     })
-    const orders = useSelector((state: RootState) => getOrders(state))
-    const totalOrders = useSelector((state: RootState) => getTotal(state))
-    const totalTodayOrders = useSelector((state: RootState) => getTotalToday(state))
+    const orders = useAppSelector(state => getOrders(state))
+    const totalOrders = useAppSelector(state => getTotal(state))
+    const totalTodayOrders = useAppSelector(state => getTotalToday(state))
     if (error) return (<ErrorMessage errorMessage={error}/>)
     if (isLoading) return (<Preloader/>)
     const ordersList = orders.map((item: IOrder) => {

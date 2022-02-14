@@ -46,7 +46,10 @@ class Api {
         }
         throw new Error(SERVER_ERROR_MESSAGE)
     }
-
+    // над тем что бы сделать метод checkResponse я думал, но не получилось , потому что все методы
+    // возвращают разные поля (decodedResponse.order, decodedResponse.user и т.д.)
+    // делал так , что бы типизировать промисы - Promise<IOrder>
+    // не смог решить , как сделать оптимально
     createNewOrder = async (cart: Array<string>): Promise<IOrder> => {
         const res = await fetch(process.env.REACT_APP_API_URL + ORDERS_API, {
             method: 'post',
@@ -196,7 +199,6 @@ class Api {
     }
 
     updateToken = async () => {
-        console.log("updateToken")
         if (this.getRefreshToken()) {
             const res = await fetch(process.env.REACT_APP_API_URL + UPDATE_TOKEN_API, {
                     method: 'post',

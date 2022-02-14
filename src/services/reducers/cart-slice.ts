@@ -16,7 +16,7 @@ interface IKeys {
   drag: number;
 }
 
-const initialState: CartState = {
+export const initialState: CartState = {
   isLoading: false,
   errorMessage: '',
   isShowOrderDetails: false,

@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import api from "../../http";
 
-export const fetchIngredients = createAsyncThunk('fetch all ingredients',
+export const fetchIngredients = createAsyncThunk('fetch_all_ingredients',
     async (_, ThunkAPI) => {
         try {
             const response = await api.getAllIngredients();

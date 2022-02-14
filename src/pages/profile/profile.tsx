@@ -2,12 +2,12 @@ import React, {FC} from 'react';
 import profileStyles from './profile.module.css'
 import {Link, Outlet, useLocation} from 'react-router-dom'
 import {ROUTE_ORDERS} from "../../utils/const";
-import {useDispatch} from "react-redux";
 import {fetchLogOut} from "../../services/actions/auth-action-creators";
 import classNames from "classnames";
+import {useAppDispatch} from "../../hooks/redux";
 
 const Profile: FC = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const location: any = useLocation()
     const pathname = location.pathname.split('/')[2]
     const onOutClick = (e: React.MouseEvent<HTMLElement>) => {

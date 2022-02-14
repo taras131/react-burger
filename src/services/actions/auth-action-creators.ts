@@ -63,7 +63,7 @@ export const fetchResetPassword = createAsyncThunk(
     }
 )
 export const fetchCheckAuth = createAsyncThunk(
-    'check auth',
+    'check_auth',
     async (_, ThunkAPI) => {
         try {
             return await api.checkAuth()
@@ -84,7 +84,7 @@ export const fetchLogOut = createAsyncThunk(
     }
 )
 export const fetchUpdateUser = createAsyncThunk(
-    'update user',
+    'update_user',
     async (user: IRegistrationData, ThunkAPI) => {
         try {
             const res = await api.updateUser(user)

@@ -11,9 +11,9 @@ const IngredientInfo: FC<TIngredientInfo> = ({currentIngredient}) => {
             <section className={ingredientInfoStyles.img_section + " pl-5 pr-5"}>
                 <img src={currentIngredient.image_large} alt={currentIngredient.name}/>
             </section>
-            <h2 className="text text_type_main-medium mt-4">
+            <h4 className="text text_type_main-medium mt-4">
                 {currentIngredient.name}
-            </h2>
+            </h4>
             <ul className={ingredientInfoStyles.details_section + " mt-8"}>
                 <li className={ingredientInfoStyles.details_item}>
                     <p className="text text_type_main-default">Калории,ккал</p>

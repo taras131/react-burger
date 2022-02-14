@@ -11,7 +11,7 @@ require('dotenv').config();
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="/react-burger/">
             <Provider store={setupStore()}>
                 <App/>
             </Provider>

@@ -3,19 +3,18 @@ import forgotStyles from "../forgot-password/forgot-password.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN} from "../../utils/const";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchResetPassword} from "../../services/actions/auth-action-creators";
 import {validationPassword} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
 import {getAuthIsLoading, getCanResetPassword} from "../../services/selectors/auth-selectors";
-import {RootState} from "../../services/store";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const ResetPassword = () => {
     const location: any = useLocation()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const canResetPassword = useSelector((state: RootState) => getCanResetPassword(state))
-    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
+    const dispatch = useAppDispatch()
+    const canResetPassword = useAppSelector(state => getCanResetPassword(state))
+    const isAuthLoading = useAppSelector(state => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
         password: '',
         key: ''
@@ -33,7 +32,7 @@ const ResetPassword = () => {
     const onDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputsValues({...inputsValues, [e.target.name]: e.target.value})
     }
-    const onButtonClick = (e: React.SyntheticEvent) => {
+    const onSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         const passwordError = validationPassword(inputsValues.password)
         setPasswordError(passwordError)
@@ -42,7 +41,7 @@ const ResetPassword = () => {
         }
     }
     return (
-        <div className={forgotStyles.wrapper}>
+        <form onSubmit={onSubmit} className={forgotStyles.wrapper}>
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
             <Input
                 type={'text'}
@@ -65,7 +64,7 @@ const ResetPassword = () => {
                 errorText={'Ошибка'}
                 size={'default'}
             />
-            <Button type="primary" size="medium" onClick={onButtonClick} disabled={isAuthLoading}>
+            <Button type="primary" size="medium" disabled={isAuthLoading}>
                 Сохранить
             </Button>
             <div className={forgotStyles.hint + ' mt-15'}>
@@ -75,7 +74,7 @@ const ResetPassword = () => {
                 </Link>
             </div>
             <AuthError/>
-        </div>
+        </form>
     );
 };
 

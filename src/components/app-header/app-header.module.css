@@ -1,9 +1,6 @@
 .wrapper {
-    position: fixed;
+    margin: 40px 10px 0px 10px;
     height: 88px;
-    left: 2%;
-    right: 2%;
-    top: 40px;
     background: #1C1C21;
     z-index: 100;
 }

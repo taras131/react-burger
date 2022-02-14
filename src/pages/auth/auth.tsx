@@ -3,23 +3,22 @@ import loginStyles from './auth.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from 'react-router-dom'
 import {ROUTE_FORGOT_PASSWORD, ROUTE_LOGIN, ROUTE_MAIN, ROUTE_REGISTER} from "../../utils/const";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchLogin, fetchRegister} from "../../services/actions/auth-action-creators";
 import {getAuthIsLoading, getIsAuth} from "../../services/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
 import AuthError from "../../components/auth-error/auth-error";
-import {RootState} from "../../services/store";
 import {TLocation} from "../../models/i-location";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const Auth = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     let navigate = useNavigate();
     const location = useLocation() as TLocation;
     let prevPath: string | null = null
     if (location.state && location.state.from) prevPath = location.state.from.pathname
-    const isAuth = useSelector((state: RootState) => getIsAuth(state))
-    const isAuthLoading = useSelector((state: RootState) => getAuthIsLoading(state))
+    const isAuth = useAppSelector(state => getIsAuth(state))
+    const isAuthLoading = useAppSelector(state => getAuthIsLoading(state))
     const [inputsValues, setInputsValues] = useState({
         name: '',
         email: '',

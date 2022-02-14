@@ -34,7 +34,9 @@ const AppHeader: FC = () => {
                     </ul>
                 </nav>
                 <section className={appHeaderStyles.logo_section}>
-                    <Logo/>
+                    <Link to={ROUTE_MAIN}>
+                        <Logo/>
+                    </Link>
                 </section>
                 <section className={appHeaderStyles.auth_section}>
                     <Link className={classNames(appHeaderStyles.link, {

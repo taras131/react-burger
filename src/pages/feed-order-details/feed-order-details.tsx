@@ -3,19 +3,18 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import feedOrderDetailsStyles from './feed-order-details.module.css'
 import OrderInfo from "../../components/order-info/order-info";
 import Modal from "../../components/modal/modal";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../services/store";
 import {getCurrentNumber, getOrderIsLoading} from "../../services/selectors/order-selector";
 import {fetchOrderInfo} from "../../services/actions/order-action-creators";
 import {orderActions} from "../../services/reducers/order-slice";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const FeedOrderDetails: FC = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const location: any = useLocation()
     const navigate = useNavigate()
     const params = useParams()
-    const isLoading = useSelector((state: RootState) => getOrderIsLoading(state))
-    let order = useSelector((state: RootState) => getCurrentNumber(state))
+    const isLoading = useAppSelector(state => getOrderIsLoading(state))
+    let order = useAppSelector(state => getCurrentNumber(state))
     useEffect(() => {
         if (params && params.id) dispatch(fetchOrderInfo(+params.id))
         return () => {

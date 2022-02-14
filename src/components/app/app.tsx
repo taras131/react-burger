@@ -4,7 +4,6 @@ import OrderDetails from "../order-details/order-details";
 import Preloader from "../preloader/preloader";
 import ErrorMessage from "../error-message/error-message";
 import {fetchIngredients} from "../../services/actions/ingredients-action-creators";
-import {useDispatch, useSelector} from "react-redux";
 import {getCartErrorMessage, getIsCartLoading, getIsShowOrderDetails} from "../../services/selectors/cart-selectors";
 import {
     getIngredientsErrorMessage,
@@ -34,19 +33,19 @@ import ProfileInfo from "../../pages/profile-info/profile-info";
 import Orders from "../../pages/orders/orders";
 import ProtectedUnauthorizedRoute from "../hoc/protected-unauthorized-route";
 import ProtectedAuthorizedRoute from "../hoc/protected-authorized-route";
-import {RootState} from "../../services/store";
 import Feed from "../../pages/feed/feed";
 import FeedOrderDetails from "../../pages/feed-order-details/feed-order-details";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const App = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     let location = useLocation();
     let state = location.state as { backgroundLocation?: Location };
-    const isShowOrderDetails = useSelector((state: RootState) => getIsShowOrderDetails(state))
-    const isIngredientsLoading = useSelector((state: RootState) => getIsIngredientsLoading(state))
-    const isCartLoading = useSelector((state: RootState) => getIsCartLoading(state))
-    const ingredientsErrorMessage = useSelector((state: RootState) => getIngredientsErrorMessage(state))
-    const cartErrorMessage = useSelector((state: RootState) => getCartErrorMessage(state))
+    const isShowOrderDetails = useAppSelector(state => getIsShowOrderDetails(state))
+    const isIngredientsLoading = useAppSelector(state => getIsIngredientsLoading(state))
+    const isCartLoading = useAppSelector(state => getIsCartLoading(state))
+    const ingredientsErrorMessage = useAppSelector(state=> getIngredientsErrorMessage(state))
+    const cartErrorMessage = useAppSelector(state => getCartErrorMessage(state))
     useEffect(() => {
         dispatch(fetchIngredients())
         dispatch(fetchCheckAuth())

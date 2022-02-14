@@ -2,10 +2,11 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://taras131.github.io/react-burger/",
   "dependencies": {
+    "@babel/core": "^7.17.2",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.15.0",
-    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^26.0.24",
     "@types/node": "^12.20.36",
@@ -26,14 +27,19 @@
     "react-scripts": "4.0.3",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "ts-jest": "^27.1.3",
     "typescript": "^4.4.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
+    "test:cypress": "start-server-and-test start http://localhost:3000/react-burger cypress",
+    "cypress": "cypress open"
   },
   "prettier": {
     "singleQuote": true,
@@ -58,6 +64,17 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^11.2.7",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "babel-jest": "^27.5.1",
+    "gh-pages": "^3.2.3",
+    "cypress": "^9.4.1",
+    "eslint-plugin-cypress": "^2.12.1",
+    "fetch-mock": "^9.11.0",
+    "jest": "^27.5.1",
+    "react-test-renderer": "^17.0.2",
+    "redux-mock-store": "^1.5.4",
+    "start-server-and-test": "^1.14.0",
     "typescript-plugin-css-modules": "^3.4.0"
   }
 }

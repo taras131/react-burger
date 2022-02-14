@@ -5,7 +5,7 @@ import api from "../../http";
 export const startOrdersListening = (url: string) => ({type: START_ORDERS_LISTENING, payload: url})
 export const stopOrdersListening = () => ({type: STOP_ORDERS_LISTENING})
 export const fetchOrderInfo = createAsyncThunk(
-    'fetch order info',
+    'fetch_order_info',
     async (orderNumber: number, ThunkAPI) => {
         try {
             return await api.getOrderInfo(orderNumber)

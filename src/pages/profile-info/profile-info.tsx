@@ -2,16 +2,16 @@ import React, {useState} from 'react';
 import profileInfoStyles from './profile-info.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {fetchUpdateUser} from "../../services/actions/auth-action-creators";
-import {useDispatch, useSelector} from "react-redux";
 import {getAuthIsLoading, getUser} from "../../services/selectors/auth-selectors";
 import classNames from "classnames";
 import {validateEmail, validationName, validationPassword} from "../../utils/service";
-import {RootState} from "../../services/store";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const ProfileInfo = () => {
-    const user = useSelector((state: RootState) => getUser(state))
-    const isAuthLoading = useSelector((state: RootState)  => getAuthIsLoading(state))
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
+    const user = useAppSelector(state => getUser(state))
+    const isAuthLoading = useAppSelector(state  => getAuthIsLoading(state))
+
     const [inputsValues, setInputsValues] = useState({
         name: user.name,
         email: user.email,
@@ -60,7 +60,7 @@ const ProfileInfo = () => {
         setIsDataChange(false)
     }
     return (
-        <form className={profileInfoStyles.input_section}>
+        <form onSubmit={onSaveClick} className={profileInfoStyles.input_section}>
             <Input
                 type={'text'}
                 placeholder={'Имя'}
@@ -97,10 +97,10 @@ const ProfileInfo = () => {
             <div className={classNames(profileInfoStyles.button_section, {
                 [profileInfoStyles.show]: isDataChange
             })}>
-                <Button type="secondary" size="small" onClick={onCancelClick}>
+                <button  onClick={onCancelClick} className={profileInfoStyles.cancel_button} type="reset">
                     <p className="text text_type_main-small"> Отмена</p>
-                </Button>
-                <Button type="primary" size="small" onClick={onSaveClick} disabled={isAuthLoading}>
+                </button>
+                <Button type="primary" size="small" disabled={isAuthLoading}>
                     <p className="text text_type_main-small">Сохранить</p>
                 </Button>
             </div>

@@ -1,0 +1,6 @@
+{
+  "video": false,
+  "baseUrl": "http://localhost:3000/react-burger",
+  "viewportWidth": 1300,
+  "viewportHeight": 1080
+}

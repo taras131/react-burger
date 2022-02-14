@@ -14,7 +14,7 @@ const IngredientsList = React.forwardRef<HTMLHeadingElement, TIngredientsList>(
         return (
             <section className="pb-10" ref={ref}>
                 <h3 className="text text_type_main-medium">{title}</h3>
-                <ul className={listStyle.wrapper}>
+                <ul className={listStyle.wrapper} id="ingredients_list">
                     {ingredientCardList}
                 </ul>
             </section>
